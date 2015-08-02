@@ -1,0 +1,20 @@
+{
+  "name": "linkd",
+  "version": "1.0.0",
+  "description": "Share and discuss your bookmarks!",
+  "main": "server.js",
+  "scripts": {
+    "test": "npm test",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PresentPath/Linkd.git"
+  },
+  "author": "Kalev Roomann-Kurrik and Katrina Uychaco",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PresentPath/Linkd/issues"
+  },
+  "homepage": "https://github.com/PresentPath/Linkd#readme"
+}
