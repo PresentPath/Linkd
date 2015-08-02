@@ -4,7 +4,7 @@
   "description": "Share and discuss your bookmarks!",
   "main": "server.js",
   "scripts": {
-    "test": "npm test",
+    "test": "echo \"No tests yet\"",
     "start": "node server.js"
   },
   "repository": {
