@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/PresentPath/Linkd/issues"
   },
-  "homepage": "https://github.com/PresentPath/Linkd#readme"
+  "homepage": "https://github.com/PresentPath/Linkd#readme",
+  "dependencies": {
+    "express": "^4.13.2"
+  }
 }
