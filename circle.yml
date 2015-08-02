@@ -2,4 +2,4 @@ deployment:
   staging:
     branch: master
     heroku:
-      appname: damp-shore-4508
+      appname: linkd
