@@ -1,1 +1,1 @@
-web: node server.js
+web: node ./server/serverSetup.js
