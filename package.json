@@ -4,8 +4,9 @@
   "description": "Share and discuss your bookmarks!",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"No tests yet\"",
-    "start": "node server.js"
+    "test": "npm run test-server",
+    "test-server": "mocha -R spec ./server/spec/serverSpec.js",
+    "start": "node ./server/serverSetup.js"
   },
   "repository": {
     "type": "git",
