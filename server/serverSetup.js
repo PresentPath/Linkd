@@ -2,7 +2,7 @@
 * @Author: Katrina Uychaco
 * @Date:   2015-08-01 19:01:00
 * @Last Modified by:   Katrina Uychaco
-* @Last Modified time: 2015-08-03 20:55:59
+* @Last Modified time: 2015-08-03 21:42:57
 */
 
 'use strict';
@@ -29,4 +29,4 @@ app.listen(port);
 console.log('Server is listening on port', port);
 
 
-module.exports.app = app;
+module.exports = app;
