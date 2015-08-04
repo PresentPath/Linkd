@@ -18,6 +18,9 @@
   },
   "homepage": "https://github.com/PresentPath/Linkd#readme",
   "dependencies": {
-    "express": "^4.13.2"
+    "chai": "^3.2.0",
+    "express": "^4.13.2",
+    "mocha": "^2.2.5",
+    "supertest": "^1.0.1"
   }
 }
