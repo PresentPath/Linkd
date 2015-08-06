@@ -2,7 +2,7 @@
 * @Author: Katrina Uychaco
 * @Date:   2015-08-01 18:34:04
 * @Last Modified by:   Katrina Uychaco
-* @Last Modified time: 2015-08-03 23:31:12
+* @Last Modified time: 2015-08-05 17:12:17
 */
 
 'use strict';
@@ -68,18 +68,17 @@ Comment.belongsTo(Link);
 
 // Create table based on model definitions in database
 db.sync()
-  .success(function(results) {
-    console.log('###results', results);
+  .then(function() {
+    console.log('Tables created');
+
     // Create demo data
 
-  })
-  .error(function(err) {
-    console.error('###err', err);
   });
 
 
-// module.exports.User = User;
-// module.exports.Group = Group;
-// module.exports.Folder = Folder;
-// module.exports.Link = Link;
-// module.exports.Comment = Comment;
+module.exports.User = User;
+module.exports.Group = Group;
+module.exports.Folder = Folder;
+module.exports.Link = Link;
+module.exports.Comment = Comment;
+module.exports.db = db;
