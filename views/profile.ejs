@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+  <head>
+    <title> Linkd </title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css";
+  </head>
+  <body>
+
+    <div class="container">
+
+      <div class="page-header text-center">
+          <h1><span class="fa fa-anchor"></span> Profile Page</h1>
+          <a href="/logout" class="btn btn-default btn-sm">Logout</a>
+      </div>
+
+      <div class="row">
+
+        <!-- GOOGLE INFORMATION -->
+        <div class="col-sm-6">
+          <div class="well">
+            <h3 class="text-danger"><span class="fa fa-google-plus"></span> Google</h3>
+
+              <p>
+                <strong>id</strong>: <%= user.user_id_google %><br>
+                <strong>token</strong>: <%= user.token_google %><br>
+                <strong>email</strong>: <%= user.email_google %><br>
+                <strong>name</strong>: <%= user.name_google %>
+              </p>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </body>
+</html>
