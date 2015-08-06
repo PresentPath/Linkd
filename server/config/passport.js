@@ -2,7 +2,7 @@
 * @Author: Katrina Uychaco
 * @Date:   2015-08-05 17:46:59
 * @Last Modified by:   Katrina Uychaco
-* @Last Modified time: 2015-08-05 22:43:37
+* @Last Modified time: 2015-08-06 00:03:00
 */
 
 'use strict';
@@ -33,7 +33,7 @@ module.exports = function(passport) {
   passport.use(new GoogleStrategy({
     'clientID': '195378471050-agauijdj217rti1dq594it21j30u4vrm.apps.googleusercontent.com',
     'clientSecret': 'kGR7BKpjhrHYba4hiZsGjZ-I',
-    'callbackURL': 'http://127.0.0.1:8000/auth/google/callback'
+    'callbackURL': 'http://linkd.heroku.com/auth/google/callback'
   },
   function(token, refreshToken, profile, done) {
     console.log('Google Strategy Callback');
