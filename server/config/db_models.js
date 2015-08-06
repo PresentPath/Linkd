@@ -2,14 +2,14 @@
 * @Author: Katrina Uychaco
 * @Date:   2015-08-01 18:34:04
 * @Last Modified by:   Katrina Uychaco
-* @Last Modified time: 2015-08-05 17:12:17
+* @Last Modified time: 2015-08-06 08:44:58
 */
 
 'use strict';
 
 var Sequelize = require('sequelize');
 
-var conString = 'mysql://root@localhost:3306/linkd';
+var conString = process.env.DATABASE_URL || 'mysql://root@localhost:3306/linkd';
 
 // Connect to database
 var db = new Sequelize(conString);
@@ -72,6 +72,7 @@ db.sync()
     console.log('Tables created');
 
     // Create demo data
+    
 
   });
 
