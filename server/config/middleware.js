@@ -2,7 +2,7 @@
 * @Author: Katrina Uychaco
 * @Date:   2015-08-02 15:21:16
 * @Last Modified by:   Katrina Uychaco
-* @Last Modified time: 2015-08-05 22:44:15
+* @Last Modified time: 2015-08-05 22:54:15
 */
 
 'use strict';
@@ -39,7 +39,6 @@ module.exports = function(app, express) {
   app.use(cookieParser());  // Read cookies (needed for auth)
   app.use(bodyParser());  // Get info from post requests
 
-  app.set('views', '../../views');
   app.set('view engine', 'ejs');  // Set up ejs for templating
 
   // User authentication
