@@ -2,7 +2,7 @@
 * @Author: Katrina Uychaco
 * @Date:   2015-08-05 19:29:06
 * @Last Modified by:   Katrina Uychaco
-* @Last Modified time: 2015-08-06 21:29:26
+* @Last Modified time: 2015-08-06 21:45:31
 */
 
 'use strict';
@@ -12,8 +12,9 @@ var isLoggedIn = require('./helpers.js').isLoggedIn;
 module.exports = function(app, passport) {
 
   // Home Page
-  app.get('/', function(req, res) {
-    res.render('index.ejs');
+  app.get('/', isLoggedIn, function(req, res) {
+
+    res.render('profile.ejs',  { user: req.user });
   });
 
   // // Login
@@ -39,6 +40,11 @@ module.exports = function(app, passport) {
   app.get('/profile', isLoggedIn, function(req, res) {
     // Get the user out of the session and pass to template
     res.render('profile.ejs', { user: req.user });
+  });
+
+  // Login
+  app.get('/login', function(req, res) {
+    res.render('login.ejs');
   });
 
   // Logout
