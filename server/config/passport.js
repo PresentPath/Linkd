@@ -2,7 +2,7 @@
 * @Author: Katrina Uychaco
 * @Date:   2015-08-05 17:46:59
 * @Last Modified by:   Katrina Uychaco
-* @Last Modified time: 2015-08-06 21:05:01
+* @Last Modified time: 2015-08-06 21:18:58
 */
 
 'use strict';
@@ -21,7 +21,7 @@ var googleOptions = process.env.PORT ?
   {
     'clientID': '195378471050-o9i2qjic5sq2395plkfclse8fdl2quse.apps.googleusercontent.com',
     'clientSecret': 'kdaGt5vgxToQAKIlrCAH4tJK',
-    'callbackURL': 'https://localhost:8000/auth/google/callback'
+    'callbackURL': 'http://127.0.0.1:8000/auth/google/callback'
   };
 
 
@@ -36,7 +36,7 @@ module.exports = function(passport) {
   passport.deserializeUser(function(id, done) {
     console.log('Deserialize User');
     User.findById(id).then(function(user) {
-      console.log('Passport deserializeUser - CHECK user and err');
+      console.log('Passport deserializeUser');
       done(null, user);
     });
   });
