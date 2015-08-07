@@ -2,7 +2,7 @@
 * @Author: Katrina Uychaco
 * @Date:   2015-08-05 19:29:06
 * @Last Modified by:   Katrina Uychaco
-* @Last Modified time: 2015-08-05 22:48:11
+* @Last Modified time: 2015-08-06 20:38:46
 */
 
 'use strict';
@@ -50,7 +50,7 @@ module.exports = function(app, passport) {
   // Google Routes
   // Send to google to do authentication
   app.get('/auth/google', 
-    passport.authenticate('google', { scope: 'https://www.googleapis.com/auth/plus.login' }));
+    passport.authenticate('google', { scope: ['profile', 'email'] }));
 
   // The callback after google has authenticated the user
   app.get('/auth/google/callback',
