@@ -19,7 +19,7 @@ describe('basic server connection test', function() {
     // Pass in server to supertest
     request(app)
       .get('/')
-      .expect(200)
+      .expect(302)
       // Send request to supertest server. 
       .end(function(err, res) {
         if (err) return done(err);
