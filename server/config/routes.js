@@ -2,7 +2,7 @@
 * @Author: Katrina Uychaco
 * @Date:   2015-08-05 19:29:06
 * @Last Modified by:   Katrina Uychaco
-* @Last Modified time: 2015-08-06 20:38:46
+* @Last Modified time: 2015-08-06 21:23:11
 */
 
 'use strict';
@@ -55,11 +55,11 @@ module.exports = function(app, passport) {
   // The callback after google has authenticated the user
   app.get('/auth/google/callback',
     passport.authenticate('google', {
-      // successRedirect: '/profile',
+      successRedirect: '/profile',
       failureRedirect: '/'
-    }),
-    function(req, res) {
-      res.redirect('/profile');
-    });
+    })); //,
+    // function(req, res) {
+    //   res.redirect('/profile');
+    // });
 
 };
