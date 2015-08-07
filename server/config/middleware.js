@@ -22,15 +22,6 @@ var session = require('express-session');
 
 module.exports = function(app, express) {
 
-  // Create Express routers for each type of route
-  var userRouter = express.Router();
-  // var groupRouter = express.Router();
-  // var folderRouter = express.Router();
-  // var linkRouter = express.Router();
-  // var commentRouter = express.Router();
-
-  // Configure passport
-  require('./passport.js')(passport);
 
   // Serve static files
   // app.use(express.static(__dirname + '/../../client/src'));
@@ -41,30 +32,34 @@ module.exports = function(app, express) {
 
   app.set('view engine', 'ejs');  // Set up ejs for templating
 
+  // Configure passport
+  require('./passport.js')(passport);
+
   // User authentication
   app.use(session({ secret: 'youdontwannaknow' }));  // Session secret
   app.use(passport.initialize());  
   app.use(passport.session());  // persistent login sessions
   app.use(flash());  // use for flash messages stored in session
 
+  // Create Express routers for each type of route
+  var groupRouter = express.Router();
+  var folderRouter = express.Router();
+  var linkRouter = express.Router();
+  var commentRouter = express.Router();
+
   // Connect request paths to appropriate routers
-  app.use('/api/user', userRouter);
-  // app.use('/api/group', groupRouter);
-  // app.use('/api/folder', folderRouter);
-  // app.use('/api/link', linkRouter);
-  // app.use('/api/comment', commentRouter);
+  app.use('/api/group', groupRouter);
+  app.use('/api/folder', folderRouter);
+  app.use('/api/link', linkRouter);
+  app.use('/api/comment', commentRouter);
 
   // Load routes and pass in app and fully configured passport
-  // require('../users/userRoutes.js')(userRouter, passport); 
-  // require('../groups/groupRoutes.js')(groupRouter); 
-  // require('../folders/folderRoutes.js')(folderRouter); 
-  // require('../links/linkRoutes.js')(linkRouter); 
-  // require('../comments/commentRoutes.js')(commentRouter); 
+  require('../Group/groupRouter.js')(groupRouter); 
+  require('../Folder/folderRouter.js')(folderRouter); 
+  require('../Link/linkRouter.js')(linkRouter); 
+  require('../Comment/commentRouter.js')(commentRouter); 
   
   // Add basic routes
   require('./routes.js')(app, passport);
 
 };
-
-
-
