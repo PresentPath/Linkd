@@ -2,7 +2,7 @@
 * @Author: Katrina Uychaco
 * @Date:   2015-08-05 19:29:06
 * @Last Modified by:   Katrina Uychaco
-* @Last Modified time: 2015-08-06 21:23:11
+* @Last Modified time: 2015-08-06 21:29:26
 */
 
 'use strict';
@@ -57,9 +57,6 @@ module.exports = function(app, passport) {
     passport.authenticate('google', {
       successRedirect: '/profile',
       failureRedirect: '/'
-    })); //,
-    // function(req, res) {
-    //   res.redirect('/profile');
-    // });
+    })); 
 
 };
