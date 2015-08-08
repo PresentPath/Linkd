@@ -28,7 +28,6 @@ module.exports.checkUserAuth = function(profile, token, callback) {
     });
 };
 
-
 // Create new user in database
 module.exports.createUserAuth = function(profile, token, callback) {
 
@@ -46,4 +45,18 @@ module.exports.createUserAuth = function(profile, token, callback) {
     console.error('Error creating user:', err);
     callback(err);
   });
+};
+
+// Retrieve list of all users
+module.exports.getUsersList = function(req, res, next) {
+
+  User.findAll()
+    .then(function(users) {
+      console.log('Retrieved list of all users from database');
+      res.json(users);
+    })
+    .error(function(err) {
+      console.error('Error retrieving list of all users:', err);
+      res.status(500).send(err);
+    });
 };
