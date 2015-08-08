@@ -1,8 +1,8 @@
 /* 
 * @Author: Katrina Uychaco
 * @Date:   2015-08-02 15:21:16
-* @Last Modified by:   Katrina Uychaco
-* @Last Modified time: 2015-08-05 22:54:15
+* @Last Modified by:   kuychaco
+* @Last Modified time: 2015-08-07 19:36:47
 */
 
 'use strict';
@@ -42,24 +42,29 @@ module.exports = function(app, express) {
   app.use(flash());  // use for flash messages stored in session
 
   // Create Express routers for each type of route
+  var userRouter = express.Router();
   var groupRouter = express.Router();
   var folderRouter = express.Router();
   var linkRouter = express.Router();
   var commentRouter = express.Router();
 
   // Connect request paths to appropriate routers
+  app.use('/api/user', userRouter);
   app.use('/api/group', groupRouter);
   app.use('/api/folder', folderRouter);
   app.use('/api/link', linkRouter);
   app.use('/api/comment', commentRouter);
 
   // Load routes and pass in app and fully configured passport
+  require('../User/userRouter.js')(userRouter, passport); 
   require('../Group/groupRouter.js')(groupRouter); 
   require('../Folder/folderRouter.js')(folderRouter); 
   require('../Link/linkRouter.js')(linkRouter); 
   require('../Comment/commentRouter.js')(commentRouter); 
   
-  // Add basic routes
-  require('./routes.js')(app, passport);
+  // Add route for initial get request  
+  app.get('/', function(req, res) {
+    res.redirect('/api/user');
+  });
 
 };
