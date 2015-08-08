@@ -9,19 +9,20 @@ var userController = require('./userController.js');
 var isLoggedIn = require('../config/helpers.js').isLoggedIn;
 
 
+// TODO: Refactor after frontend is finished - rather than rendering, send responses to client;  
 module.exports = function(app, passport) {
 
   // Google Routes
-  // Send to google to do authentication
+  // Send to Google for authentication, get user profile and email
   app.route('/auth/google')
     .get(passport.authenticate('google', { scope: ['profile', 'email'] }));
 
-  // The callback after google has authenticated the user
+  // After google has authenticated the user, redirect to appropriate url
   app.route('/auth/google/callback')
     .get(passport.authenticate('google', {
-        successRedirect: '/api/user/profile',
-        failureRedirect: '/api/user'
-      })); 
+      successRedirect: '/api/user/profile',
+      failureRedirect: '/api/user'
+    })); 
 
   // Home Page
   app.route('/')
