@@ -51,4 +51,8 @@ module.exports = function(app, passport) {
       res.redirect('/');
     });
 
+  // Send list of users to client
+  app.route('/list')
+    .get(userController.getUsersList);
+
 };
