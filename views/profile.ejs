@@ -16,9 +16,9 @@
       <div class="row">
 
         <!-- GOOGLE INFORMATION -->
-        <div class="col-sm-6">
+        <!-- <div class="col-sm-6">
           <div class="well">
-            <h3 class="text-danger"><span class="fa fa-google-plus"></span> Google</h3>
+            <h3 class="text-danger"><span class="fa fa-google-plus"></span> Authentication</h3>
 
               <p>
                 <strong>id</strong>: <%= user.user_id_google %><br>
@@ -28,17 +28,31 @@
               </p>
 
           </div>
-        </div>
+        </div> -->
 
         <!-- GROUP INFORMATION -->
         <div class="col-sm-6">
           <div class="well">
-            <h3 class="text-danger"><span class="fa fa-google-plus"></span> Google</h3>
+            <h3 class="text-danger"><span class="fa fa-google-plus"></span> Groups</h3>
 
               <form id="createGroup" action="/api/group/create" method="post">
                 <input id="groupName" name="name" type="text" placeholder="Group Name"/>
                 <input type="submit" value="Create Group" />
               </form>
+
+              <ul id="groupsList">
+              </ul>
+          </div>
+        </div>
+
+
+        <!-- USERS LIST -->
+        <div class="col-sm-6">
+          <div class="well">
+            <h3 class="text-danger"><span class="fa fa-google-plus"></span> Users</h3>
+
+            <ul id="usersList">
+            </ul>
 
           </div>
         </div>
@@ -46,9 +60,9 @@
       </div>
 
     </div>
-<!--
+
     <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
-    <script src="app.js"></script> -->
+    <script src="/app.js"></script>
 
   </body>
 </html>
