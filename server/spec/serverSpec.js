@@ -2,7 +2,7 @@
 * @Author: Katrina Uychaco
 * @Date:   2015-08-03 20:44:57
 * @Last Modified by:   kuychaco
-* @Last Modified time: 2015-08-07 23:40:17
+* @Last Modified time: 2015-08-08 02:00:03
 */
 
 'use strict';
@@ -13,8 +13,8 @@ var app = require('../serverSetup.js');
 var Promise = require('bluebird');
 
 
-var userSpec = Promise.promisify(require('../User/userSpec.js'));
-var groupSpec = Promise.promisify(require('../Group/groupSpec.js'));
+var userSpec = Promise.promisifyAll(require('../User/userSpec.js'));
+var groupSpec = Promise.promisifyAll(require('../Group/groupSpec.js'));
 
 
 // Test server connection
@@ -37,9 +37,9 @@ describe('basic server connection test', function() {
 // Test database controllers
 describe('database controller function tests', function() {
 
-  userSpec()
+  userSpec.addThenRetrieveUsersAsync()
   .then(function() {
-    return groupSpec();
+    return groupSpec.createGroupsAsync();
   })
   // .then(function() {
   //   return folderSpec();
