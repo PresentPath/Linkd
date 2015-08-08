@@ -10,7 +10,7 @@ var Promise = require('bluebird');
 
 var userController = Promise.promisifyAll(require('./userController.js'));
 
-module.exports = function(callback) {
+module.exports.addThenRetrieveUsers = function(callback) {
 
   // User Controller
   describe('----- User Router/Controller tests -----', function() {
