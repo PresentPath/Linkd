@@ -9,11 +9,11 @@ var folderController = require('./folderController.js');
 module.exports = function(app) {
 
   // Send list of sub folders
-  app.route('/subfolders/:folderId')
+  app.route('/subfolders/:parentFolderId')
     .get(folderController.getSubFolders);
 
   // Create new folder
-  app.route('/create')
+  app.route('/create/:parentFolderId')
     .post(folderController.createFolder);
 
   // Delete folder
