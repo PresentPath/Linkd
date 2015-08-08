@@ -26,10 +26,10 @@ module.exports.getGroupsList = function(req, res, next) {
 module.exports.createGroup = function(req, res, next) {
   console.log('New Group', req.body);
 
-  Group.create({
+  Group.findOrCreate( { where: {
     name: req.body.name,
     OwnerUserIdGoogle: req.session.passport.user
-  })
+  } })
   .then(function(group) {
     console.log('Successfully created group in database');
     // Send group object back to client as JSON
