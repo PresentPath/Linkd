@@ -20,6 +20,7 @@
   "homepage": "https://github.com/PresentPath/Linkd#readme",
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
+    "bluebird": "^2.9.34",
     "body-parser": "^1.13.3",
     "chai": "^3.2.0",
     "connect-flash": "^0.1.1",
