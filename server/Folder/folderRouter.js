@@ -10,9 +10,9 @@ module.exports = function(app) {
 
   app.route('/:folderId')
     // Send list of sub folders
-    .get(folderController.getSubFolders);
+    .get(folderController.getSubFolders)
     // Rename folder
-    .post(folderController.renameFolder);
+    .post(folderController.renameFolder)
     // Delete folder
     .delete(folderController.deleteFolder);
 
