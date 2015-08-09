@@ -16,21 +16,16 @@ module.exports = function(app) {
   app.route('/create')
     .post(groupController.createGroup);
 
-  // Send back users in a specific group
   app.route('/:groupId')
-    .get(groupController.getGroupMembers);
+    // Send back users in a specific group
+    .get(groupController.getGroupMembers)
+    // Rename group
+    .post(groupController.renameGroup)
+    // Delete group
+    .delete(groupController.deleteGroup);
 
   // Add user to group
-  app.route('/addUser/:groupId/:userId')
+  app.route('/addUser')
     .post(groupController.addUserToGroup);
-
-  // Delete group
-  // TODO: Research DELETE HTTP method
-  app.route('/delete/:groupId')
-    .get(groupController.deleteGroup);
-
-  // Rename group
-  app.route('/rename/:groupId')
-    .post(groupController.renameGroup);
 
 };
