@@ -31,12 +31,13 @@ module.exports.createGroups = function(callback) {
               callback(err);
               return done(err);
             }
-            console.log('RESPONSE', res.body);
+            // console.log('RESPONSE', res.body);
             // callback(null, res.body);
           });
       })
       .then(function(groups) {
-        console.log('GROUPS', groups);
+        // console.log('GROUPS', groups);
+        done();
         callback(null, groups);
       })
       .catch(function(err) {
