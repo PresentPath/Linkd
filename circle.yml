@@ -3,3 +3,6 @@ deployment:
     branch: master
     heroku:
       appname: linkd
+machine:
+  environment:
+    DATABASE_URL: mysql://root@localhost:3306/circle_test
