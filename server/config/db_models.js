@@ -2,14 +2,14 @@
 * @Author: Katrina Uychaco
 * @Date:   2015-08-01 18:34:04
 * @Last Modified by:   kuychaco
-* @Last Modified time: 2015-08-08 03:03:44
+* @Last Modified time: 2015-08-08 22:02:51
 */
 
 'use strict';
 
 var Sequelize = require('sequelize');
 
-var conString = process.env.CIRCLECI ? 'mysql://root@localhost:3306/circle_test' : process.env.DATABASE_URL || 'mysql://root@localhost:3306/linkd';
+var conString = process.env.DATABASE_URL || 'mysql://root@localhost:3306/linkd';
 
 
 
