@@ -8,6 +8,10 @@ var folderController = require('./folderController.js');
 
 module.exports = function(app) {
 
+  // Create new folder
+  app.route('/create')  
+    .post(folderController.createFolder);
+ 
   app.route('/:folderId')
     // Send list of sub folders
     .get(folderController.getSubFolders)
@@ -16,8 +20,5 @@ module.exports = function(app) {
     // Delete folder
     .delete(folderController.deleteFolder);
 
-  // Create new folder
-  app.route('/create')  
-    .post(folderController.createFolder);
 
 };
