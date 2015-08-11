@@ -1,4 +1,4 @@
-/* 
+/*
 * @Author: Katrina Uychaco
 * @Date:   2015-08-03 20:44:57
 * @Last Modified by:   kuychaco
@@ -19,13 +19,13 @@ var groupSpec = Promise.promisifyAll(require('../Group/groupSpec.js'));
 
 // Test server connection
 describe('basic server connection test', function() {
-  
+
   it('is connecting locally', function(done) {
     // Pass in server to supertest
     request(app)
       .get('/')
       .expect(302)
-      // Send request to supertest server. 
+      // Send request to supertest server.
       .end(function(err, res) {
         if (err) return done(err);
         done();
@@ -35,24 +35,24 @@ describe('basic server connection test', function() {
 });
 
 // Test database controllers
-describe('database controller function tests', function() {
+// describe('database controller function tests', function() {
 
-  userSpec.addThenRetrieveUsersAsync()
-  .then(function() {
-    return groupSpec.createGroupsAsync();
-  })
-  // .then(function() {
-  //   return folderSpec();
-  // })
-  // .then(function() {
-  //   return linkSpec();
-  // })
-  // .then(function() {
-  //   return commentSpec();
-  // })
-  .catch(function(err) {
-    console.error('Error testing database controllers:', err);
-  });
+//   userSpec.addThenRetrieveUsersAsync()
+//   .then(function() {
+//     return groupSpec.createGroupsAsync();
+//   })
+//   // .then(function() {
+//   //   return folderSpec();
+//   // })
+//   // .then(function() {
+//   //   return linkSpec();
+//   // })
+//   // .then(function() {
+//   //   return commentSpec();
+//   // })
+//   .catch(function(err) {
+//     console.error('Error testing database controllers:', err);
+//   });
 
 
 
@@ -78,4 +78,4 @@ describe('database controller function tests', function() {
     // Create 2 sub folders in a folder
     // Delete folder (and all subfolders inside)
 
-})
+// })
