@@ -7,6 +7,7 @@ var Link = require('../config/db_models.js').Link;
 var Folder = require('../config/db_models.js').Folder;
 var Group = require('../config/db_models.js').Group;
 var User = require('../config/db_models.js').User;
+var UserLink = require('../config/db_models.js').UserLink;
 
 
 module.exports.createLink = function(req, res, next) {
@@ -44,21 +45,71 @@ module.exports.createLink = function(req, res, next) {
     console.log('Added', whoknows[0].length, 'user-link associations');
   })
   .error(function(err) {
-    console.error('Error in creating new link in database:', err);
-    res.status(500).send(err);
+    console.error('Error in creating new link in database:', err.message);
+    res.status(500).send(err.message);
   });
 
 };
 
 module.exports.updateExpDate = function(req, res) {
 
+  Link.find( { where: { id: req.params.linkId } } )
+  .then(function(link) {
+    return link.updateAttributes({
+      name: req.body.expDate
+    });
+  })
+  .then(function(link) {
+    console.log('Updated link expiration date in database for', link.dataValues.name) + ':', link.dataValues.expiration_date;
+    res.send(link);
+  })
+  .error(function(err) {
+    console.error('Error updating link expiration date in database:', err.message);
+    res.status(500).send(err.message);
+  });
 };
 
 module.exports.updateLinkViewedStatus = function(req, res) {
 
+  // TODO: Figure out how to do this
+  UserLink.find({ where: { LinkId: req.params.linkId, UserUserIdGoogle: req.body.userId }})
+  .then(function(userLink) {
+    return userLink.updateAttributes({ viewed: 1 });
+  })
+  .then(function(userLink) {
+    console.log('Updated viewed status in database', userLink.dataValues);
+    res.send(userLink);
+  })
+  .error(function(err) {
+    console.error('Error retrieving links from database:', err.message);
+    res.status(500).send(err.message);
+  });
 };
 
 module.exports.getLinks = function(req, res) {
+
+  Link.findAll( { where: { FolderId: req.params.folderId } } )
+  .then(function(links) {
+    console.log('Retrieved links from database with FolderId:', req.params.folderId);
+    res.send(links);
+  })
+  .error(function(err) {
+    console.error('Error retrieving links from database:', err.message);
+    res.status(500).send(err.message);
+  });
+};
+
+module.exports.getLinkInfo = function(req, res) {
+
+  Link.find( { where: { id: req.params.linkId } } )
+  .then(function(link) {
+    console.log('Retrieved link info from database:', link.dataValues);
+    res.send(link);
+  })
+  .error(function(err) {
+    console.error('Error retrieving link info from database:', err.message);
+    res.status(500).send(err.message);
+  });
 
 };
 
@@ -77,8 +128,8 @@ module.exports.deleteLink = function(req, res, next) {
     res.send(link);
   })
   .error(function(err) {
-    console.error('Error deleting link from database:', err);
-    res.status(500).send(err);
+    console.error('Error deleting link from database:', err.message);
+    res.status(500).send(err.message);
   });
 
 };
@@ -97,7 +148,7 @@ module.exports.renameLink = function(req, res, next) {
     res.send(link);
   })
   .error(function(err) {
-    console.error('Error deleting link from database:', err);
-    res.status(500).send(err);
+    console.error('Error deleting link from database:', err.message);
+    res.status(500).send(err.message);
   });
 };
