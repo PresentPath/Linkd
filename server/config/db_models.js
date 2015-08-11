@@ -1,15 +1,13 @@
-/* 
-* @Author: Katrina Uychaco
-* @Date:   2015-08-01 18:34:04
-* @Last Modified by:   kuychaco
-* @Last Modified time: 2015-08-08 03:03:44
-*/
+// Database Models
+// ----------------
+//
+// Connect to the database, define Models (create schema), and set up table associations. 
 
 'use strict';
 
 var Sequelize = require('sequelize');
 
-var conString = process.env.CIRCLECI ? 'mysql://root@localhost:3306/circle_test' : process.env.DATABASE_URL || 'mysql://root@localhost:3306/linkd';
+var conString = process.env.DATABASE_URL || 'mysql://root@localhost:3306/linkd';
 
 
 
@@ -84,4 +82,5 @@ module.exports.Group = Group;
 module.exports.Folder = Folder;
 module.exports.Link = Link;
 module.exports.Comment = Comment;
+module.exports.UserLink = UserLink;
 module.exports.db = db;

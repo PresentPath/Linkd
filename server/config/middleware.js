@@ -2,7 +2,7 @@
 * @Author: Katrina Uychaco
 * @Date:   2015-08-02 15:21:16
 * @Last Modified by:   kuychaco
-* @Last Modified time: 2015-08-07 19:36:47
+* @Last Modified time: 2015-08-08 12:19:09
 */
 
 'use strict';
@@ -24,7 +24,7 @@ module.exports = function(app, express) {
 
 
   // Serve static files
-  // app.use(express.static(__dirname + '/../../client/src'));
+  app.use(express.static(__dirname + '/../../client/src'));
 
   app.use(morgan('dev'));  // Log requests to console
   app.use(cookieParser());  // Read cookies (needed for auth)

@@ -4,6 +4,8 @@
 // Handle interacting with the Group data in the database.
 
 var Group = require('../config/db_models.js').Group;
+var User = require('../config/db_models.js').User;
+var helpers = require('../config/helpers.js');
 
 // Retrive list of all Group instances
 module.exports.getGroupsList = function(req, res, next) {
@@ -35,29 +37,91 @@ module.exports.createGroup = function(req, res, next) {
     // Send group object back to client as JSON
     res.json(group);
   })
-  .error(function(err) {
-    console.error('Error in creating new group in database:', err);
-    res.status(500).send(err);
-  });
+  // .error(function(err) {
+  //   console.error('Error in creating new group in database:', err);
+  //   res.status(500).send(err);
+  // });
+  .error(helpers.handleError(res, 'Error in creating ...'));
 
 };
 
 // Add a user to a Group
 module.exports.addUserToGroup = function(req, res, next) {
 
+  Group.find( { where: { id: req.body.groupId } } )
+  .then(function(group) {
+    return group.addUser(req.body.userId);
+  })
+  .then(function(result) {
+    if (result.length>0) {
+      console.log('User added to group in database');
+    } else {
+      console.log('User already in specified group in database');
+    }
+    res.json(result);
+  })
+  .error(function(err) {
+    console.error('Error in adding user to group in database:', err);
+    res.status(500).send(err);
+  });
 };
 
 // Retrieve memebers in a specific Group instance
 module.exports.getGroupMembers = function(req, res, next) {
+  
+  Group.find( { where: { id: req.params.groupId }, include: [ User ] } )
+  .then(function(group) {
+    console.log('Users in specified group retrieved from database:', group.dataValues.Users.map(function(user) {
+      return user.dataValues.name_google;
+    }));
+    res.send(group);
+  })
+  .error(function(err) {
+    console.error('Error retrieving members in group from database:', err);
+    res.status(500).send(err);
+  });
 
 };
 
 // Delete a Group Instance from the database
 module.exports.deleteGroup = function(req, res, next) {
 
+  Group.find( { where: { id: req.params.groupId } } )
+  .then(function(group) {
+    if (group) {
+      return group.destroy();
+    }
+    // res.send('Group specified does not exist in database');
+    return 'Group specified does not exist in database';
+  })
+  // .then(function(group) {
+  //   console.log('Deleted group from database');
+  //   res.send(group);
+  // })
+  .then(helpers.handleSuccess(res, 'Deleted group from database'))
+  .error(helpers.handleError(res, 'Error deleting group from database:'));
+  // .error(function(err) {
+  //   console.error('Error deleting group from database:', err);
+  //   res.status(500).send(err);
+  // });
+
 };
 
 // Rename Group
 module.exports.renameGroup = function(req, res, next) {
 
+  Group.find( { where: { id: req.params.groupId } } )
+  .then(function(group) {
+    return group.updateAttributes({
+      name: req.body.name
+    });
+  })
+  .then(function(group) {
+    console.log('Renamed group in database:', group.dataValues.name);
+    res.send(group);
+  })
+  .error(function(err) {
+    console.error('Error deleting group from database:', err);
+    res.status(500).send(err);
+  });
 };

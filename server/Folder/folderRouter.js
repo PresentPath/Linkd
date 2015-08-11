@@ -8,20 +8,17 @@ var folderController = require('./folderController.js');
 
 module.exports = function(app) {
 
-  // Send list of sub folders
-  app.route('/subfolders/:parentFolderId')
-    .get(folderController.getSubFolders);
-
   // Create new folder
-  app.route('/create/:parentFolderId')
+  app.route('/create')  
     .post(folderController.createFolder);
-
-  // Delete folder
-  app.route('/delete/:folderId')
+ 
+  app.route('/:folderId')
+    // Send list of sub folders
+    .get(folderController.getSubFolders)
+    // Rename folder
+    .post(folderController.renameFolder)
+    // Delete folder
     .delete(folderController.deleteFolder);
 
-  // Rename folder
-  app.route('/rename/:folderId')
-    .post(folderController.renameFolder);
 
 };
