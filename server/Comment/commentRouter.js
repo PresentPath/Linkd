@@ -8,4 +8,12 @@ var commentController = require('./commentController.js');
 
 module.exports = function(app) {
 
+  // Add comments
+  app.route('/create')
+    .post(commentController.createComment);
+
+  // Get comments for a link
+  app.route('/link/:linkId')
+    .get(commentController.getCommentsForLink);
+
 };
