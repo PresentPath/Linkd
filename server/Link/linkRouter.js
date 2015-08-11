@@ -22,11 +22,14 @@ module.exports = function(app) {
     .post(linkController.updateLinkViewedStatus);
 
   app.route('/:linkId')
-    // Send list of links
-    .get(linkController.getLinks)
+    // Get link info
+    .get(linkController.getLinkInfo)
     // Rename link
     .post(linkController.renameLink)
     // Delete link
     .delete(linkController.deleteLink);
 
+  // Send list of links
+  app.route('/folder/:folderId') 
+    .get(linkController.getLinks)
 };
