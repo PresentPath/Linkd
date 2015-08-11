@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "npm run test-server",
-    "test-server": "mocha -R spec ./server/spec/serverSpec.js",
+    "test-server": "mocha -R spec ./server/**/*Spec.js",
     "start": "nodemon ./server/serverSetup.js"
   },
   "repository": {
