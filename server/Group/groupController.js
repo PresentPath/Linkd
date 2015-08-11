@@ -5,7 +5,7 @@
 
 var Group = require('../config/db_models.js').Group;
 var User = require('../config/db_models.js').User;
-
+var helpers = require('../config/helpers.js');
 
 // Retrive list of all Group instances
 module.exports.getGroupsList = function(req, res, next) {
@@ -37,10 +37,11 @@ module.exports.createGroup = function(req, res, next) {
     // Send group object back to client as JSON
     res.json(group);
   })
-  .error(function(err) {
-    console.error('Error in creating new group in database:', err);
-    res.status(500).send(err);
-  });
+  // .error(function(err) {
+  //   console.error('Error in creating new group in database:', err);
+  //   res.status(500).send(err);
+  // });
+  .error(helpers.handleError(res, 'Error in creating ...'));
 
 };
 
@@ -90,16 +91,19 @@ module.exports.deleteGroup = function(req, res, next) {
     if (group) {
       return group.destroy();
     }
-    res.send('Group specified does not exist in database');
+    // res.send('Group specified does not exist in database');
+    return 'Group specified does not exist in database';
   })
-  .then(function(group) {
-    console.log('Deleted group from database:', group.dataValues.name);
-    res.send(group);
-  })
-  .error(function(err) {
-    console.error('Error deleting group from database:', err);
-    res.status(500).send(err);
-  });
+  // .then(function(group) {
+  //   console.log('Deleted group from database');
+  //   res.send(group);
+  // })
+  .then(helpers.handleSuccess(res, 'Deleted group from database'))
+  .error(helpers.handleError(res, 'Error deleting group from database:'));
+  // .error(function(err) {
+  //   console.error('Error deleting group from database:', err);
+  //   res.status(500).send(err);
+  // });
 
 };
 
