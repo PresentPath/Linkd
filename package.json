@@ -4,8 +4,7 @@
   "description": "Share and discuss your bookmarks!",
   "main": "server.js",
   "scripts": {
-    "test": "npm run test-server",
-    "test-server": "mocha -R spec ./server/**/*Spec.js",
+    "test": "mocha --delay -R spec ./server/config/serverSpec.js",
     "start": "nodemon ./server/serverSetup.js"
   },
   "repository": {

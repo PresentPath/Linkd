@@ -2,7 +2,7 @@
 * @Author: Katrina Uychaco
 * @Date:   2015-08-03 20:44:57
 * @Last Modified by:   kuychaco
-* @Last Modified time: 2015-08-13 22:29:32
+* @Last Modified time: 2015-08-13 22:54:11
 */
 
 'use strict';
@@ -37,22 +37,6 @@ describe('basic server connection test', function() {
 
 // Test database controllers
 describe('database controller function tests', function() {
-
-  // var checkDBStatus = Promise.promisify(function(callback) {
-  //   if (dbLoaded) {
-  //     console.log('db loaded');
-  //     return callback(null, 'DB loaded');
-  //   }
-  //   console.log('recursive call for checkDBStatus');
-  //   setTimeout(checkDBStatus.bind(null,callback), 100);
-  // });
-
-
-  // checkDBStatus()
-  // .then(function(res) {
-  //   console.log(res)
-  //   return userSpec();
-  // })
 
   userSpec()
   .then(function() {
