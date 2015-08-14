@@ -2,7 +2,7 @@
 * @Author: Katrina Uychaco
 * @Date:   2015-08-03 20:44:57
 * @Last Modified by:   kuychaco
-* @Last Modified time: 2015-08-08 02:00:03
+* @Last Modified time: 2015-08-13 22:29:32
 */
 
 'use strict';
@@ -11,10 +11,11 @@ var request = require('supertest');
 var expect = require('chai').expect;
 var app = require('../serverSetup.js');
 var Promise = require('bluebird');
+var dbLoaded = require('./db_models.js').dbLoaded;
 
 
-var userSpec = Promise.promisifyAll(require('../User/userSpec.js'));
-var groupSpec = Promise.promisifyAll(require('../Group/groupSpec.js'));
+var userSpec = Promise.promisify(require('../User/userSpec.js'));
+var groupSpec = Promise.promisify(require('../Group/groupSpec.js'));
 
 
 // Test server connection
@@ -35,24 +36,40 @@ describe('basic server connection test', function() {
 });
 
 // Test database controllers
-// describe('database controller function tests', function() {
+describe('database controller function tests', function() {
 
-//   userSpec.addThenRetrieveUsersAsync()
-//   .then(function() {
-//     return groupSpec.createGroupsAsync();
-//   })
-//   // .then(function() {
-//   //   return folderSpec();
-//   // })
-//   // .then(function() {
-//   //   return linkSpec();
-//   // })
-//   // .then(function() {
-//   //   return commentSpec();
-//   // })
-//   .catch(function(err) {
-//     console.error('Error testing database controllers:', err);
-//   });
+  // var checkDBStatus = Promise.promisify(function(callback) {
+  //   if (dbLoaded) {
+  //     console.log('db loaded');
+  //     return callback(null, 'DB loaded');
+  //   }
+  //   console.log('recursive call for checkDBStatus');
+  //   setTimeout(checkDBStatus.bind(null,callback), 100);
+  // });
+
+
+  // checkDBStatus()
+  // .then(function(res) {
+  //   console.log(res)
+  //   return userSpec();
+  // })
+
+  userSpec()
+  .then(function() {
+    return groupSpec();
+  })
+  // .then(function() {
+  //   return folderSpec();
+  // })
+  // .then(function() {
+  //   return linkSpec();
+  // })
+  // .then(function() {
+  //   return commentSpec();
+  // })
+  .catch(function(err) {
+    console.error('Error testing database controllers:', err);
+  });
 
 
 
@@ -78,4 +95,4 @@ describe('basic server connection test', function() {
     // Create 2 sub folders in a folder
     // Delete folder (and all subfolders inside)
 
-// })
+});

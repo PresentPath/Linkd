@@ -65,12 +65,14 @@ Link.belongsTo(Folder);
 
 Comment.belongsTo(Link);
 
+var dbLoaded = false;
+
 
 // Create table based on model definitions in database
 db.sync()
   .then(function() {
     console.log('Tables created');
-
+    dbLoaded = true;
     // Create demo data
     
 
@@ -84,3 +86,4 @@ module.exports.Link = Link;
 module.exports.Comment = Comment;
 module.exports.UserLink = UserLink;
 module.exports.db = db;
+module.exports.dbLoaded = dbLoaded;
