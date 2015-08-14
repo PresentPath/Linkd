@@ -9,8 +9,8 @@ var helpers = require('../config/helpers.js');
 
 // Retrive list of all Group instances
 module.exports.getGroupsList = function(req, res, next) {
-  console.log('SessionInfo', req.session.passport.user);
-  console.log('UserInfo', req.user);
+  // console.log('SessionInfo', req.session.passport.user);
+  // console.log('UserInfo', req.user);
 
   Group.findAll({ where: { OwnerUserIdGoogle: req.session.passport.user } })
   .then(function(groups) {
@@ -26,7 +26,7 @@ module.exports.getGroupsList = function(req, res, next) {
 
 // Create a new Group instance in the database based on data sent in the request
 module.exports.createGroup = function(req, res, next) {
-  console.log('New Group', req.body);
+  // console.log('New Group', req.body);
 
   Group.findOrCreate( { where: {
     name: req.body.name,
@@ -41,7 +41,7 @@ module.exports.createGroup = function(req, res, next) {
   //   console.error('Error in creating new group in database:', err);
   //   res.status(500).send(err);
   // });
-  .error(helpers.handleError(res, 'Error in creating ...'));
+  .error(helpers.handleError(res, 'Error in creating group in database'));
 
 };
 
