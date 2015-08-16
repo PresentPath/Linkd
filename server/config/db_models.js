@@ -18,7 +18,7 @@ var db = new Sequelize(conString, { logging: false });
 
 var User = db.define('User', {
   user_id_google: { type: Sequelize.STRING, primaryKey: true },
-  token_google: Sequelize.STRING,
+  // token_google: Sequelize.STRING,
   name_google: Sequelize.STRING,
   email_google: Sequelize.STRING
 });

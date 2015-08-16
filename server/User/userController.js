@@ -10,6 +10,8 @@ var User = require('../config/db_models.js').User;
 // Check if user is in database
 module.exports.checkUserAuth = function(profile, token, callback) {
 
+  console.log('TOKEN', token);
+
   User.find({ where: {user_id_google: profile.id} })
     .then(function(user) {
       if (user) {
@@ -19,7 +21,7 @@ module.exports.checkUserAuth = function(profile, token, callback) {
 
       // If user not found, create user
       if (user === null) {
-        module.exports.createUserAuth(profile, token, callback);
+        module.exports.createUserAuth(profile, callback);
       }
     })
     .error(function(err) {
@@ -33,7 +35,7 @@ module.exports.createUserAuth = function(profile, token, callback) {
 
   User.create({
     user_id_google: profile.id,
-    token_google: token,
+    // token_google: token,  // not using api token for anything at this point
     name_google: profile.displayName,
     email_google: profile.emails[0].value
   })

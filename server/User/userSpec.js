@@ -17,22 +17,19 @@ module.exports = function(callback) {
       // Fake user data
       var users = [
         {
-          user_id_google: '102064592924036401703',
+          user_id_google: '1',
           name_google: 'Katrina Uychaco',
-          email_google: 'kuychaco@gmail.com',
-          token_google: 'ya29.yQH7RHzsmcgSg0kI_eSLniVA14lXL6kaK8fQwuWiUOk-IyeosYDs3tBagxJYrJeS95_GJg'
+          email_google: 'kuychaco@gmail.com'
         },
         {
-          user_id_google: '103256925994420229365',
+          user_id_google: '2',
           name_google: 'Katrina Uychaco',
-          email_google: 'uychacok@gmail.com',
-          token_google: 'ya29.yQF874WkXayqM7cLgNjbum_P4k2NojVzTQ6OInoQEorrnItI2NGM5_6ul4OaulXpSqKK'
+          email_google: 'uychacok@gmail.com'
         },
         {
-          user_id_google: '108778785915485593543',
+          user_id_google: '3',
           name_google: 'Katrina Uychaco',
-          email_google: 'katrina.uychaco@telegraphacademy.com',
-          token_google: 'ya29.yQHaRmj6uzDFAllN-p0gzOLSEW9y0z8xmXT3WtNgKizpF_QtHjd5WoU7ksTVGtXPh_Qg'
+          email_google: 'katrina.uychaco@telegraphacademy.com'
         }
       ];
 
