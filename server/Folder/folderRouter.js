@@ -12,9 +12,11 @@ module.exports = function(app) {
   app.route('/create')
     .post(folderController.createFolder);
 
+  app.route('/:groupId')
+    // Send list of group's folders
+    .get(folderController.getGroupFolders);
+
   app.route('/:folderId')
-    // Send list of sub folders
-    .get(folderController.getSubFolders)
     // Rename folder
     .post(folderController.renameFolder)
     // Delete folder

@@ -5,10 +5,11 @@
 
 var Folder = require('../config/db_models.js').Folder;
 
-// Retrieve list of subFolders for a given parent folder
-module.exports.getSubFolders = function(req, res, next) {
+// Retrieve list of folders for a given group
+// Client will handle logic to display one folder level at a time
+module.exports.getGroupFolders = function(req, res, next) {
 
-  Folder.findAll( { where: { ParentId: req.params.folderId } } )
+  Folder.findAll( { where: { GroupId: req.params.groupId } } )
   .then(function(folders) {
     console.log('Successfully retrieved subfolders from database');
     // Send folder object back to client as JSON
