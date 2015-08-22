@@ -2,7 +2,7 @@
 * @Author: Katrina Uychaco
 * @Date:   2015-08-05 19:37:19
 * @Last Modified by:   kuychaco
-* @Last Modified time: 2015-08-10 21:18:23
+* @Last Modified time: 2015-08-21 18:10:00
 */
 
 'use strict';
@@ -26,6 +26,6 @@ module.exports.handleError = R.curry(function(res, message, err) {
 });
 
 module.exports.handleSuccess = R.curry(function(res, message, result) {
-  console.log(message);
+  // console.log(message);
   res.send(result);
 });
