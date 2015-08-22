@@ -16,11 +16,25 @@ var testUsers = require('../config/specTestData').testUsers;
 
 // var groupController = Promise.promisifyAll(require('./groupController.js'));
 
+var deleteAll = function() {
+  return Promise.all([ Group.findAll(), User.findAll() ])
+    .spread(function(groups, users) {
+      var destroyGroups = Promise.map(groups, function(group) {
+        return group.destroy();
+      });
+      var destroyUsers = Promise.map(users, function(user) {
+        return user.destroy();
+      });
+      return Promise.all([ destroyGroups, destroyUsers ]);
+    });
+};
+
 module.exports = function(callback) {
 
   // Group Controller
   describe('----- Group Router/Controller tests -----', function() {
 
+    // Group ID to be used for routes
     var groupId;
 
     // Before each test
@@ -28,16 +42,7 @@ module.exports = function(callback) {
     // add users to User table
     beforeEach(function() {
 
-      return Promise.all([ Group.findAll(), User.findAll() ])
-        .spread(function(groups, users) {
-          var destroyGroups = Promise.map(groups, function(group) {
-            return group.destroy();
-          });
-          var destroyUsers = Promise.map(users, function(user) {
-            return user.destroy();
-          });
-          return Promise.all([ destroyGroups, destroyUsers ]);
-        })
+      return deleteAll()
         .then(function(destroyed) {
           return User.bulkCreate(testUsers);
         })
@@ -53,6 +58,10 @@ module.exports = function(callback) {
           groupId = group.id;
         });
 
+    });
+
+    after(function() {
+      return deleteAll();
     });
 
     // it('should get group list', function(done) {
@@ -112,7 +121,6 @@ module.exports = function(callback) {
           expect(res.body.UserUserIdGoogle).to.equal(user.user_id_google);
           done();
         });
-
 
     });
 
