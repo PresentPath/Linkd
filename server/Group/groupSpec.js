@@ -1,7 +1,7 @@
 // Group Spec
 // -----------
 //
-// Unit testing for Group routes and database controller.
+// Integration testing for Group routes and database controller.
 
 var request = require('supertest');
 var expect = require('chai').expect;

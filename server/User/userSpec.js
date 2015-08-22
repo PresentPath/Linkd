@@ -1,7 +1,7 @@
 // User Spec
 // -----------
 //
-// Unit testing for User routes and database controller.
+// Integration testing for User routes and database controller.
 
 var request = require('supertest');
 var expect = require('chai').expect;
