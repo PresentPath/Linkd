@@ -26,6 +26,12 @@ var testUsers = [{
       email_google: 'user3@email.com'
     }];
 
+var testFolders = [];
+var testLinks = [];
+var testComments = [];
 
 module.exports.testGroups = testGroups;
 module.exports.testUsers = testUsers;
+module.exports.testFolders = testFolders;
+module.exports.testLinks = testLinks;
+module.exports.testComments = testComments;

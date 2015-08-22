@@ -79,6 +79,7 @@ module.exports = function(callback) {
             })
           .end(function(err, res) {
             if (err) {
+              callback(err);
               return done(err);
             }
             expect(res.body[0].name).to.equal('testGroupC');
@@ -99,6 +100,7 @@ module.exports = function(callback) {
           })
         .end(function(err, res) {
           if (err) {
+            callback(err);
             return done(err);
           }
           expect(res.body.GroupId).to.equal(groupId);
@@ -109,43 +111,13 @@ module.exports = function(callback) {
 
     });
 
-    describe('--- retrieving group members ---', function(done) {
-
-      var testUserIds = testUsers.map(function(user) {
-              return user.user_id_google;
-            });
-
-      beforeEach(function() {
-        return Group.find({ where: { id: groupId } })
-          .then(function(group) {
-            return group.addUsers(testUserIds);
-          });
-      });
-
-      it('should get group members', function(done) {
-
-        request(app)
-          .get('/api/group/'+groupId)
-          .end(function(err, res) {
-            if (err) {
-              return done(err);
-            }
-            var users = res.body.map(function(user) {
-              return user.user_id_google;
-            });
-            expect(users.sort()).to.eql(testUserIds);
-            done();
-          });
-
-      });
-    });
-
     it('should delete group from database', function(done) {
 
       request(app)
         .delete('/api/group/'+groupId)
         .end(function(err, res) {
           if (err) {
+            callback(err);
             return done(err);
           }
           expect(res.body.id).to.equal(groupId);
@@ -168,6 +140,7 @@ module.exports = function(callback) {
         })
         .end(function(err, res) {
           if (err) {
+            callback(err);
             return done(err);
           }
 
@@ -182,6 +155,41 @@ module.exports = function(callback) {
 
     });
 
+    // Intersting behavior - this block always gets run last, even if it's not at the end of the file.
+    describe('--- retrieving group members ---', function() {
+
+      var testUserIds = testUsers.map(function(user) {
+              return user.user_id_google;
+            });
+
+      beforeEach(function() {
+        return Group.find({ where: { id: groupId } })
+          .then(function(group) {
+            return group.addUsers(testUserIds);
+          });
+      });
+
+      it('should get group members', function(done) {
+
+        request(app)
+          .get('/api/group/'+groupId)
+          .end(function(err, res) {
+            if (err) {
+              callback(err);
+              return done(err);
+            }
+            var users = res.body.map(function(user) {
+              return user.user_id_google;
+            });
+            expect(users.sort()).to.eql(testUserIds);
+            done();
+          });
+
+      });
+    });
+
+    // Tests complete - invoke callback so that next test file can run
+    callback();
 
   });
 
