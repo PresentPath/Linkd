@@ -82,8 +82,13 @@ module.exports = function(callback) {
               callback(err);
               return done(err);
             }
-            expect(res.body[0].name).to.equal('testGroupC');
-            done();
+            expect(res.body.name).to.equal('testGroupC');
+
+            Group.find({ where: { name: 'testGroupC' } })
+              .then(function(group) {
+                expect(group).to.exist;
+                done();
+              })
           });
 
     });

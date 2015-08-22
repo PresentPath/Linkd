@@ -30,7 +30,7 @@ module.exports.createGroup = function(req, res, next) {
     // Add user to UserGroup join table
     group[0].addUser(req.session.passport.user);
     // Send group object back to client as JSON
-    return group;
+    return group[0];
   })
   .then(helpers.handleSuccess(res, 'Successfully created group in database'))
   .error(helpers.handleError(res, 'Error creating group in database:'));
