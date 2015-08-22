@@ -6,6 +6,8 @@
 'use strict';
 
 var User = require('../config/db_models.js').User;
+var helpers = require('../config/helpers.js');
+
 
 // Check if user is in database
 module.exports.checkUserAuth = function(profile, token, callback) {
@@ -53,12 +55,7 @@ module.exports.createUserAuth = function(profile, token, callback) {
 module.exports.getUsersList = function(req, res, next) {
 
   User.findAll()
-    .then(function(users) {
-      console.log('Retrieved list of all users from database');
-      res.json(users);
-    })
-    .error(function(err) {
-      console.error('Error retrieving list of all users:', err);
-      res.status(500).send(err);
-    });
+    .then(helpers.handleSuccess(res, 'Retrieved list of all users from database'))
+    .error(helpers.handleError(res, 'Error retrieving list of all users:'));
+
 };
