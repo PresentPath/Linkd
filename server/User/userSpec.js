@@ -11,31 +11,28 @@ var User = require('../config/db_models.js').User;
 
 var testUsers = require('../config/specTestData').testUsers;
 
+var deleteAll = function() {
+  return User.findAll()
+    .then(function(users){
+      return Promise.map(users, function(user){
+        return user.destroy();
+      });
+    });
+};
 
 module.exports = function(callback) {
   // User Controller
   describe('----- User Router/Controller tests -----', function() {
 
-    before(function(done) {
-
-      User.findAll()
-        .then(function(users){
-          return Promise.map(users, function(user){
-            return user.destroy();
-          });
-        })
+    before(function() {
+      return deleteAll()
         .then(function(affectedRows) {
           return User.bulkCreate(testUsers);
-        })
-        .then(function(users) {
-          console.log('Created test users successfully');
-          done();
-        })
-        .error(function(err) {
-          console.error(err.message);
-          done(err.message);
         });
+    });
 
+    after(function() {
+      return deleteAll();
     });
 
     // Add 3 users to database
