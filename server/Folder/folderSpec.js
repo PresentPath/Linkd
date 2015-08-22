@@ -26,6 +26,7 @@ var deleteInstances = function(Model) {
     });
 };
 
+
 module.exports = function(callback) {
 
   describe('----- Folder Router/Controller tests -----', function() {
@@ -36,67 +37,38 @@ module.exports = function(callback) {
     var folderId;
 
     // Before tests, create a user and group for folder to belong to
-    beforeEach(function() {
-      return Promise.all([deleteInstances(User), deleteInstances(Group), deleteInstances(Folder)])
-        .then(function(deleted) {
-          return User.create(testUsers[0]);
-        })
-        .then(function(user) {
-          return Group.create(testGroups[0]);
-        })
-        .then(function(group) {
-          return groupId = group.id;
-        })
-        .then(function() {
-          testFolders = testFolders.map(function(folder) {
-            folder.GroupId = groupId;
-            return folder;
-          });
-          return Folder.bulkCreate(testFolders);
-        });
+    before(function() {
+     return Promise.all([deleteInstances(User), deleteInstances(Group)])
+       .then(function(deleted) {
+         return User.create(testUsers[0]);
+       })
+       .then(function(user) {
+         return Group.create(testGroups[0]);
+       })
+       .then(function(group) {
+         return groupId = group.id;
+       });
     });
+
 
     // Before each test create new folders in database
-    // beforeEach(function() {
+    beforeEach(function() {
 
-    //   testFolders = testFolders.map(function(folder) {
-    //     return folder.GroupId = groupId;
-    //   });
-
-    //   return deleteInstances(Folder)
-    //     .then(function() {
-    //       console.log('FOLDER', typeof Folder.create);
-    //       return Folder.create(testFolders[0]);
-    //     })
-    //     .then(function(folder) {
-    //       console.log('FOLSERS', folder);
-    //     });
-    // });
-
-    it('should create a folder', function(done) {
-      // console.log('GROUPID', groupId);
-      request(app)
-        .post('/api/folder/create')
-        .send({
-          name: 'testFolderW'
+      testFolders = testFolders.map(function(folder) {
+        folder.GroupId = groupId;
+        return folder;
+      });
+      return deleteInstances(Folder)
+        .then(function(destroyed) {
+         return Folder.create(testFolders[0]);
         })
-        .end(function(err, res) {
-          if (err) {
-            callback(err);
-            return done(err);
-          }
-          expect(res.body.name).to.equal('testFolderW');
-          Folder.find({ where: { name: 'testFolderW' } })
-            .then(function(folder) {
-              expect(folder).to.exist;
-              done();
-            });
+        .then(function(folder) {
+          folderId = folder.dataValues.id;
+          return Folder.bulkCreate(testFolders.slice(1));
         });
-
     });
 
     it('should create a folder', function(done) {
-      // console.log('GROUPID', groupId);
       request(app)
         .post('/api/folder/create')
         .send({
@@ -118,7 +90,6 @@ module.exports = function(callback) {
     });
 
     it('should get list of group\'s folders', function(done) {
-      // console.log('GROUPID', groupId);
       request(app)
         .get('/api/folder/group/'+groupId)
         .end(function(err, res) {
@@ -138,8 +109,52 @@ module.exports = function(callback) {
 
     });
 
+    it('should delete folder from database', function(done) {
 
-    // callback();
+      request(app)
+        .delete('/api/folder/'+folderId)
+        .end(function(err, res) {
+          if (err) {
+            callback(err);
+            return done(err);
+          }
+
+          expect(res.body.id).to.equal(folderId);
+
+          Folder.find({ where: {id: folderId } })
+            .then(function(folder) {
+              expect(folder).to.equal(null);
+              done();
+            });
+        });
+
+    });
+
+    it('should rename folder in database', function(done) {
+
+      request(app)
+        .post('/api/folder/'+folderId)
+        .send({
+          name: 'renamedFolder'
+        })
+        .end(function(err, res) {
+          if (err) {
+            callback(err);
+            return done(err);
+          }
+
+          expect(res.body.name).to.equal('renamedFolder');
+
+          Folder.find({ where: {name: 'renamedFolder' } })
+            .then(function(folder) {
+              expect(folder).to.exist;
+              done();
+            });
+        });
+
+    });
+
+    callback();
   });
 
 

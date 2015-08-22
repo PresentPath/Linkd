@@ -4,6 +4,7 @@
 // Handle interacting with the Folder data in the database.
 
 var Folder = require('../config/db_models.js').Folder;
+var helpers = require('../config/helpers.js');
 
 // Retrieve list of folders for a given group
 // Client will handle logic to display one folder level at a time
@@ -43,19 +44,24 @@ module.exports.createFolder = function(req, res, next) {
 // Delete a Folder Instance from the database
 module.exports.deleteFolder = function(req, res, next) {
 
+  var successMessage;
+
+  // TODO: Recursively delete all children folders
   Folder.destroy({ where: { ParentId: req.params.folderId } })
   .then(function(affectedRows) {
     console.log('Deleted', affectedRows, 'subfolders from database');
-    return Folder.destroy({ where: { id: req.params.folderId } });
+    return Folder.find( { where: { id: req.params.folderId } } );
   })
-  .then(function(affectedRows) {
-    console.log('Deleted specified folder from database');
-    res.send('Folder and subfolders deleted from database');
+  .then(function(folder) {
+    if (folder) {
+      successMessage = 'Deleted folder from database';
+    } else {
+      successMessage = 'Folder specified does not exist in database';
+    }
+    return folder && folder.destroy();
   })
-  .error(function(err) {
-    console.error('Error deleting folder from database:', err);
-    res.status(500).send(err);
-  });
+  .then(helpers.handleSuccess(res, successMessage))
+  .error(helpers.handleError(res, 'Error deleting folder from database:'));
 
 };
 
