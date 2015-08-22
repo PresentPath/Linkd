@@ -16,6 +16,10 @@ module.exports = function(app) {
   app.route('/create')
     .post(groupController.createGroup);
 
+  // Add user to group
+  app.route('/addUser')
+    .post(groupController.addUserToGroup);
+
   app.route('/:groupId')
     // Send back users in a specific group
     .get(groupController.getGroupMembers)
@@ -24,8 +28,5 @@ module.exports = function(app) {
     // Delete group
     .delete(groupController.deleteGroup);
 
-  // Add user to group
-  app.route('/addUser')
-    .post(groupController.addUserToGroup);
 
 };
