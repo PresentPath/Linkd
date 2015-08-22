@@ -23,7 +23,6 @@ module.exports.getGroupFolders = function(req, res, next) {
 
 // Create a new folder instance in the database
 module.exports.createFolder = function(req, res, next) {
-  console.log('New folder', req.body);
 
   Folder.findOrCreate( { where: {
     name: req.body.name,
@@ -33,7 +32,7 @@ module.exports.createFolder = function(req, res, next) {
   .then(function(folder) {
     console.log('Successfully created folder in database');
     // Send folder object back to client as JSON
-    res.json(folder);
+    res.json(folder[0]);
   })
   .error(function(err) {
     console.error('Error in creating new folder in database:', err);
