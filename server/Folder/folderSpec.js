@@ -39,15 +39,16 @@ module.exports = function(callback) {
     // Before tests, create a user and group for folder to belong to
     before(function() {
      return Promise.all([deleteInstances(User), deleteInstances(Group)])
-       .then(function(deleted) {
-         return User.create(testUsers[0]);
-       })
-       .then(function(user) {
-         return Group.create(testGroups[0]);
-       })
-       .then(function(group) {
-         return groupId = group.id;
-       });
+      .then(function(deleted) {
+        return User.create(testUsers[0]);
+      })
+      .then(function(user) {
+        return Group.create(testGroups[0]);
+      })
+      .then(function(group) {
+        console.log(group.id);
+        return groupId = group.id;
+      });
     });
 
 
@@ -68,11 +69,13 @@ module.exports = function(callback) {
         });
     });
 
-    it('should create a folder', function(done) {
+    it('should create a root-level folder', function(done) {
       request(app)
         .post('/api/folder/create')
         .send({
-          name: 'testFolderW'
+          name: 'testFolderW',
+          groupId: groupId,
+          parentId: null
         })
         .end(function(err, res) {
           if (err) {
@@ -80,7 +83,42 @@ module.exports = function(callback) {
             return done(err);
           }
           expect(res.body.name).to.equal('testFolderW');
-          Folder.find({ where: { name: 'testFolderW' } })
+          Folder.find({ where: 
+              { 
+                name: 'testFolderW',
+                GroupId: groupId,
+                ParentId: null 
+              } 
+            })
+            .then(function(folder) {
+              expect(folder).to.exist;
+              done();
+            });
+        });
+
+    });
+
+    it('should create a nested folder', function(done) {
+      request(app)
+        .post('/api/folder/create')
+        .send({
+          name: 'childFolder',
+          parentId: folderId,
+          groupId: groupId
+        })
+        .end(function(err, res) {
+          if (err) {
+            callback(err);
+            return done(err);
+          }
+          expect(res.body.name).to.equal('childFolder');
+          Folder.find({ where: 
+              { 
+                name: 'childFolder',
+                GroupId: groupId,
+                ParentId: folderId 
+              } 
+            })
             .then(function(folder) {
               expect(folder).to.exist;
               done();
