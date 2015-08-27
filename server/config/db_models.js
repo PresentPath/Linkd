@@ -6,6 +6,7 @@
 'use strict';
 
 var Sequelize = require('sequelize');
+var testData = require('./specTestData.js');
 
 var conString = process.env.DATABASE_URL || 'mysql://root@localhost:3306/linkd';
 
@@ -70,12 +71,14 @@ Comment.belongsTo(Link);
 db.sync()
   .then(function() {
     console.log('Tables created');
-    // Create demo data
+    
     if (typeof run !== 'undefined') {
       console.log('Calling run to start tests');
       run();
     }
-
+    
+    // Create demo data
+    testData.setUpDemoData();
   });
 
 
