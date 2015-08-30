@@ -8,7 +8,7 @@ var Group = require('./db_models.js').Group;
 var Folder = require('./db_models.js').Folder;
 var Link = require('./db_models.js').Link;
 var Comment = require('./db_models.js').Comment;
-
+var deleteInstances = require('./helpers.js').deleteInstances;
 
 var testUsers = [{
     user_id_google: '1',
@@ -29,11 +29,9 @@ var testUsers = [{
 var testGroups = [
   {
     name: 'cookingBuddies',
-    OwnerUserIdGoogle: '1'
   },
   {
-    name: 'testGroupB',
-    OwnerUserIdGoogle: '1'
+    name: 'exerciseBuddies',
   }];
 
 var testFolders = [{
@@ -46,7 +44,7 @@ var testFolders = [{
     name: 'Estonian'
   },
   {
-    name: 'Filipino Cooked'
+    name: 'Filipino-Cooked'
   }];
 
 var testLinks = [
@@ -84,16 +82,74 @@ var testComments = [
 function setUpDemoData () {
   console.log('set up demo data');
 
+  // All app data is for this user
+  var userId;
   // Folders belong to this group
   var groupId;
   // Folder ID to be used for renaming and deleting folder
   var folderId;
+  // Link ID to be used for comments
+  var linkId;
 
-  // Create users
-  // User.bulkCreate(testUsers)
-  //   .then(function(users) {
-  //     return 
-  //   })
+  // Clear database
+  Promise.all([
+    deleteInstances(User),
+    deleteInstances(Group),
+    deleteInstances(Folder),
+    deleteInstances(Link),
+    deleteInstances(Comment)
+  ])
+  // Create user
+  .then(function() {
+    return User.create(testUsers[0])
+  })
+  .then(function(user) {
+    userId = user.dataValues.user_id_google;
+    testGroups[0].OwnerUserIdGoogle = userId;
+    return Group.create(testGroups[0]);
+  })
+  .then(function(group) {
+    groupId = group.dataValues.id;
+    // Create folder
+    testFolders.forEach(function(folder) {
+      folder.GroupId = groupId;
+    });
+    return Folder.create(testFolders[0]);
+  })
+  .then(function(folder) {
+    folderId = folder.dataValues.id;
+    testFolders.forEach(function(folder) {
+      if(folder.name === 'Filipino-Cooked') {
+        folder.ParentId = folderId;
+      }
+    });
+    return Folder.bulkCreate(testFolders.slice(1));
+  })
+  .then(function(folders) {
+    testLinks.forEach(function(link) {
+      link.FolderId = folderId;
+    });
+    return Link.create(testLinks[0]);
+  })
+  .then(function(link) {
+    linkId = link.dataValues.id;
+    return Link.bulkCreate(testLinks.slice(1));
+  })
+  .then(function(links) {
+    testComments.forEach(function(comment) {
+      comment.AuthorUserIdGoogle = userId;
+      comment.GroupId = groupId;
+      comment.LinkId = linkId;
+    });
+    return Comment.bulkCreate(testComments);
+  })
+  .then(function(comments) {
+    console.log(comments.length);
+    return 'Successfully loaded demo data!';
+  })
+  .catch(function(err) {
+    console.error('Error loading demo data:', err.message);
+  });
 }
 
 module.exports.testGroups = testGroups;
