@@ -13,7 +13,7 @@ module.exports = function(app) {
     .post(commentController.createComment);
 
   // Get comments for a link
-  app.route('/link/:linkId')
-    .get(commentController.getCommentsForLink);
+  app.route('/group/:groupId')
+    .get(commentController.getCommentsForGroup);
 
 };
