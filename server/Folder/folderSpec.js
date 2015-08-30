@@ -10,21 +10,12 @@ var Promise = require('bluebird');
 var Folder = require('../config/db_models.js').Folder;
 var Group = require('../config/db_models.js').Group;
 var User = require('../config/db_models.js').User;
+var deleteInstances = require('../config/helpers.js').deleteInstances;
 
 
 var testFolders = require('../config/specTestData.js').testFolders;
 var testGroups = require('../config/specTestData.js').testGroups;
 var testUsers = require('../config/specTestData.js').testUsers;
-
-
-var deleteInstances = function(Model) {
-  return Model.findAll()
-    .then(function(instances) {
-      return instances.map(function(instance) {
-        return instance.destroy();
-      });
-    });
-};
 
 
 module.exports = function(callback) {
