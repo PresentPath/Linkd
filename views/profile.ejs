@@ -30,6 +30,17 @@
           </div>
         </div> -->
 
+        <!-- USERS LIST -->
+        <div class="col-sm-6">
+          <div class="well">
+            <h3 class="text-danger"><span class="fa fa-google-plus"></span> Users</h3>
+
+            <ul id="usersList">
+            </ul>
+
+          </div>
+        </div>
+
         <!-- GROUP INFORMATION -->
         <div class="col-sm-6">
           <div class="well">
@@ -45,17 +56,21 @@
           </div>
         </div>
 
-
-        <!-- USERS LIST -->
+        <!-- FOLDER INFORMATION -->
         <div class="col-sm-6">
           <div class="well">
-            <h3 class="text-danger"><span class="fa fa-google-plus"></span> Users</h3>
+            <h3 class="text-danger"><span class="fa fa-google-plus"></span> Folders</h3>
 
-            <ul id="usersList">
-            </ul>
+              <form id="createFolder" action="/api/folder/create" method="post">
+                <input id="folderName" name="name" type="text" placeholder="Folder Name"/>
+                <input type="submit" value="Create Folder" />
+              </form>
 
+              <ul id="foldersList">
+              </ul>
           </div>
         </div>
+        
 
       </div>
 
