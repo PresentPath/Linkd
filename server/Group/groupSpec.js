@@ -52,7 +52,7 @@ module.exports = function(callback) {
         .then(function(groups) {
           // console.log('Created test groups and users successfully');
           // get groupId for testing
-          return Group.find({ where: { name: 'testGroupA' } });
+          return Group.find({ where: { name: 'cookingBuddies' } });
         })
         .then(function(group) {
           groupId = group.id;
