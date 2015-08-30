@@ -8,31 +8,24 @@ var expect = require('chai').expect;
 var app = require('../serverSetup.js');
 var Promise = require('bluebird');
 var User = require('../config/db_models.js').User;
+var deleteInstances = require('../config/helpers.js').deleteInstances;
 
 var testUsers = require('../config/specTestData').testUsers;
 
-var deleteAll = function() {
-  return User.findAll()
-    .then(function(users){
-      return Promise.map(users, function(user){
-        return user.destroy();
-      });
-    });
-};
 
 module.exports = function(callback) {
   // User Controller
   describe('----- User Router/Controller tests -----', function() {
 
     before(function() {
-      return deleteAll()
+      return deleteInstances(User)
         .then(function(affectedRows) {
           return User.bulkCreate(testUsers);
         });
     });
 
     after(function() {
-      return deleteAll();
+      return deleteInstances(User);
     });
 
     // Add 3 users to database

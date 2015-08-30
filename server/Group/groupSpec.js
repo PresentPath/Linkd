@@ -9,25 +9,11 @@ var app = require('../serverSetup.js');
 var Promise = require('bluebird');
 var Group = require('../config/db_models.js').Group;
 var User = require('../config/db_models.js').User;
+var deleteInstances = require('../config/helpers.js').deleteInstances;
 
 var testGroups = require('../config/specTestData').testGroups;
 var testUsers = require('../config/specTestData').testUsers;
 
-
-// var groupController = Promise.promisifyAll(require('./groupController.js'));
-
-var deleteAll = function() {
-  return Promise.all([ Group.findAll(), User.findAll() ])
-    .spread(function(groups, users) {
-      var destroyGroups = Promise.map(groups, function(group) {
-        return group.destroy();
-      });
-      var destroyUsers = Promise.map(users, function(user) {
-        return user.destroy();
-      });
-      return Promise.all([ destroyGroups, destroyUsers ]);
-    });
-};
 
 module.exports = function(callback) {
 
@@ -42,7 +28,7 @@ module.exports = function(callback) {
     // add users to User table
     beforeEach(function() {
 
-      return deleteAll()
+      return Promise.all([deleteInstances(Group), deleteInstances(User)])
         .then(function(destroyed) {
           return User.bulkCreate(testUsers);
         })
@@ -61,7 +47,7 @@ module.exports = function(callback) {
     });
 
     after(function() {
-      return deleteAll();
+      return Promise.all([deleteInstances(Group), deleteInstances(User)]);
     });
 
     // it('should get group list', function(done) {
