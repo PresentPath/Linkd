@@ -23,10 +23,10 @@ module.exports.createComment = function(req, res) {
   });
 };
 
-module.exports.getCommentsForLink = function(req, res) {
+module.exports.getCommentsForGroup = function(req, res) {
 
   Comment.findAll( { where: {
-    LinkId: req.params.linkId
+    GroupId: req.params.groupId
   } })
   .then(function(comments) {
     console.log('Successfully retrieved comments from database');
