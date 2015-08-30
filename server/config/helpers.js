@@ -29,3 +29,12 @@ module.exports.handleSuccess = R.curry(function(res, message, result) {
   // console.log(message);
   res.send(result);
 });
+
+module.exports.deleteInstances = function(Model) {
+  return Model.findAll()
+    .then(function(instances) {
+      return instances.map(function(instance) {
+        return instance.destroy();
+      });
+    });
+};
