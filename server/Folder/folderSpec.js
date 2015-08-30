@@ -17,7 +17,6 @@ var testGroups = require('../config/specTestData.js').testGroups;
 var testUsers = require('../config/specTestData.js').testUsers;
 
 var deleteInstances = function(Model) {
-  console.log('!!!!!!!!delete')
   return Model.findAll()
     .then(function(instances) {
       return instances.map(function(instance) {
@@ -56,45 +55,39 @@ module.exports = function(callback) {
     beforeEach(function() {
 
       testFolders = testFolders.map(function(folder) {
-        return folder.GroupId = groupId;
+        folder.GroupId = groupId;
+        return folder;
       });
 
       return deleteInstances(Folder)
         .then(function(destroyed) {
-          console.log('FOLDER', typeof Folder.create);
           return Folder.create(testFolders[0]);
         })
         .then(function(folder) {
-          console.log('FOLSERS', folder);
+          // console.log('FOLSERS', folder);
         });
     });
 
     it('should create a folder', function(done) {
-      // console.log('GROUPID', groupId);
-      // request(app)
-      //   .post('/api/folder/create')
-      //   .send({
-      //     name: 'testFolderW'
-      //   })
-      //   .end(function(err, res) {
-      //     if (err) {
-      //       callback(err);
-      //       return done(err);
-      //     }
-      //     expect(res.body.name).to.equal('testFolderW');
-      //     Folder.find({ where: { name: 'testFolderW' } })
-      //       .then(function(folder) {
-      //         expect(folder).to.exist;
-      //         done();
-      //       });
-      //   });
+      request(app)
+        .post('/api/folder/create')
+        .send({
+          name: 'testFolderW'
+        })
+        .end(function(err, res) {
+          if (err) {
+            callback(err);
+            return done(err);
+          }
+          expect(res.body.name).to.equal('testFolderW');
+          Folder.find({ where: { name: 'testFolderW' } })
+            .then(function(folder) {
+              expect(folder).to.exist;
+              done();
+            });
+        });
 
     })
-
-
-
-
-
 
     // callback();
   });
