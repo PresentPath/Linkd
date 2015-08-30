@@ -15,7 +15,7 @@ module.exports = function(callback) {
 
   describe('----- Link Router/Controller tests -----', function() {
 
-    it('sdfsdfds', function(done) {
+    xit('should pass all tests', function(done) {
       done();
     })
 
