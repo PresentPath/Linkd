@@ -13,9 +13,9 @@ var User = require('../config/db_models.js').User;
 var deleteInstances = require('../config/helpers.js').deleteInstances;
 
 
-var testFolders = require('../config/specTestData.js').testFolders;
-var testGroups = require('../config/specTestData.js').testGroups;
-var testUsers = require('../config/specTestData.js').testUsers;
+var testFolders = require('../config/testData.js').testFolders;
+var testGroups = require('../config/testData.js').testGroups;
+var testUsers = require('../config/testData.js').testUsers;
 
 
 module.exports = function(callback) {

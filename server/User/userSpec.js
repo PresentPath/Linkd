@@ -10,7 +10,7 @@ var Promise = require('bluebird');
 var User = require('../config/db_models.js').User;
 var deleteInstances = require('../config/helpers.js').deleteInstances;
 
-var testUsers = require('../config/specTestData').testUsers;
+var testUsers = require('../config/testData').testUsers;
 
 
 module.exports = function(callback) {

@@ -8,7 +8,7 @@ var expect = require('chai').expect;
 var app = require('../serverSetup.js');
 var Link = require('../config/db_models.js').Link;
 
-var testLinks = require('../config/specTestData.js').testLinks;
+var testLinks = require('../config/testData.js').testLinks;
 
 
 module.exports = function(callback) {

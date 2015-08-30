@@ -81,7 +81,7 @@ db.sync()
     }
     
     // Create demo data
-    var testData = require('./specTestData.js');
+    var testData = require('./testData.js');
     testData.setUpDemoData();
   });
 
