@@ -6,7 +6,6 @@
 'use strict';
 
 var Sequelize = require('sequelize');
-var testData = require('./specTestData.js');
 
 var conString = process.env.DATABASE_URL || 'mysql://root@localhost:3306/linkd';
 
@@ -66,18 +65,23 @@ Link.belongsTo(Folder);
 
 Comment.belongsTo(Link);
 
+Comment.belongsTo(Group);
+
 
 // Create table based on model definitions in database
 db.sync()
   .then(function() {
     console.log('Tables created');
     
+    // Ensure that database is set up before running mocha tests when using npm test
+    // --delay flag creates run function that runs root level describe block
     if (typeof run !== 'undefined') {
       console.log('Calling run to start tests');
       run();
     }
     
     // Create demo data
+    var testData = require('./specTestData.js');
     testData.setUpDemoData();
   });
 
