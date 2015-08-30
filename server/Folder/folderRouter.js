@@ -12,7 +12,7 @@ module.exports = function(app) {
   app.route('/create')
     .post(folderController.createFolder);
 
-  app.route('/:groupId')
+  app.route('/group/:groupId')
     // Send list of group's folders
     .get(folderController.getGroupFolders);
 
