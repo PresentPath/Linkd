@@ -60,6 +60,10 @@ module.exports = function(callback) {
         });
     });
 
+    after(function() {
+      return Promise.all([deleteInstances(User), deleteInstances(Group), deleteInstances(Folder)]);
+    });
+
     it('should create a root-level folder', function(done) {
       request(app)
         .post('/api/folder/create')
