@@ -74,22 +74,14 @@ db.sync()
   .then(function() {
     console.log('Tables created');
 
-    // Create demo data
-    var setUpDemoData = require('./testData.js').setUpDemoData;
-    setUpDemoData()
-    .then(function(result) {
-      
-      console.log(result);
-      
-      // Ensure that database is set up before running mocha tests when using npm test
-      // --delay flag creates run function that runs root level describe block
-      if (typeof run !== 'undefined') {
-        console.log('Calling run to start tests');
-        console.log(typeof run);
-        run(); // does not return a promise. cannot run before setUpDemoData because of the possibility of lock conflicts
-      }
-      
-    });
+    if (typeof run !== 'undefined') {
+      console.log('Calling run to start tests');
+      console.log(typeof run);
+      run(); // does not return a promise. cannot run before setUpDemoData because of the possibility of lock conflicts
+    } else {
+      // Create demo data
+      require('./testData.js').setUpDemoData();
+    }
 
   });
 
