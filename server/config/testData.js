@@ -94,13 +94,9 @@ function setUpDemoData () {
   var linkId;
 
   // Clear database
-  return Promise.all([
-    deleteInstances(User),
-    deleteInstances(Group),
-    deleteInstances(Folder),
-    deleteInstances(Link),
-    deleteInstances(Comment)
-  ])
+  return Promise.each([User, Group, Folder, Link, Comment], function(Model) {
+    return deleteInstances(Model);
+  })
   // Create user
   .then(function(deleted) {
     return User.create(testUsers[0]);
