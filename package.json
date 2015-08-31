@@ -35,14 +35,15 @@
     "ejs": "^2.3.3",
     "express": "^4.13.2",
     "express-session": "^1.11.3",
+    "jquery": "^2.1.4",
     "mocha": "^2.2.5",
     "morgan": "^1.6.1",
     "mysql": "^2.8.0",
     "passport": "^0.2.2",
     "passport-google-oauth": "^0.2.0",
     "ramda": "^0.17.1",
+    "react": "^0.13.3",
     "sequelize": "^3.5.1",
-    "supertest": "^1.0.1",
-    "react": "^0.13.3"
+    "supertest": "^1.0.1"
   }
 }
