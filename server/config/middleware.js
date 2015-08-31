@@ -24,7 +24,7 @@ module.exports = function(app, express) {
 
 
   // Serve static files
-  app.use(express.static(__dirname + '/../../client/src'));
+  app.use(express.static(__dirname + '/../../client/dist'));
 
   app.use(morgan('dev'));  // Log requests to console
   app.use(cookieParser());  // Read cookies (needed for auth)
