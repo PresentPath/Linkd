@@ -14,10 +14,10 @@ let App = React.createClass({
   
   getInitialState () {
     return {
-      curent: {
+      current: {
         user: { user_id_google: '1', name_google: 'testUser1' }, // TODO: get from session
-        group: null,
-        folder: null,
+        groupId: null,
+        folderId: null,
         path: null,
         link: null, // link object
       },
@@ -108,23 +108,83 @@ let App = React.createClass({
       })
       .then(() => {
         console.log('saved comments list for all links');
+        console.log(this.state);
       })
       .catch((err) => {
         console.error('Error fetching data', status, err.toString());
       });
   },
 
+  addGroup () {
+
+  },
+
+  addUserToGroup () {
+
+  },
+
+  addFolder () {
+
+  },
+
+  addLink () {
+
+  },
+
+  addComment () {
+
+  },
+
+  updateGroup () {
+
+  },
+
+  updateFolder () {
+
+  },
+
+  updatePath () {
+
+  },
+
+  updateLink () {
+
+  },
+
+
   render () {
     return (
       <div>
         App
-        <Header/>
-        <Toolbar/>
-        <GroupList/>
-        <LinkDetail/>
+
+        <Header user={this.state.current.user} />
+
+        <Toolbar
+          currentGroup={this.state.current.groupId}
+          currentFolder={this.state.current.folderId}
+          currentPath={this.state.current.path}
+          addGroup={this.addGroup}
+          addUserToGroup={this.addUserToGroup}
+          addFolder={this.addFolder}
+          addLink={this.addLink} />
+
+        <GroupList
+          groups={this.state.groups}
+          folders={this.state.folders}
+          links={this.state.links}
+          updateGroup={this.updateGroup}
+          updateFolder={this.updateFolder}
+          updateLink={this.updateLink} />
+
+        <LinkDetail
+          currentLink={this.state.current.link}
+          comments={this.state.current.comments}
+          addComment={this.addComment} />
+
       </div>
     );
   }
 });
 
 React.render(<App/>, document.body);
+
