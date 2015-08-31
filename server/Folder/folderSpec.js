@@ -37,7 +37,6 @@ module.exports = function(callback) {
         return Group.create(testGroups[0]);
       })
       .then(function(group) {
-        console.log(group.id);
         return groupId = group.id;
       });
     });
