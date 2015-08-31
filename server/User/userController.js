@@ -33,7 +33,7 @@ module.exports.checkUserAuth = function(profile, token, callback) {
 };
 
 // Create new user in database
-module.exports.createUserAuth = function(profile, token, callback) {
+module.exports.createUserAuth = function(profile, callback) {
 
   User.create({
     user_id_google: profile.id,
