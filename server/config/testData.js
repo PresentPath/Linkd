@@ -103,11 +103,9 @@ function setUpDemoData () {
   ])
   // Create user
   .then(function(deleted) {
-    console.log('1')
     return User.create(testUsers[0]);
   })
   .then(function(user) {
-    console.log('2')
     userId = user.dataValues.user_id_google;
     testGroups[0].OwnerUserIdGoogle = userId;
     return Group.create(testGroups[0]);
@@ -116,7 +114,6 @@ function setUpDemoData () {
     return group.addUser(userId);
   })
   .then(function(group) {
-    console.log('3')
     groupId = group.dataValues.id;
     // Create folder
     testFolders.forEach(function(folder) {
@@ -125,7 +122,6 @@ function setUpDemoData () {
     return Folder.create(testFolders[0]);
   })
   .then(function(folder) {
-    console.log('4')
     folderId = folder.dataValues.id;
     testFolders.forEach(function(folder) {
       if(folder.name === 'Filipino-Cooked') {
@@ -135,7 +131,6 @@ function setUpDemoData () {
     return Folder.bulkCreate(testFolders.slice(1));
   })
   .then(function(folders) {
-    console.log('5')
     testLinks.forEach(function(link) {
       link.FolderId = folderId;
     });
@@ -146,7 +141,6 @@ function setUpDemoData () {
     return link.addUser(userId, {viewed: false});
   })
   // .then(function(link) {
-  //   console.log('6')
   //   linkId = link.dataValues.id;
   //   return Link.bulkCreate(testLinks.slice(1));
   // })
@@ -156,7 +150,6 @@ function setUpDemoData () {
   //   });
   // })
   .then(function() {
-    console.log('7')
     testComments.forEach(function(comment) {
       comment.AuthorUserIdGoogle = userId;
       comment.GroupId = groupId;
@@ -165,7 +158,6 @@ function setUpDemoData () {
     return Comment.bulkCreate(testComments);
   })
   .then(function(comments) {
-    console.log('8')
     return 'Successfully loaded demo data!';
   })
   .catch(function(err) {
