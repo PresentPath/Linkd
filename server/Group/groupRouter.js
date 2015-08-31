@@ -9,7 +9,7 @@ var groupController = require('./groupController.js');
 module.exports = function(app) {
 
   // Send back groups
-  app.route('/list')
+  app.route('/user/:userId')
     .get(groupController.getGroupsList);
 
   // Create group
