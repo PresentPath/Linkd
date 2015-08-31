@@ -10,7 +10,7 @@ var helpers = require('../config/helpers.js');
 // Retrive list of all Group instances
 module.exports.getGroupsList = function(req, res, next) {
 
-  User.find({ where: {user_id_google: req.session.passport.user} })
+  User.find({ where: {user_id_google: req.params.userId} })
   .then(function(user) {
     return user.getGroups();
   })
