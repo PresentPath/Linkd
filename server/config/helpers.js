@@ -35,6 +35,13 @@ module.exports.deleteInstances = function(Model) {
     .then(function(instances) {
       return instances.map(function(instance) {
         return instance.destroy();
-      });
+      })
+    })
+    .then(function(deleted) {
+      console.log('Dropped table for', Model);
+      return deleted;
+    })
+    .catch(function(err) {
+      console.error('Error deleting all instances', err.message);
     });
 };
