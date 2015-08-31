@@ -13,6 +13,14 @@ module.exports = function(app) {
   app.route('/create')
     .post(linkController.createLink);
 
+  // Send list of links for user
+  app.route('/user/:userId')
+    .get(linkController.getLinksForUser);
+  
+  // Send list of links in folder
+  app.route('/folder/:folderId')
+    .get(linkController.getLinksForFolder);
+
   // Change link expiration date
   app.route('/:linkId/expDate')
     .post(linkController.updateExpDate);
@@ -29,7 +37,4 @@ module.exports = function(app) {
     // Delete link
     .delete(linkController.deleteLink);
 
-  // Send list of links
-  app.route('/folder/:folderId')
-    .get(linkController.getLinks)
 };
