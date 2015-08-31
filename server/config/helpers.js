@@ -38,7 +38,7 @@ module.exports.deleteInstances = function(Model) {
       })
     })
     .then(function(deleted) {
-      console.log('Dropped table for', Model);
+      // console.log('Dropped table for', Model);
       return deleted;
     })
     .catch(function(err) {
