@@ -20,23 +20,23 @@ module.exports = function(app, passport) {
   // After google has authenticated the user, redirect to appropriate url
   app.route('/auth/google/callback')
     .get(passport.authenticate('google', {
-      successRedirect: '/api/user/profile',
-      failureRedirect: '/api/user'
+      successRedirect: '/',
+      failureRedirect: '/api/user/login'
     }));
 
-  // Home Page
-  app.route('/')
-    .get(isLoggedIn, function(req, res) {
-      res.render('profile.ejs',  { user: req.user });
-    });
+  // // Home Page
+  // app.route('/')
+  //   .get(isLoggedIn, function(req, res) {
+  //     res.redirect('profile.ejs',  { user: req.user });
+  //   });
 
-  // Profile section 
-  // Use route middleware to verify user is logged in
-  app.route('/profile')
-    .get(isLoggedIn, function(req, res) {
-      // Get the user out of the session and pass to template
-      res.render('profile.ejs', { user: req.user });
-    });
+  // // Profile section 
+  // // Use route middleware to verify user is logged in
+  // app.route('/profile')
+  //   .get(isLoggedIn, function(req, res) {
+  //     // Get the user out of the session and pass to template
+  //     res.render('profile.ejs', { user: req.user });
+  //   });
 
   // Login
   app.route('/login')
