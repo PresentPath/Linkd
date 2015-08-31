@@ -7,7 +7,7 @@ var Link = require('../config/db_models.js').Link;
 var Folder = require('../config/db_models.js').Folder;
 var Group = require('../config/db_models.js').Group;
 var User = require('../config/db_models.js').User;
-var UserLink = require('../config/db_models.js').UserLink;
+var UserLinks = require('../config/db_models.js').UserLinks;
 
 
 module.exports.createLink = function(req, res, next) {
@@ -71,8 +71,7 @@ module.exports.updateExpDate = function(req, res) {
 
 module.exports.updateLinkViewedStatus = function(req, res) {
 
-  // TODO: Figure out how to do this
-  UserLink.find({ where: { LinkId: req.params.linkId, UserUserIdGoogle: req.body.userId }})
+  UserLinks.find({ where: { LinkId: req.params.linkId, UserUserIdGoogle: req.body.userId }})
   .then(function(userLink) {
     return userLink.updateAttributes({ viewed: 1 });
   })
@@ -86,7 +85,21 @@ module.exports.updateLinkViewedStatus = function(req, res) {
   });
 };
 
-module.exports.getLinks = function(req, res) {
+module.exports.getLinksForUser = function(req, res) {
+
+  UserLinks.find({ where: { UserUserIdGoogle: req.params.userId }})
+  .then(function(userLinks) {
+    console.log('Retrieved links from database for userId', req.params.userId);
+    res.send(userLinks);
+  })
+  .error(function(err) {
+    console.error('Error retrieving links for user from database:', err.message);
+    res.status(500).send(err.message);
+  });
+
+};
+
+module.exports.getLinksForFolder = function(req, res) {
 
   Link.findAll( { where: { FolderId: req.params.folderId } } )
   .then(function(links) {
