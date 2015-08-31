@@ -30,7 +30,7 @@ module.exports = function(callback) {
 
     // Before tests, create a user and group for folder to belong to
     before(function() {
-     return Promise.all([deleteInstances(User), deleteInstances(Group)])
+     return Promise.all([deleteInstances(User), deleteInstances(Group), deleteInstances(Folder)])
       .then(function(deleted) {
         return User.create(testUsers[0]);
       })
@@ -40,6 +40,7 @@ module.exports = function(callback) {
       })
       .then(function(group) {
         groupId = group.dataValues.id;
+        testFolders[0].GroupId = groupId;
         return Folder.create(testFolders[0]);
       })
       .then(function(folder) {
