@@ -22,10 +22,6 @@ var session = require('express-session');
 
 module.exports = function(app, express) {
 
-
-  // Serve static files
-  app.use(express.static(__dirname + '/../../client/dist'));
-
   app.use(morgan('dev'));  // Log requests to console
   app.use(cookieParser());  // Read cookies (needed for auth)
   app.use(bodyParser());  // Get info from post requests
@@ -66,5 +62,8 @@ module.exports = function(app, express) {
   app.get('/', function(req, res) {
     res.redirect('/api/user');
   });
+
+  // Serve static files
+  app.use(express.static(__dirname + '/../../client/dist'));
 
 };
