@@ -6,6 +6,7 @@
 'use strict';
 
 var Sequelize = require('sequelize');
+var Promise = require('bluebird');
 
 var conString = process.env.DATABASE_URL || 'mysql://root@localhost:3306/linkd';
 
@@ -41,7 +42,7 @@ var Comment = db.define('Comment', {
   text: Sequelize.STRING,
 });
 
-var UserLink = db.define('UserLink', {
+var UserLinks = db.define('UserLinks', {
   viewed: Sequelize.BOOLEAN
 });
 
@@ -51,8 +52,8 @@ Group.belongsToMany(User, {through: 'UserGroup'});
 
 Group.belongsTo(User, { as: 'Owner' });
 
-User.belongsToMany(Link, {through: UserLink});
-Link.belongsToMany(User, {through: UserLink});
+User.belongsToMany(Link, {through: UserLinks});
+Link.belongsToMany(User, {through: UserLinks});
 
 Comment.belongsTo(User, { as: 'Author' });
 
@@ -72,17 +73,30 @@ Comment.belongsTo(Group);
 db.sync()
   .then(function() {
     console.log('Tables created');
-    
-    // Ensure that database is set up before running mocha tests when using npm test
-    // --delay flag creates run function that runs root level describe block
-    if (typeof run !== 'undefined') {
-      console.log('Calling run to start tests');
-      run();
-    }
-    
+
+    // if (typeof run !== 'undefined') {
+    //   console.log('Calling run to start tests', typeof run);
+    //   run();  // does not return a promise. cannot run before setUpDemoData because of the possibility of lock conflicts
+    // }
+
     // Create demo data
-    var testData = require('./testData.js');
-    testData.setUpDemoData();
+    var setUpDemoData = Promise.promisify(require('./testData.js').setUpDemoData);
+    // var setUpDemoData = require('./testData.js').setUpDemoData;
+    setUpDemoData()
+    .then(function(result) {
+      
+      console.log('$$$$$$$$$$$$$$$$')
+      console.log(result);
+      
+      // Ensure that database is set up before running mocha tests when using npm test
+      // --delay flag creates run function that runs root level describe block
+      if (typeof run !== 'undefined') {
+        console.log('Calling run to start tests');
+        console.log(typeof run);
+        run(); // does not return a promise. cannot run before setUpDemoData because of the possibility of lock conflicts
+      }
+      
+    });
   });
 
 
@@ -91,5 +105,5 @@ module.exports.Group = Group;
 module.exports.Folder = Folder;
 module.exports.Link = Link;
 module.exports.Comment = Comment;
-module.exports.UserLink = UserLink;
+module.exports.UserLinks = UserLinks;
 module.exports.db = db;
