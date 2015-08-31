@@ -10,6 +10,8 @@ var Link = require('./db_models.js').Link;
 var Comment = require('./db_models.js').Comment;
 var deleteInstances = require('./helpers.js').deleteInstances;
 
+var Promise = require('bluebird');
+
 var testUsers = [{
     user_id_google: '1',
     name_google: 'testUser1',
@@ -92,7 +94,7 @@ function setUpDemoData () {
   var linkId;
 
   // Clear database
-  Promise.all([
+  return Promise.all([
     deleteInstances(User),
     deleteInstances(Group),
     deleteInstances(Folder),
@@ -100,15 +102,21 @@ function setUpDemoData () {
     deleteInstances(Comment)
   ])
   // Create user
-  .then(function() {
-    return User.create(testUsers[0])
+  .then(function(deleted) {
+    console.log('1')
+    return User.create(testUsers[0]);
   })
   .then(function(user) {
+    console.log('2')
     userId = user.dataValues.user_id_google;
     testGroups[0].OwnerUserIdGoogle = userId;
     return Group.create(testGroups[0]);
   })
+  .tap(function(group) {
+    return group.addUser(userId);
+  })
   .then(function(group) {
+    console.log('3')
     groupId = group.dataValues.id;
     // Create folder
     testFolders.forEach(function(folder) {
@@ -117,6 +125,7 @@ function setUpDemoData () {
     return Folder.create(testFolders[0]);
   })
   .then(function(folder) {
+    console.log('4')
     folderId = folder.dataValues.id;
     testFolders.forEach(function(folder) {
       if(folder.name === 'Filipino-Cooked') {
@@ -126,6 +135,7 @@ function setUpDemoData () {
     return Folder.bulkCreate(testFolders.slice(1));
   })
   .then(function(folders) {
+    console.log('5')
     testLinks.forEach(function(link) {
       link.FolderId = folderId;
     });
@@ -133,9 +143,20 @@ function setUpDemoData () {
   })
   .then(function(link) {
     linkId = link.dataValues.id;
-    return Link.bulkCreate(testLinks.slice(1));
+    return link.addUser(userId, {viewed: false});
   })
-  .then(function(links) {
+  // .then(function(link) {
+  //   console.log('6')
+  //   linkId = link.dataValues.id;
+  //   return Link.bulkCreate(testLinks.slice(1));
+  // })
+  // .then(function(links) {
+  //   return links.map(function(link) {
+  //     return link.addUser(userId, {viewed: false});
+  //   });
+  // })
+  .then(function() {
+    console.log('7')
     testComments.forEach(function(comment) {
       comment.AuthorUserIdGoogle = userId;
       comment.GroupId = groupId;
@@ -144,11 +165,11 @@ function setUpDemoData () {
     return Comment.bulkCreate(testComments);
   })
   .then(function(comments) {
-    console.log(comments.length);
+    console.log('8')
     return 'Successfully loaded demo data!';
   })
   .catch(function(err) {
-    console.error('Error loading demo data:', err.message);
+    return console.error('Error loading demo data:', err.message);
   });
 }
 
