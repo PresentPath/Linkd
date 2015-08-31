@@ -1,0 +1,126 @@
+
+App 
+  Header
+  Toolbar
+  GroupList
+    Group  
+      FolderList
+        Folder
+          FolderList
+          LinkList
+  LinkDetail
+    CommentList
+      Comment
+    CommentForm
+
+// fetch all data up front - setState when received
+// if user updates anything (toolbar or new comment in LinkDetail), call post function, get updated data back and update state
+// optimistic rendering (see react tutorial)
+
+App
+- getInitialState
+  {
+    currentGroup: null,
+    currentFolder: null,
+    currentPath: null,
+    currentLink: null, (link object)
+    user: user,
+    groups: [],  
+    folders: {
+      groupId1: [],  
+      groupId2: []
+    },
+    links: {  // process result array 
+      folderId1: [],  
+      folderId2: []
+    },
+    comments: {  
+      groupId: {
+        linkId: []
+      }
+    } 
+  }
+- componentDidMount
+  - getGroups
+  - getFolders
+  - getLinks
+  - getComments
+- getGroups 
+- getFolders
+- getLinks
+- getComments
+// pass down as props, child components call it on submit
+- addGroup 
+- addUserToGroup
+- addFolder
+- addLink
+- addComment
+- updateGroup
+- updateFolder
+- updatePath
+- updateLink (input linkId, set currentLink to link object)
+
+
+Header
+- props: user
+
+Toolbar
+- props: 
+  - currentGroup
+  - currentFolder
+  - currentPath
+  - addGroup 
+  - addUserToGroup
+  - addFolder
+  - addLink
+
+GroupsList
+- props:
+  - groups
+  - folders
+  - links
+  - updateGroup
+  - updateFolder
+  - updateLink
+
+Group
+- props: 
+  - updateGroup
+  - updateFolder
+  - updateLink
+  - folders
+  - links
+
+FolderList
+- props:
+  - updateFolder
+  - updateLink
+  - folders
+  - links
+
+Folder
+- props: 
+  - updateFolder
+  - updateLink
+  - links
+
+LinkList
+- props: 
+  - links
+  - updateLink
+
+LinkDetail
+- props:
+  - currentLink (object)
+  - comments
+  - addComment
+
+CommentList
+- props: 
+  - comments (iterate through, map over and pass)
+
+CommentForm
+- props:
+  - addComment (check state for currentLink)
+
+ 
