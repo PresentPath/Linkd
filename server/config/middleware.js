@@ -19,6 +19,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
 
+var isLoggedIn = require('./helpers.js').isLoggedIn;
 
 module.exports = function(app, express) {
 
@@ -46,10 +47,10 @@ module.exports = function(app, express) {
 
   // Connect request paths to appropriate routers
   app.use('/api/user', userRouter);
-  app.use('/api/group', groupRouter);
-  app.use('/api/folder', folderRouter);
-  app.use('/api/link', linkRouter);
-  app.use('/api/comment', commentRouter);
+  app.use('/api/group',isLoggedIn, groupRouter);
+  app.use('/api/folder',isLoggedIn, folderRouter);
+  app.use('/api/link',isLoggedIn, linkRouter);
+  app.use('/api/comment',isLoggedIn, commentRouter);
 
   // Load routes and pass in app and fully configured passport
   require('../User/userRouter.js')(userRouter, passport); 
@@ -59,8 +60,8 @@ module.exports = function(app, express) {
   require('../Comment/commentRouter.js')(commentRouter); 
   
   // Add route for initial get request  
-  app.get('/', function(req, res) {
-    res.redirect('/api/user');
+  app.get('/', isLoggedIn, function(req, res) {
+    res.redirect('/index.html');
   });
 
   // Serve static files
