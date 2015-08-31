@@ -87,10 +87,10 @@ module.exports.updateLinkViewedStatus = function(req, res) {
 
 module.exports.getLinksForUser = function(req, res) {
 
-  UserLinks.find({ where: { UserUserIdGoogle: req.params.userId }})
+  User.find({ where: { user_id_google: req.params.userId }, include: Link})
   .then(function(userLinks) {
     console.log('Retrieved links from database for userId', req.params.userId);
-    res.send(userLinks);
+    res.send(userLinks.Links);
   })
   .error(function(err) {
     console.error('Error retrieving links for user from database:', err.message);
