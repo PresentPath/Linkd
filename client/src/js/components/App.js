@@ -15,7 +15,7 @@ let App = React.createClass({
   getInitialState () {
     return {
       current: {
-        user: { user_id_google: '1', name_google: 'testUser1' }, // TODO: get from session
+        user: { user_id_google: '1', name_google: 'testUser1' }, 
         groupId: null,
         folderId: null,
         path: null,
@@ -29,7 +29,7 @@ let App = React.createClass({
   },
 
   getUser () {
-    return Promise.resolve($.ajax({ url: '/api/user/info' }))
+    return Promise.resolve($.get('/api/user/info'))
     .tap((user) => {
       // TODO: Add logic to check if in production
       // this.state.current.user = user;
@@ -41,9 +41,11 @@ let App = React.createClass({
   },
   
   getGroups () {
-    return Promise.resolve($.ajax({ url: '/api/group/user/1' }))
+    return Promise.resolve($.get('/api/group/user/1'))
     .tap((groups) => {
-      this.setState({ groups });
+      // TODO: For testing only!!!
+      this.state.current.groupId = groups[0].id;
+      this.setState({ groups, current: this.state.current });
     })
     .catch((err) => {
       console.error('Error getting groups list', status, err.toString());
@@ -112,11 +114,32 @@ let App = React.createClass({
   },
 
   addGroup (groupName) {
-    console.log(groupName);
-    console.log(this.state);
+    $.post('/api/group/create', { name: groupName, userId: this.state.current.user.user_id_google })
+      .done((group) => {
+        this.state.groups.push(group);
+        this.setState({ groups: this.state.groups });  
+        console.log(this.state);
+               
+      })
+      .fail((err) => {
+        console.error('Error creating group', group.id, status, err.toString());
+      });
   },
 
   addUserToGroup (userEmail) {
+    let groupId = this.state.current.groupId;
+    if (groupId) {
+      $.post('/api/group/addUser', { email: userEmail, groupId: groupId })
+        .done((users) => {
+          this.state.groups.filter(function(group) {
+            return group.id === groupId;
+          })[0].Users = users;
+          this.setState({ groups: this.state.groups });  
+        })
+        .fail((err) => {
+          console.error('Error creating group', group.id, status, err.toString());
+        });
+    }
     console.log(userEmail);
 
   },
