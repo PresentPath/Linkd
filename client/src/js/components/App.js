@@ -16,10 +16,10 @@ let App = React.createClass({
     return {
       current: {
         user: { user_id_google: '1', name_google: 'testUser1' }, 
-        groupId: null,
-        folderId: null,
-        path: null,
-        link: null, // link object
+        groupId: undefined,
+        folderId: undefined,
+        path: undefined,
+        link: undefined // link object
       },
       groups: [],  
       folders: {},
@@ -118,8 +118,6 @@ let App = React.createClass({
       .done((group) => {
         this.state.groups.push(group);
         this.setState({ groups: this.state.groups });  
-        console.log(this.state);
-               
       })
       .fail((err) => {
         console.error('Error creating group', group.id, status, err.toString());
@@ -140,13 +138,28 @@ let App = React.createClass({
           console.error('Error creating group', group.id, status, err.toString());
         });
     }
-    console.log(userEmail);
 
   },
 
   addFolder (folderName) {
-    console.log(folderName);
-
+    let groupId = this.state.current.groupId;
+    let folderId = this.state.current.folderId;
+    this.state.folders['groupID_' + groupId] = this.state.folders['groupID_' + groupId] || [];
+    let folders = this.state.folders['groupID_' + groupId];
+    $.post('/api/folder/create', 
+      { 
+        name: folderName, 
+        groupId: groupId,
+        parentId: folderId
+      })
+      .done((folder) => {
+        folders.push(folder);
+        this.state.current.folderId = folder.id;
+        this.setState({ folders: this.state.folders, current: this.state.current }); 
+      })
+      .fail((err) => {
+        console.error('Error creating folder', status, err.toString());
+      });
   },
 
   addLink (linkInfo) {
