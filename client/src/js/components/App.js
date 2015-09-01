@@ -27,6 +27,18 @@ let App = React.createClass({
       comments: {} 
     };
   },
+
+  getUser () {
+    return Promise.resolve($.ajax({ url: '/api/user/info' }))
+    .tap((user) => {
+      // TODO: Add logic to check if in production
+      // this.state.current.user = user;
+      // this.setState({ current: this.state.current });
+    })
+    .catch((err) => {
+      console.error('Error getting user info', status, err.toString());
+    });
+  },
   
   getGroups () {
     return Promise.resolve($.ajax({ url: '/api/group/user/1' }))
@@ -85,12 +97,17 @@ let App = React.createClass({
   },
 
   componentDidMount () {
-    this.getGroups()
+    // Get groups then get folders and comments for group
+    this.getUser()
+      .then(() => {
+        return this.getGroups();
+      })
       .then(() => {
         this.getFolders();
         this.getComments();
       });
 
+      // get link for user
       this.getLinks();
   },
 

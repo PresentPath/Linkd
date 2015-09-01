@@ -55,4 +55,7 @@ module.exports = function(app, passport) {
   app.route('/list')
     .get(userController.getUsersList);
 
+  app.route('/info')
+    .get(userController.getUserInfo);
+
 };

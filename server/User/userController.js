@@ -10,9 +10,7 @@ var helpers = require('../config/helpers.js');
 
 
 // Check if user is in database
-module.exports.checkUserAuth = function(profile, token, callback) {
-
-  console.log('TOKEN', token);
+module.exports.checkUserAuth = function(profile, callback) {
 
   User.find({ where: {user_id_google: profile.id} })
     .then(function(user) {
@@ -57,5 +55,14 @@ module.exports.getUsersList = function(req, res, next) {
   User.findAll()
     .then(helpers.handleSuccess(res, 'Retrieved list of all users from database'))
     .error(helpers.handleError(res, 'Error retrieving list of all users:'));
+
+};
+
+// Retrieve info for logged in user
+module.exports.getUserInfo = function(req, res, next) {
+
+  User.find({ where: { user_id_google: req.session.passport.user } })
+    .then(helpers.handleSuccess(res, 'Retrieved user info from database'))
+    .error(helpers.handleError(res, 'Error retrieving user info:'));
 
 };
