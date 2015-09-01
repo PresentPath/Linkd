@@ -50,7 +50,7 @@ module.exports = function(passport) {
     process.nextTick(function() {
       console.log('Check Database for User');
 
-      userController.checkUserAuth(profile, token, function(err, user) {
+      userController.checkUserAuth(profile, function(err, user) {
         if (err) return done(err);
         return done(null, user);
       });
