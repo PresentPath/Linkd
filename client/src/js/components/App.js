@@ -16,10 +16,10 @@ let App = React.createClass({
     return {
       current: {
         user: { user_id_google: '1', name_google: 'testUser1' }, 
-        groupId: undefined,
-        folderId: undefined,
-        path: undefined,
-        link: undefined // link object
+        group: {},
+        folder: {},
+        path: '/',
+        link: {} 
       },
       groups: [],  
       folders: {},
@@ -44,7 +44,7 @@ let App = React.createClass({
     return Promise.resolve($.get('/api/group/user/1'))
     .tap((groups) => {
       // TODO: For testing only!!!
-      this.state.current.groupId = groups[0].id;
+      this.state.current.group = groups[0];
       this.setState({ groups, current: this.state.current });
     })
     .catch((err) => {
@@ -57,7 +57,7 @@ let App = React.createClass({
       $.get('/api/folder/group/' + group.id)
         .done((folders) => {
           // TODO: For testing only!!!
-          this.state.current.folderId = folders[0].id;      
+          this.state.current.folder = folders[0];      
           this.state.folders['groupId_' + group.id] = folders;
           this.setState({ folders: this.state.folders, current: this.state.current });
         })
@@ -77,6 +77,7 @@ let App = React.createClass({
           this.state.links['folderId_' + link.FolderId].push(link); 
         });
         this.setState({ links: this.state.links, current: this.state.current });
+        console.log(this.state);
       })
       .fail((err) => {
         console.error('Error getting links list', status, err.toString());
@@ -129,7 +130,7 @@ let App = React.createClass({
   },
 
   addUserToGroup (userEmail) {
-    let groupId = this.state.current.groupId;
+    let groupId = this.state.current.group.id;
     if (groupId) {
       $.post('/api/group/addUser', { email: userEmail, groupId: groupId })
         .done((users) => {
@@ -146,9 +147,9 @@ let App = React.createClass({
   },
 
   addFolder (folderName) {
-    let groupId = this.state.current.groupId;
+    let groupId = this.state.current.group.id;
     if (groupId) {
-      let folderId = this.state.current.folderId;
+      let folderId = this.state.current.folder.id;
       this.state.folders['groupId_' + groupId] = this.state.folders['groupId_' + groupId] || [];
       let folders = this.state.folders['groupId_' + groupId];
       $.post('/api/folder/create', 
@@ -159,7 +160,7 @@ let App = React.createClass({
         })
         .done((folder) => {
           folders.push(folder);
-          this.state.current.folderId = folder.id;
+          this.state.current.folder = folder;
           this.setState({ folders: this.state.folders, current: this.state.current }); 
         })
         .fail((err) => {
@@ -170,7 +171,7 @@ let App = React.createClass({
 
   addLink (linkInfo) {
     let { linkName, linkURL } = linkInfo;
-    let folderId = this.state.current.folderId;
+    let folderId = this.state.current.folder.id;
     if (folderId) {
       this.state.links['folderId_' + folderId] = this.state.links['folderId_' + folderId] || [];
       let links = this.state.links['folderId_' + folderId];
@@ -193,7 +194,7 @@ let App = React.createClass({
 
   addComment (text) {
     let linkId = this.state.current.link.id;
-    let groupId = this.state.current.groupId;
+    let groupId = this.state.current.group.id;
     if (linkId) {
       let userId = this.state.current.user.user_id_google;
       this.state.comments['groupId_' + groupId] = this.state.comments['groupId_' + groupId] || {};
@@ -216,19 +217,19 @@ let App = React.createClass({
   },
 
   updateGroup () {
-
+    console.log('update group');
   },
 
   updateFolder () {
-
+    console.log('update folder');
   },
 
   updatePath () {
-
+    console.log('update path');
   },
 
   updateLink () {
-
+    console.log('update link');
   },
 
 
@@ -240,8 +241,7 @@ let App = React.createClass({
         <Header user={this.state.current.user} />
 
         <Toolbar
-          currentGroup={this.state.current.groupId}
-          currentFolder={this.state.current.folderId}
+          currentGroup={this.state.current.group.name}
           currentPath={this.state.current.path}
           addGroup={this.addGroup}
           addUserToGroup={this.addUserToGroup}
