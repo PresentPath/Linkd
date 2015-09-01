@@ -29,9 +29,7 @@ let App = React.createClass({
   },
   
   getGroups () {
-    return Promise.resolve(
-      $.ajax({ url: '/api/group/user/1' })
-    )
+    return Promise.resolve($.ajax({ url: '/api/group/user/1' }))
     .tap((groups) => {
       this.setState({ groups });
     })
@@ -41,54 +39,48 @@ let App = React.createClass({
   },
 
   getFolders () {
-    let groups = this.state.groups;
-    let groupPromises = groups.map((group) => {
-      return Promise.resolve($.ajax({ url: '/api/folder/group/' + group.id }))
-        .then((folders) => {
-          this.state.folders[group.id] = folders;
-          this.setState({ folders: this.state.folders });
+    this.state.groups.forEach((group) => {
+      $.get('/api/folder/group/' + group.id)
+        .done((folders) => {
+          this.state.folders['groupID_' + group.id] = folders;
+          this.setState({ folders: this.state.folders });          
+        })
+        .fail((err) => {
+          console.error('Error getting folders for group', group.id, status, err.toString());
         });
-    });
-    return Promise.all(groupPromises)
-    .catch((err) => {
-      console.error('Error getting groups list', status, err.toString());
     });
   },
 
   getLinks () {
-    return Promise.resolve(
-      $.ajax({ url: '/api/link/user/1' })
-    )
-    .tap((links) => {
-      links.forEach((link) => {
-        this.state.links[link.FolderId] = this.state.links[link.FolderId] || [];
-        this.state.links[link.FolderId].push(link); 
+    $.get('/api/link/user/1')
+      .done((links) => {
+        links.forEach((link) => {
+          this.state.links['folderID_' + link.FolderId] = this.state.links['folderID_' + link.FolderId] || [];
+          this.state.links['folderID_' + link.FolderId].push(link); 
+        });
+        this.setState({ links: this.state.links });
+      })
+      .fail((err) => {
+        console.error('Error getting links list', status, err.toString());
       });
-      this.setState({ links: this.state.links });
-    })
-    .catch((err) => {
-      console.error('Error getting links list', status, err.toString());
-    });
   },
 
   getComments () {
-    let groups = this.state.groups;
-    let groupPromises = groups.map((group) => {
-      return Promise.resolve($.ajax({ url: '/api/comment/group/' + group.id }))
-        .then((comments) => {
-          this.state.comments[group.id] = {};
-          let commentList = this.state.comments[group.id];
+    this.state.groups.forEach((group) => {
+      $.get('/api/comment/group/' + group.id)
+        .done((comments) => {
+          this.state.comments['groupID_' + group.id] = {};
+          let commentListByLink = this.state.comments['groupID_' + group.id];
           comments.forEach((comment) => {
-            commentList[comment.LinkId] = commentList[comment.LinkId] || [];
+            commentListByLink['linkID_' + comment.LinkId] = commentListByLink['linkID_' + comment.LinkId] || [];
             // Can we assume comments will be in order? Sorted in terms of primary key and thus time added...
-            commentList[comment.LinkId].push(comment);
+            commentListByLink['linkID_' + comment.LinkId].push(comment);
           });
-          this.setState({ comments: this.state.comments })
+          this.setState({ comments: this.state.comments });          
+        })
+        .fail((err) => {
+          console.error('Error getting comments for group', group.id, status, err.toString());
         });
-    });
-    return Promise.all(groupPromises)
-    .catch((err) => {
-      console.error('Error getting comments list', status, err.toString());
     });
   },
 
@@ -97,9 +89,6 @@ let App = React.createClass({
       .then(() => {
         this.getFolders();
         this.getComments();
-      })
-      .catch((err) => {
-        console.error('Error fetching data', status, err.toString());
       });
 
       this.getLinks();
@@ -107,6 +96,7 @@ let App = React.createClass({
 
   addGroup (groupName) {
     console.log(groupName);
+    console.log(this.state);
   },
 
   addUserToGroup (userEmail) {
