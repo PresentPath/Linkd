@@ -11,7 +11,7 @@ let LinkDetail = React.createClass({
       <div>
         LinkDetail
         <CommentList/>
-        <CommentForm/>
+        <CommentForm addComment={this.props.addComment}/>
       </div>
     );
   }

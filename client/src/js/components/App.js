@@ -115,24 +115,27 @@ let App = React.createClass({
       });
   },
 
-  addGroup () {
+  addGroup (groupName) {
+    console.log(groupName);
+  },
+
+  addUserToGroup (userEmail) {
+    console.log(userEmail);
 
   },
 
-  addUserToGroup () {
+  addFolder (folderName) {
+    console.log(folderName);
 
   },
 
-  addFolder () {
-
+  addLink (linkInfo) {
+    let { linkName, linkURL } = linkInfo;
+    console.log(linkName, linkURL);
   },
 
-  addLink () {
-
-  },
-
-  addComment () {
-
+  addComment (comment) {
+    console.log(comment);
   },
 
   updateGroup () {
