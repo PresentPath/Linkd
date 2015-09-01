@@ -44,8 +44,16 @@ let App = React.createClass({
     return Promise.resolve($.get('/api/group/user/1'))
     .tap((groups) => {
       // TODO: For testing only!!!
+      groups = groups.map((group) => {
+        // Group contents only loaded once clicked for the first time
+        group.isLoaded = false;
+        // Style attribute used to display only group with focus
+        group.visibility = 'hidden';
+        return group;
+      });
       this.state.current.group = groups[0];
       this.setState({ groups, current: this.state.current });
+      console.log(this.state);
     })
     .catch((err) => {
       console.error('Error getting groups list', status, err.toString());
@@ -77,7 +85,6 @@ let App = React.createClass({
           this.state.links['folderId_' + link.FolderId].push(link); 
         });
         this.setState({ links: this.state.links, current: this.state.current });
-        console.log(this.state);
       })
       .fail((err) => {
         console.error('Error getting links list', status, err.toString());
@@ -216,8 +223,21 @@ let App = React.createClass({
     }
   },
 
-  updateGroup () {
+  updateGroup (selectedGroup) {
     console.log('update group');
+    // Set isLoaded flag to true and make group visible
+    selectedGroup.isLoaded = true;
+    selectedGroup.visibility = 'visible';
+    // Set current group
+    this.state.current.group = selectedGroup;
+    // Hide all other groups
+    this.state.groups.forEach((group) => {
+      if (group !== selectedGroup) {
+        group.visibilit = 'hidden';
+      }
+    });
+    // Trigger re-render
+    this.setState({ current: this.state.current });
   },
 
   updateFolder () {
