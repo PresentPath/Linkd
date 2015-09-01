@@ -30,10 +30,13 @@ var testUsers = [{
 
 var testGroups = [
   {
-    name: 'cookingBuddies',
+    name: 'cookingBuddies'
   },
   {
-    name: 'exerciseBuddies',
+    name: 'exerciseBuddies'
+  },
+  {
+    name: 'hackingBuddies'
   }];
 
 var testFolders = [{
