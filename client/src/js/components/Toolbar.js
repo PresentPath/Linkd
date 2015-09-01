@@ -47,6 +47,7 @@ let Toolbar = React.createClass({
   },
   
   render () {
+
     return (
       <div>
         Toolbar
@@ -59,11 +60,14 @@ let Toolbar = React.createClass({
         <form className="newUser" onSubmit={this.handleUserSubmit}>
           <input type="text" placeholder="New User" ref="userEmail" />
           <input type="submit" value="Add" />
+           to {this.props.currentGroup}
         </form>
 
         <form className="newFolder" onSubmit={this.handleFolderSubmit}>
           <input type="text" placeholder="New Folder" ref="folderName" />
           <input type="submit" value="Add" />
+           to {this.props.currentGroup + this.props.currentPath}
+
         </form>
 
         <form className="newLink" onSubmit={this.handleLinkSubmit}>
@@ -71,6 +75,8 @@ let Toolbar = React.createClass({
           <input type="text" placeholder="New Link URL" ref="linkURL" />
           <input type="submit" value="Add" />
         </form>
+
+        <hr />
 
       </div>
     );
