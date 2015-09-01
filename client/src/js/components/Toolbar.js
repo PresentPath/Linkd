@@ -49,7 +49,7 @@ let Toolbar = React.createClass({
   render () {
 
     return (
-      <div>
+      <div className="toolbar">
         Toolbar
         
         <form className="newGroup" onSubmit={this.handleGroupSubmit}>
