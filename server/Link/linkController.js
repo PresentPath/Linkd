@@ -29,7 +29,7 @@ module.exports.createLink = function(req, res, next) {
     // Store link in newLink variable - used to associate users w/ link
     newLink = link[0];
     // Send link object back to client as JSON
-    res.json(link);
+    res.json(newLink);
     return Folder.find({
       where: { id: req.body.folderId },
       include: {
@@ -41,8 +41,8 @@ module.exports.createLink = function(req, res, next) {
   .then(function(folder) {
     return newLink.addUsers(folder.Group.Users, { viewed: false });
   })
-  .then(function(whoknows) {
-    console.log('Added', whoknows[0].length, 'user-link associations');
+  .then(function(users) {
+    console.log('Added', users[0].length, 'user-link associations');
   })
   .error(function(err) {
     console.error('Error in creating new link in database:', err.message);
