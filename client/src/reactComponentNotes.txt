@@ -67,7 +67,6 @@ Header
 Toolbar
 - props: 
   - currentGroup
-  - currentFolder
   - currentPath
   - addGroup 
   - addUserToGroup
