@@ -70,11 +70,13 @@ let App = React.createClass({
   getLinks () {
     $.get('/api/link/user/1')
       .done((links) => {
+        // TODO: For testing only!!!
+        this.state.current.link = links[0];  
         links.forEach((link) => {
           this.state.links['folderId_' + link.FolderId] = this.state.links['folderId_' + link.FolderId] || [];
           this.state.links['folderId_' + link.FolderId].push(link); 
         });
-        this.setState({ links: this.state.links });
+        this.setState({ links: this.state.links, current: this.state.current });
       })
       .fail((err) => {
         console.error('Error getting links list', status, err.toString());
@@ -189,8 +191,28 @@ let App = React.createClass({
     }
   },
 
-  addComment (comment) {
-    console.log(comment);
+  addComment (text) {
+    let linkId = this.state.current.link.id;
+    let groupId = this.state.current.groupId;
+    if (linkId) {
+      let userId = this.state.current.user.user_id_google;
+      this.state.comments['groupId_' + groupId] = this.state.comments['groupId_' + groupId] || {};
+      this.state.comments['groupId_' + groupId]['linkId_' + linkId] = this.state.comments['groupId_' + groupId]['linkId_' + linkId] || [];
+      let comments = this.state.comments['groupId_' + groupId]['linkId_' + linkId];
+      $.post('/api/comment/create', 
+        { 
+          text, 
+          userId,
+          linkId
+        })
+        .done((comment) => {
+          comments.push(comment);
+          this.setState({ comments: this.state.comments }); 
+        })
+        .fail((err) => {
+          console.error('Error creating comment', status, err.toString());
+        });
+    }
   },
 
   updateGroup () {
