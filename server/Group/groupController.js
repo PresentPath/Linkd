@@ -12,7 +12,7 @@ module.exports.getGroupsList = function(req, res, next) {
 
   User.find({ where: {user_id_google: req.params.userId} })
   .then(function(user) {
-    return user.getGroups();
+    return user.getGroups({ include: [User] });
   })
   .then(helpers.handleSuccess(res, 'Successfully retrieved groups list for user'))
   .error(helpers.handleError(res, 'Error retrieving groups list from database:'));
@@ -24,13 +24,14 @@ module.exports.createGroup = function(req, res, next) {
 
   Group.findOrCreate( { where: {
     name: req.body.name,
-    OwnerUserIdGoogle: req.session.passport.user
+    OwnerUserIdGoogle: req.body.userId
   } })
-  .then(function(group) {
+  .tap(function(group) {
     // Add user to UserGroup join table
-    group[0].addUser(req.session.passport.user);
-    // Send group object back to client as JSON
-    return group[0];
+    return group[0].addUser(req.body.userId);
+  })
+  .then(function(group) {
+    return Group.find({ where: { id: group[0].id }, include: [User] });
   })
   .then(helpers.handleSuccess(res, 'Successfully created group in database'))
   .error(helpers.handleError(res, 'Error creating group in database:'));
@@ -57,7 +58,10 @@ module.exports.addUserToGroup = function(req, res, next) {
     } else {
       successMessage = 'User already in specified group in database';
     }
-    return result[0][0];
+    return Group.find({ where: { id: req.body.groupId }, include: [User] });
+  })
+  .then(function(group) {
+    return group.Users;
   })
   .then(helpers.handleSuccess(res, successMessage))
   .error(helpers.handleError(res, 'Error adding user to group in database:'));
