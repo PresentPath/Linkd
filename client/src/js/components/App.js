@@ -46,7 +46,7 @@ let App = React.createClass({
       return Promise.resolve($.ajax({ url: '/api/folder/group/' + group.id }))
         .then((folders) => {
           this.state.folders[group.id] = folders;
-          this.setState({ folders: this.state.folders })
+          this.setState({ folders: this.state.folders });
         });
     });
     return Promise.all(groupPromises)
@@ -95,24 +95,14 @@ let App = React.createClass({
   componentDidMount () {
     this.getGroups()
       .then(() => {
-        console.log('saved groups list');
-        return this.getFolders();
-      })
-      .then(() => {
-        console.log('saved folders list for all groups');
-        return this.getLinks();
-      })
-      .then(() => {
-        console.log('saved links list for all folders');
-        return this.getComments();
-      })
-      .then(() => {
-        console.log('saved comments list for all links');
-        console.log(this.state);
+        this.getFolders();
+        this.getComments();
       })
       .catch((err) => {
         console.error('Error fetching data', status, err.toString());
       });
+
+      this.getLinks();
   },
 
   addGroup (groupName) {
