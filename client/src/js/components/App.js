@@ -56,8 +56,10 @@ let App = React.createClass({
     this.state.groups.forEach((group) => {
       $.get('/api/folder/group/' + group.id)
         .done((folders) => {
-          this.state.folders['groupID_' + group.id] = folders;
-          this.setState({ folders: this.state.folders });          
+          // TODO: For testing only!!!
+          this.state.current.folderId = folders[0].id;      
+          this.state.folders['groupId_' + group.id] = folders;
+          this.setState({ folders: this.state.folders, current: this.state.current });
         })
         .fail((err) => {
           console.error('Error getting folders for group', group.id, status, err.toString());
@@ -69,8 +71,8 @@ let App = React.createClass({
     $.get('/api/link/user/1')
       .done((links) => {
         links.forEach((link) => {
-          this.state.links['folderID_' + link.FolderId] = this.state.links['folderID_' + link.FolderId] || [];
-          this.state.links['folderID_' + link.FolderId].push(link); 
+          this.state.links['folderId_' + link.FolderId] = this.state.links['folderId_' + link.FolderId] || [];
+          this.state.links['folderId_' + link.FolderId].push(link); 
         });
         this.setState({ links: this.state.links });
       })
@@ -83,12 +85,12 @@ let App = React.createClass({
     this.state.groups.forEach((group) => {
       $.get('/api/comment/group/' + group.id)
         .done((comments) => {
-          this.state.comments['groupID_' + group.id] = {};
-          let commentListByLink = this.state.comments['groupID_' + group.id];
+          this.state.comments['groupId_' + group.id] = {};
+          let commentListByLink = this.state.comments['groupId_' + group.id];
           comments.forEach((comment) => {
-            commentListByLink['linkID_' + comment.LinkId] = commentListByLink['linkID_' + comment.LinkId] || [];
+            commentListByLink['linkId_' + comment.LinkId] = commentListByLink['linkId_' + comment.LinkId] || [];
             // Can we assume comments will be in order? Sorted in terms of primary key and thus time added...
-            commentListByLink['linkID_' + comment.LinkId].push(comment);
+            commentListByLink['linkId_' + comment.LinkId].push(comment);
           });
           this.setState({ comments: this.state.comments });          
         })
@@ -143,28 +145,48 @@ let App = React.createClass({
 
   addFolder (folderName) {
     let groupId = this.state.current.groupId;
-    let folderId = this.state.current.folderId;
-    this.state.folders['groupID_' + groupId] = this.state.folders['groupID_' + groupId] || [];
-    let folders = this.state.folders['groupID_' + groupId];
-    $.post('/api/folder/create', 
-      { 
-        name: folderName, 
-        groupId: groupId,
-        parentId: folderId
-      })
-      .done((folder) => {
-        folders.push(folder);
-        this.state.current.folderId = folder.id;
-        this.setState({ folders: this.state.folders, current: this.state.current }); 
-      })
-      .fail((err) => {
-        console.error('Error creating folder', status, err.toString());
-      });
+    if (groupId) {
+      let folderId = this.state.current.folderId;
+      this.state.folders['groupId_' + groupId] = this.state.folders['groupId_' + groupId] || [];
+      let folders = this.state.folders['groupId_' + groupId];
+      $.post('/api/folder/create', 
+        { 
+          name: folderName, 
+          groupId: groupId,
+          parentId: folderId
+        })
+        .done((folder) => {
+          folders.push(folder);
+          this.state.current.folderId = folder.id;
+          this.setState({ folders: this.state.folders, current: this.state.current }); 
+        })
+        .fail((err) => {
+          console.error('Error creating folder', status, err.toString());
+        });
+    }
   },
 
   addLink (linkInfo) {
     let { linkName, linkURL } = linkInfo;
-    console.log(linkName, linkURL);
+    let folderId = this.state.current.folderId;
+    if (folderId) {
+      this.state.links['folderId_' + folderId] = this.state.links['folderId_' + folderId] || [];
+      let links = this.state.links['folderId_' + folderId];
+      $.post('/api/link/create', 
+        { 
+          name: linkName, 
+          url: linkURL,
+          folderId: folderId
+        })
+        .done((link) => {
+          links.push(link);
+          this.state.current.link = link;
+          this.setState({ links: this.state.links, current: this.state.current }); 
+        })
+        .fail((err) => {
+          console.error('Error creating link', status, err.toString());
+        });
+    }
   },
 
   addComment (comment) {
