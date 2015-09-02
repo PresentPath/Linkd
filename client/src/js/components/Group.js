@@ -18,12 +18,16 @@ let Group = React.createClass({
   render () {
     let group = this.props.group;  
 
+    let style = {
+      display: group.display
+    };
+
     let userList = group.Users.reduce((list, user) => {
       return list + user.name_google + ', ';
     }, '').slice(0, -2);
 
     let contents = group.isLoaded ? (
-      <div className="groupContents" visibiliy={group.visibility}> 
+      <div className="groupContents" style={style}> 
         <span className="userList"> {userList} </span> 
         <FolderList 
           folders={this.props.folders}

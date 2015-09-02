@@ -227,15 +227,13 @@ let App = React.createClass({
     console.log('update group');
     // Set isLoaded flag to true and make group visible
     selectedGroup.isLoaded = true;
-    selectedGroup.visibility = 'visible';
+    // Hide all groups except fpr selected group
+    this.state.groups.forEach((group) => {
+      group.display = 'none';
+    });
+    selectedGroup.display = 'block';
     // Set current group
     this.state.current.group = selectedGroup;
-    // Hide all other groups
-    this.state.groups.forEach((group) => {
-      if (group !== selectedGroup) {
-        group.visibility = 'hidden';
-      }
-    });
     // Trigger re-render
     this.setState({ current: this.state.current });
   },
