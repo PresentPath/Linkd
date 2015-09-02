@@ -20,6 +20,7 @@ let Group = React.createClass({
       <div className="groupContents" style={style}> 
         <span className="userList"> {userList} </span> 
         <FolderList 
+          parentFolderId={group.rootFolderId}
           folders={this.props.folders}
           links={this.props.links}
           updateFolder={this.props.updateFolder}
