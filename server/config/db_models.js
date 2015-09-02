@@ -29,7 +29,8 @@ var Group = db.define('Group', {
 });
 
 var Folder = db.define('Folder', {
-  name: Sequelize.STRING
+  name: Sequelize.STRING,
+  isRoot: { type: Sequelize.BOOLEAN, defaultValue: false }
 });
 
 var Link = db.define('Link', {
@@ -57,7 +58,6 @@ Link.belongsToMany(User, {through: UserLinks});
 
 Comment.belongsTo(User, { as: 'Author' });
 
-
 Folder.belongsTo(Folder, { as: 'Parent' });
 
 Folder.belongsTo(Group);
@@ -67,7 +67,6 @@ Link.belongsTo(Folder);
 Comment.belongsTo(Link);
 
 Comment.belongsTo(Group);
-
 
 // Create table based on model definitions in database
 db.sync()
