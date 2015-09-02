@@ -48,7 +48,7 @@ let App = React.createClass({
         // Group contents only loaded once clicked for the first time
         group.isRendered = false;
         // Style attribute used to display only group with focus
-        group.visibility = 'hidden';
+        group.display = 'none';
         return group;
       });
       this.state.current.group = groups[0];
@@ -64,6 +64,10 @@ let App = React.createClass({
     this.state.groups.forEach((group) => {
       $.get('/api/folder/group/' + group.id)
         .done((folders) => {
+          folders.forEach((folder) => {
+            folder.isRendered = false;
+            folder.display = 'none';
+          });
           // TODO: For testing only!!!
           this.state.current.folder = folders[0];      
           this.state.folders['groupId_' + group.id] = folders;
@@ -127,9 +131,16 @@ let App = React.createClass({
 
   addGroup (groupName) {
     $.post('/api/group/create', { name: groupName, userId: this.state.current.user.user_id_google })
-      .done((group) => {
+      .done((response) => {
+        var group = response[0];
+        var folder = response[1];
         this.state.groups.push(group);
-        this.setState({ groups: this.state.groups });  
+        this.state.folders['groupId_' + group.id] = [folder];
+        this.state.current.group = group;
+        this.state.current.folder = folder;
+        this.state.current.path = folder.name + '/';
+        this.setState({ groups: this.state.groups, folder: this.state.folders, current: this.state.current });  
+        console.log(this.state);
       })
       .fail((err) => {
         console.error('Error creating group', group.id, status, err.toString());
@@ -157,7 +168,6 @@ let App = React.createClass({
     let groupId = this.state.current.group.id;
     if (groupId) {
       let folderId = this.state.current.folder.id;
-      this.state.folders['groupId_' + groupId] = this.state.folders['groupId_' + groupId] || [];
       let folders = this.state.folders['groupId_' + groupId];
       $.post('/api/folder/create', 
         { 
@@ -232,14 +242,34 @@ let App = React.createClass({
       group.display = 'none';
     });
     selectedGroup.display = 'block';
-    // Set current group
     this.state.current.group = selectedGroup;
+    this.state.current.folder = this.state.folders['groupId_' + selectedGroup.id].filter((folder) => {
+      return folder.isRoot;
+    })[0];
+    this.state.current.path = this.state.current.folder.name + '/';
     // Trigger re-render
     this.setState({ current: this.state.current });
   },
 
-  updateFolder () {
+  updateFolder (selectedFolder) {
     console.log('update folder');
+    // Set isRendered flag to true and make folder visible
+    selectedFolder.isRendered = true;
+    // Hide all folders except fpr selected folder
+    this.state.folders.forEach((folder) => {
+      folder.display = 'none';
+    });
+    let folder = selectedFolder;
+    while (folder.parentId !== null) {
+      folder.display = 'block';
+      folder = this.state.folders['groupId_' + folder.GroupId].filter((currFolder) => {
+        return currFolder.id === folder.parentId;
+      })[0];
+    }
+    // Set current folder
+    this.state.current.folder = selectedFolder;
+    // Trigger re-render
+    this.setState({ current: this.state.current, folders: this.state.folders });
   },
 
   updatePath () {
