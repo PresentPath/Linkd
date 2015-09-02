@@ -4,6 +4,7 @@
 // Handle interacting with the Group data in the database.
 
 var Group = require('../config/db_models.js').Group;
+var Folder = require('../config/db_models.js').Folder;
 var User = require('../config/db_models.js').User;
 var helpers = require('../config/helpers.js');
 
@@ -31,9 +32,19 @@ module.exports.createGroup = function(req, res, next) {
     return group[0].addUser(req.body.userId);
   })
   .then(function(group) {
-    return Group.find({ where: { id: group[0].id }, include: [User] });
+    var groupPromise = Group.find({ where: { id: group[0].id }, include: [User] });
+    var folderPromise = Folder.create({
+        name: group[0].name,
+        isRoot: true,
+        ParentId: null,
+        GroupId: group[0].id
+      });
+    return Promise.all([groupPromise, folderPromise]);
   })
-  .then(helpers.handleSuccess(res, 'Successfully created group in database'))
+  .spread(function(group, folder) {
+    return [group.dataValues, folder.dataValues];
+  })
+  .then(helpers.handleSuccess(res, 'Successfully created group and root folder in database'))
   .error(helpers.handleError(res, 'Error creating group in database:'));
 
 };
