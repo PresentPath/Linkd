@@ -66,7 +66,7 @@ let Toolbar = React.createClass({
         <form className="newFolder" onSubmit={this.handleFolderSubmit}>
           <input type="text" placeholder="New Folder" ref="folderName" />
           <input type="submit" value="Add" />
-           to {this.props.currentGroup + this.props.currentPath}
+           to {this.props.currentPath}
 
         </form>
 
