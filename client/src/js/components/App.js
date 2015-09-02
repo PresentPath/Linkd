@@ -46,7 +46,7 @@ let App = React.createClass({
       // TODO: For testing only!!!
       groups = groups.map((group) => {
         // Group contents only loaded once clicked for the first time
-        group.isLoaded = false;
+        group.isRendered = false;
         // Style attribute used to display only group with focus
         group.visibility = 'hidden';
         return group;
@@ -225,8 +225,8 @@ let App = React.createClass({
 
   updateGroup (selectedGroup) {
     console.log('update group');
-    // Set isLoaded flag to true and make group visible
-    selectedGroup.isLoaded = true;
+    // Set isRendered flag to true and make group visible
+    selectedGroup.isRendered = true;
     // Hide all groups except fpr selected group
     this.state.groups.forEach((group) => {
       group.display = 'none';

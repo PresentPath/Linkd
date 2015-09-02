@@ -16,7 +16,7 @@ let Group = React.createClass({
       return list + user.name_google + ', ';
     }, '').slice(0, -2);
 
-    let contents = group.isLoaded ? (
+    let contents = group.isRendered ? (
       <div className="groupContents" style={style}> 
         <span className="userList"> {userList} </span> 
         <FolderList 
