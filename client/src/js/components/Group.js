@@ -3,16 +3,6 @@
 import React from 'react';
 import FolderList from './FolderList';
 
-/*
-Group
-- props: 
-  - updateGroup
-  - updateFolder
-  - updateLink
-  - folders
-  - links
- */
-
 let Group = React.createClass({
 
   render () {
