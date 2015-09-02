@@ -233,7 +233,7 @@ let App = React.createClass({
     // Hide all other groups
     this.state.groups.forEach((group) => {
       if (group !== selectedGroup) {
-        group.visibilit = 'hidden';
+        group.visibility = 'hidden';
       }
     });
     // Trigger re-render
