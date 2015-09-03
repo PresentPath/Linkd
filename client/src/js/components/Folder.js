@@ -28,7 +28,7 @@ let Folder = React.createClass({
 
     return (
       <div className="folder">
-        <h4 onClick={this.props.updateFolder.bind(null, folder)}> {folder.name} </h4>
+        <h5 onClick={this.props.updateFolder.bind(null, folder)}> {folder.name} </h5>
         {contents}
       </div>
     );
