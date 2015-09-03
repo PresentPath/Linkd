@@ -7,6 +7,7 @@ var Group = require('../config/db_models.js').Group;
 var Folder = require('../config/db_models.js').Folder;
 var User = require('../config/db_models.js').User;
 var helpers = require('../config/helpers.js');
+var Promise = require('bluebird');
 
 // Retrive list of all Group instances
 module.exports.getGroupsList = function(req, res, next) {
