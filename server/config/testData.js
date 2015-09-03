@@ -96,6 +96,8 @@ function setUpDemoData () {
   // Link ID to be used for comments
   var linkId;
 
+  var groupInstance;
+
   // Clear database
   return Promise.each([User, Group, Folder, Link, Comment], function(Model) {
     return deleteInstances(Model);
@@ -113,10 +115,20 @@ function setUpDemoData () {
     return group.addUser(userId);
   })
   .then(function(group) {
-    groupId = group.dataValues.id;
+    groupInstance = group;
+    return Folder.create({
+        name: group.name,
+        isRoot: true,
+        ParentId: null,
+        GroupId: group.id
+      });
+  })
+  .then(function(folderInstance) {
+    groupId = groupInstance.dataValues.id;
     // Create folder
     testFolders.forEach(function(folder) {
       folder.GroupId = groupId;
+      folder.ParentId = folderInstance.id;
     });
     return Folder.create(testFolders[0]);
   })
