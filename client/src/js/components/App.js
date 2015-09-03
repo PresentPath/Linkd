@@ -255,7 +255,7 @@ let App = React.createClass({
     console.log('update folder');
     // Set isRendered flag to true and make folder visible
     selectedFolder.isRendered = true;
-    // Hide all folders except fpr selected folder
+    // Hide all folders except for selected folder
     this.state.folders.forEach((folder) => {
       folder.display = 'none';
     });
