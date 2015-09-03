@@ -44,14 +44,13 @@ let App = React.createClass({
     return Promise.resolve($.get('/api/group/user/1'))
     .tap((groups) => {
       // TODO: For testing only!!!
-      groups = groups.map((group) => {
+      groups.forEach((group) => {
         // Group contents only loaded once clicked for the first time
         group.isRendered = false;
         // Style attribute used to display only group with focus
         group.display = 'none';
-        return group;
       });
-      this.state.current.group = groups[0];
+      this.state.current.group = groups[0];      
       this.setState({ groups, current: this.state.current });
       console.log(this.state);
     })
@@ -256,15 +255,18 @@ let App = React.createClass({
     // Set isRendered flag to true and make folder visible
     selectedFolder.isRendered = true;
     // Hide all folders except for selected folder
-    this.state.folders.forEach((folder) => {
+    this.state.folders['groupId_' + selectedFolder.GroupId].forEach((folder) => {
       folder.display = 'none';
     });
     let folder = selectedFolder;
-    while (folder.parentId !== null) {
+    while (folder.ParentId !== null) {
+        console.log(folder);
+
       folder.display = 'block';
       folder = this.state.folders['groupId_' + folder.GroupId].filter((currFolder) => {
-        return currFolder.id === folder.parentId;
-      })[0];
+        console.log(currFolder.id, folder.ParentId)
+        return currFolder.id === folder.ParentId;
+      })[0] || {};
     }
     // Set current folder
     this.state.current.folder = selectedFolder;
