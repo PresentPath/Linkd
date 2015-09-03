@@ -16,12 +16,18 @@ let Group = React.createClass({
       return list + user.name_google + ', ';
     }, '').slice(0, -2);
 
+    this.props.folders['groupId_' + group.id] = this.props.folders['groupId_' + group.id] || [];
+
+    let rootFolder = this.props.folders['groupId_' + group.id].filter((folder) => {
+      return folder.isRoot;
+    })[0];
+
     let contents = group.isRendered ? (
       <div className="groupContents" style={style}> 
         <span className="userList"> {userList} </span> 
         <FolderList 
-          parentFolderId={group.rootFolderId}
-          folders={this.props.folders}
+          parentFolderId={rootFolder.id}
+          folders={this.props.folders['groupId_' + group.id]}
           links={this.props.links}
           updateFolder={this.props.updateFolder}
           updateLink={this.props.updateLink} />
