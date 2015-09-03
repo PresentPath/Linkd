@@ -77,7 +77,7 @@ module.exports = function(callback) {
               callback(err);
               return done(err);
             }
-            expect(res.body.name).to.equal('testGroupC');
+            expect(res.body[0].name).to.equal('testGroupC');
 
             Group.find({ where: { name: 'testGroupC' } })
               .then(function(group) {
@@ -103,8 +103,9 @@ module.exports = function(callback) {
             callback(err);
             return done(err);
           }
-          expect(res.body.GroupId).to.equal(groupId);
-          expect(res.body.UserUserIdGoogle).to.equal(user.user_id_google);
+          console.log(res.body);
+          expect(res.body[0].UserGroup.GroupId).to.equal(groupId);
+          expect(res.body[0].UserGroup.UserUserIdGoogle).to.equal(user.user_id_google);
           done();
         });
 
