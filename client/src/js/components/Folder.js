@@ -7,7 +7,7 @@ import LinkList from './LinkList';
 let Folder = React.createClass({
 
   render () {
-    
+
     let folder = this.props.folder;
 
     let style = {
@@ -17,7 +17,7 @@ let Folder = React.createClass({
     let contents = folder.isRendered ? (
       <div className="folderContents" style={style}> 
         <FolderList 
-          parentFolderId={this.props.key}
+          parentFolderId={this.props.folder.id}
           folders={this.props.folders}
           links={this.props.links}
           updateFolder={this.props.updateFolder}

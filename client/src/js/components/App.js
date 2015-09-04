@@ -259,12 +259,12 @@ let App = React.createClass({
       folder.display = 'none';
     });
     let folder = selectedFolder;
+    // Display folders in hierarchy of selected folder
     while (folder.ParentId !== null) {
         console.log(folder);
 
       folder.display = 'block';
       folder = this.state.folders['groupId_' + folder.GroupId].filter((currFolder) => {
-        console.log(currFolder.id, folder.ParentId)
         return currFolder.id === folder.ParentId;
       })[0] || {};
     }
