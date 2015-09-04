@@ -11,17 +11,20 @@ module.exports = {
   },
 
   module: {
-    // Transpile JSX and ES6 into ES5
     loaders: [
+      // Transpile JSX and ES6 into ES5 into dist
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        loaders: ['react-hot', 'babel-loader']
+        loaders: ['babel-loader']
       },
+      // Load index.html into dist
       {
         test: /\.html$/,
         loader: 'file?name=[name].[ext]'
       }
     ]
-  }
+  },
+
+  devtool: "#source-map"
 };
