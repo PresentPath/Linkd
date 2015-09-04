@@ -49,7 +49,8 @@ var testFolders = [{
     name: 'Estonian'
   },
   {
-    name: 'Filipino-Cooked'
+    name: 'Filipino-Cooked',
+    parentFolder: 'Filipino'
   }];
 
 var testLinks = [
@@ -77,13 +78,16 @@ var testLinks = [
 
 var testComments = [
   {
-    text: 'yummmmmmm'
+    text: 'yummmmmmm',
+    linkName: 'Chicken adobo'
   },
   {
-    text: 'let\'s do it!!'
+    text: 'let\'s do it!!',
+    linkName: 'Chicken adobo'
   },
   {
-    text: 'where should we get the ingredients?'
+    text: 'where should we get the ingredients?',
+    linkName: 'Chicken adobo'
   }
 ];
 
@@ -95,10 +99,6 @@ function setUpDemoData () {
   var userId;
   // Folders belong to this group
   var groupId;
-  // Folder ID to be used for renaming and deleting folder
-  var folderId;
-  // Link ID to be used for comments
-  var linkId;
 
   var groupInstance;
 
@@ -134,42 +134,53 @@ function setUpDemoData () {
       folder.GroupId = groupId;
       folder.ParentId = folderInstance.id;
     });
-    return Folder.create(testFolders[0]);
+    return Folder.bulkCreate(testFolders);
   })
   .then(function(folder) {
-    folderId = folder.dataValues.id;
-    testFolders.forEach(function(folder) {
-      if(folder.name === 'Filipino-Cooked') {
-        folder.ParentId = folderId;
-      }
+    var subFolders = testFolders.filter(function(folder) {
+      return folder.parentFolder;
     });
-    return Folder.bulkCreate(testFolders.slice(1));
-  })
-  .then(function(folders) {
-    testLinks.forEach(function(link) {
-      link.FolderId = folderId;
+    return Promise.map(subFolders, function(subFolder) {
+      var subFolderPromise = Folder.find({ where: { name: subFolder.name } });
+      var parentFolderPromise = Folder.find({ where: { name: subFolder.parentFolder } });
+      return Promise.all([subFolderPromise, parentFolderPromise])
+        .spread(function(subFolder, parentFolder) {
+          console.log(parentFolder.id)
+          return subFolder.update({ ParentId: parentFolder.id });    
+        });
     });
-    return Link.create(testLinks[0]);
   })
-  .then(function(link) {
-    linkId = link.dataValues.id;
-    return link.addUser(userId, {viewed: false});
-  })
-  // .then(function(link) {
-  //   linkId = link.dataValues.id;
-  //   return Link.bulkCreate(testLinks.slice(1));
-  // })
-  // .then(function(links) {
-  //   return links.map(function(link) {
-  //     return link.addUser(userId, {viewed: false});
-  //   });
-  // })
   .then(function() {
-    testComments.forEach(function(comment) {
-      comment.AuthorUserIdGoogle = userId;
-      comment.GroupId = groupId;
-      comment.LinkId = linkId;
+    return Promise.map(testLinks, function(link) {
+      return Folder.find({ where: { name: link.parentFolder } }).
+        then(function(parentFolder) {
+          link.FolderId = parentFolder.id;
+          delete link.parentFolder;
+        });
     });
+  })
+  .then(function() {
+    return Promise.map(testLinks, function(link) {
+      return Link.create(link);
+    });
+  })
+  .then(function(links) {
+    return Promise.map(links, function(link) {
+      return link.addUser(userId, {viewed: false});
+    });
+  })
+  .then(function() {
+    return Promise.map(testComments, function(comment) {
+      return Link.find({ where: { name: comment.linkName } }).
+        then(function(link) {
+          comment.AuthorUserIdGoogle = userId;
+          comment.GroupId = groupId;
+          comment.LinkId = link.id;
+          delete comment.linkName;
+        });
+    });
+  })
+  .then(function() {
     return Comment.bulkCreate(testComments);
   })
   .then(function(comments) {
