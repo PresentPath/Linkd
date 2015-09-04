@@ -22,7 +22,10 @@ let Folder = React.createClass({
           links={this.props.links}
           updateFolder={this.props.updateFolder}
           updateLink={this.props.updateLink} />
-        <LinkList/>
+        <LinkList
+          folderId={folder.id}
+          links={this.props.links} 
+          updateLink={this.props.updateLink} />
       </div>
     ) : undefined;
 

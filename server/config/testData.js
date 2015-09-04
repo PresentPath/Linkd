@@ -55,19 +55,23 @@ var testFolders = [{
 var testLinks = [
   {
     name: 'Chicken adobo',
-    url: 'http://m.allrecipes.com/recipe/128699/famous-chicken-adobo/?mxt=t06rda'
+    url: 'http://m.allrecipes.com/recipe/128699/famous-chicken-adobo/?mxt=t06rda',
+    parentFolder: 'Filipino-Cooked'
   },
   {
     name: 'Pancit',
-    url: 'http://m.allrecipes.com/recipe/47015/quick-and-easy-pancit/?mxt=t06rda'
+    url: 'http://m.allrecipes.com/recipe/47015/quick-and-easy-pancit/?mxt=t06rda',
+    parentFolder: 'Filipino'
   },
   {
     name: 'Crock pot carnitas',
-    url: 'http://www.food.com/recipe/crock-pot-carnitas-326866'
+    url: 'http://www.food.com/recipe/crock-pot-carnitas-326866',
+    parentFolder: 'Mexican'
   },
   {
     name: 'Beet and potato salad',
-    url: 'http://estoniancooking.blogspot.com/2011/07/rosolje-beet-and-potato-salad.html'
+    url: 'http://estoniancooking.blogspot.com/2011/07/rosolje-beet-and-potato-salad.html',
+    parentFolder: 'Estonian'
   }
 ];
 
