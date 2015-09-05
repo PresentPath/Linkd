@@ -81,8 +81,6 @@ let App = React.createClass({
   getLinks () {
     $.get('/api/link/user/1')
       .done((links) => {
-        // TODO: For testing only!!!
-        this.state.current.link = links[0];  
         links.forEach((link) => {
           this.state.links['folderId_' + link.FolderId] = this.state.links['folderId_' + link.FolderId] || [];
           this.state.links['folderId_' + link.FolderId].push(link); 
@@ -278,11 +276,26 @@ let App = React.createClass({
     this.setState({ current: this.state.current, folders: this.state.folders });
   },
 
-  updateLink () {
+  updateLink (link) {
     console.log('update link');
+    this.state.current.link = link;
+
+    this.setState({ current: this.state.current });
   },
 
   render () {
+
+    let groupId = this.state.current.group.id;
+    let linkId = this.state.current.link.id;
+
+    let linkDetail = linkId ? (
+      <LinkDetail
+        LinkDetail
+        currentLink={this.state.current.link}
+        comments={this.state.comments['groupId_' + groupId]['linkId_' + linkId] || []}
+        addComment={this.addComment} />
+    ) : undefined;
+
     return (
       <div className="app">
         App
@@ -305,10 +318,7 @@ let App = React.createClass({
           updateFolder={this.updateFolder}
           updateLink={this.updateLink} />
 
-        <LinkDetail
-          currentLink={this.state.current.link}
-          comments={this.state.current.comments}
-          addComment={this.addComment} />
+          {linkDetail}
 
       </div>
     );
