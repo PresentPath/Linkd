@@ -56,7 +56,7 @@ Group.belongsTo(User, { as: 'Owner' });
 User.belongsToMany(Link, {through: UserLinks});
 Link.belongsToMany(User, {through: UserLinks});
 
-Comment.belongsTo(User, { as: 'Author' });
+Comment.belongsTo(User);
 
 Folder.belongsTo(Folder, { as: 'Parent' });
 

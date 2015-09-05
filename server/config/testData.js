@@ -173,7 +173,7 @@ function setUpDemoData () {
     return Promise.map(testComments, function(comment) {
       return Link.find({ where: { name: comment.linkName } }).
         then(function(link) {
-          comment.AuthorUserIdGoogle = userId;
+          comment.UserUserIdGoogle = userId;
           comment.GroupId = groupId;
           comment.LinkId = link.id;
           delete comment.linkName;
