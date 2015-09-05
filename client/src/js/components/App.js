@@ -268,6 +268,8 @@ let App = React.createClass({
     this.state.current.path = folder.name + '/' + path;
     // Set current folder
     this.state.current.folder = selectedFolder;
+    // Clear out current link
+    this.state.current.link = {};
     // Trigger re-render
     this.setState({ current: this.state.current, folders: this.state.folders });
   },
@@ -281,6 +283,8 @@ let App = React.createClass({
 
     let groupId = this.state.current.group.id;
     let linkId = this.state.current.link.id;
+
+    console.log('state', this.state);
 
     let linkDetail = linkId ? (
       <LinkDetail
