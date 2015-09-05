@@ -53,30 +53,33 @@ let Toolbar = React.createClass({
       <div className="toolbar">
         
         <form className="newGroup" onSubmit={this.handleGroupSubmit}>
+          <div className="toolbarTitle"> Toolbar </div>
           <input type="text" placeholder="New Group" ref="groupName" />
           <input type="submit" value="Add" />
         </form>
 
         <form className="newUser" onSubmit={this.handleUserSubmit}>
+          <div className="groupTitle"> Group: {this.props.currentGroup}</div>
           <input type="text" placeholder="New User" ref="userEmail" />
           <input type="submit" value="Add" />
-           to {this.props.currentGroup}
         </form>
 
-        <form className="newFolder" onSubmit={this.handleFolderSubmit}>
-          <input type="text" placeholder="New Folder" ref="folderName" />
-          <input type="submit" value="Add" />
-           to {this.props.currentPath}
+        <div className="folderForms">
 
-        </form>
+          <div className="folderPath"> Path: {this.props.currentPath} </div>
 
-        <form className="newLink" onSubmit={this.handleLinkSubmit}>
-          <input type="text" placeholder="New Link Name" ref="linkName" />
-          <input type="text" placeholder="New Link URL" ref="linkURL" />
-          <input type="submit" value="Add" />
-        </form>
+          <form className="newFolder" onSubmit={this.handleFolderSubmit}>
+            <input type="text" placeholder="New Folder" ref="folderName" />
+            <input type="submit" value="Add" />
+          </form>
 
-        <hr />
+          <form className="newLink" onSubmit={this.handleLinkSubmit}>
+            <input type="text" placeholder="New Link Name" ref="linkName" />
+            <input type="text" placeholder="New Link URL" ref="linkURL" />
+            <input type="submit" value="Add" />
+          </form>
+
+        </div>
 
       </div>
     );

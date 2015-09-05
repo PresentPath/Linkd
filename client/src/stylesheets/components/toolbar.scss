@@ -1,0 +1,45 @@
+.toolbar {
+  clear: both;
+  border: 1px solid green;
+  overflow: auto;
+}
+
+.newGroup {
+  width: 20%;
+  float: left;
+}
+
+.newUser {
+  width: 25%;
+  float: left;
+}
+
+.folderForms {
+  width: 55%;
+  float: left;
+}
+
+.newFolder {
+  float: left;
+  width: 30%;
+}
+
+.newLink {
+  float: left;
+  width: 70%;
+}  
+
+input[type="submit"] {
+  display: block;
+  margin: 0 auto;
+}
+
+input[type="text"] {
+  width: 95%;
+  margin: 0 auto;
+}
+
+.newLink > input[type="text"] {
+  width: 47%;
+  margin: 0 auto;
+}
