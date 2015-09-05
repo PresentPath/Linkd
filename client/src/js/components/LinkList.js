@@ -18,7 +18,7 @@ let LinkList = React.createClass({
     });
 
     return (
-      <div>
+      <div className="linkList">
         {linkNodes}
       </div>
     );

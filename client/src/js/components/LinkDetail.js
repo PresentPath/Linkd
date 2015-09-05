@@ -10,8 +10,6 @@ let LinkDetail = React.createClass({
 
     let link = this.props.currentLink;
 
-    console.log('comments in link detail',this.props.comments);
-
     return (
       <div className="linkDetail">
         <div className="linkName"> {link.name} </div>

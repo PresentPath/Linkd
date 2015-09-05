@@ -35,7 +35,7 @@ let FolderList = React.createClass({
     });
 
     return (
-      <div>
+      <div className="folderList">
         {folderNodes}
       </div>
     );

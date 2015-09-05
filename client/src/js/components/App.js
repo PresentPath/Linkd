@@ -296,7 +296,6 @@ let App = React.createClass({
 
     return (
       <div className="app">
-        App
 
         <Header user={this.state.current.user} />
 

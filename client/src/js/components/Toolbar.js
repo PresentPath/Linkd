@@ -50,7 +50,6 @@ let Toolbar = React.createClass({
 
     return (
       <div className="toolbar">
-        Toolbar
         
         <form className="newGroup" onSubmit={this.handleGroupSubmit}>
           <input type="text" placeholder="New Group" ref="groupName" />
