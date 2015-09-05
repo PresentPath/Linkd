@@ -259,29 +259,28 @@ let App = React.createClass({
       folder.display = 'none';
     });
     let folder = selectedFolder;
+
+    let path = '';
     // Display folders in hierarchy of selected folder
     while (folder.ParentId !== null) {
-        console.log(folder);
-
+      path = folder.name + '/' + path;
+      console.log(path);
       folder.display = 'block';
-      folder = this.state.folders['groupId_' + folder.GroupId].filter((currFolder) => {
-        return currFolder.id === folder.ParentId;
+      folder = this.state.folders['groupId_' + folder.GroupId].filter((folderInstance) => {
+        return folderInstance.id === folder.ParentId;
       })[0] || {};
     }
+
+    this.state.current.path = folder.name + '/' + path;
     // Set current folder
     this.state.current.folder = selectedFolder;
     // Trigger re-render
     this.setState({ current: this.state.current, folders: this.state.folders });
   },
 
-  updatePath () {
-    console.log('update path');
-  },
-
   updateLink () {
     console.log('update link');
   },
-
 
   render () {
     return (
