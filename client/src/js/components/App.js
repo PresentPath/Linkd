@@ -210,6 +210,7 @@ let App = React.createClass({
     let linkId = this.state.current.link.id;
     let groupId = this.state.current.group.id;
     if (linkId) {
+      console.log(this.state.current.user);
       let userId = this.state.current.user.user_id_google;
       this.state.comments['groupId_' + groupId] = this.state.comments['groupId_' + groupId] || {};
       this.state.comments['groupId_' + groupId]['linkId_' + linkId] = this.state.comments['groupId_' + groupId]['linkId_' + linkId] || [];
@@ -218,9 +219,11 @@ let App = React.createClass({
         { 
           text, 
           userId,
-          linkId
+          linkId,
+          groupId
         })
         .done((comment) => {
+          comment.User = this.state.current.user;
           comments.push(comment);
           this.setState({ comments: this.state.comments }); 
         })

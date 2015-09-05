@@ -11,8 +11,9 @@ module.exports.createComment = function(req, res) {
 
   Comment.create( {
     text: req.body.text,
-    AuthorUserIdGoogle: req.body.userId,
-    LinkId: req.body.linkId
+    UserUserIdGoogle: req.body.userId,
+    LinkId: req.body.linkId,
+    GroupId: req.body.groupId
   })
   .then(function(comment) {
     console.log('Successfully created comment in database');
