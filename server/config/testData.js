@@ -145,7 +145,6 @@ function setUpDemoData () {
       var parentFolderPromise = Folder.find({ where: { name: subFolder.parentFolder } });
       return Promise.all([subFolderPromise, parentFolderPromise])
         .spread(function(subFolder, parentFolder) {
-          console.log(parentFolder.id)
           return subFolder.update({ ParentId: parentFolder.id });    
         });
     });
