@@ -166,12 +166,10 @@ let App = React.createClass({
           parentId: folderId
         })
         .done((folder) => {
-          this.state.current.folder = folder;
-          this.setState({ current: this.state.current }); 
-          this.getFolders();
-            // .then(() => {
-            //   this.updateFolder(folder);
-            // });
+          this.getFolders()
+            .then(() => {
+              this.updateFolder(folder);
+            });
         })
         .fail((err) => {
           console.error('Error creating folder', status, err.toString());
@@ -260,8 +258,8 @@ let App = React.createClass({
       path = folder.name + '/' + path;
       folder.display = 'block';
       folder = this.state.folders['groupId_' + folder.GroupId].filter((folderInstance) => {
-        return folderInstance.id === folder.ParentId;
-      })[0] || {};
+        return folderInstance.id == folder.ParentId;
+      })[0];
     }
 
     this.state.current.path = folder.name + '/' + path;
@@ -282,8 +280,6 @@ let App = React.createClass({
 
     let groupId = this.state.current.group.id;
     let linkId = this.state.current.link.id;
-
-    console.log('state', this.state);
 
     let linkDetail = linkId ? (
       <LinkDetail
