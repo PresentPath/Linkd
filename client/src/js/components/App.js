@@ -50,7 +50,6 @@ let App = React.createClass({
         group.display = 'none';
       });
       this.setState({ groups });
-      console.log(this.state);
     })
     .catch((err) => {
       console.error('Error getting groups list', status, err.toString());
@@ -67,11 +66,7 @@ let App = React.createClass({
           });
           this.state.folders['groupId_' + group.id] = folders;
           this.setState({ folders: this.state.folders });
-          console.log('getFolders', this.state.folders);
         });
-    })
-    .then(() => {
-      console.log('get folders complete');
     })
     .catch((err) => {
       console.error('Error getting folders', status, err.toString());
@@ -137,7 +132,6 @@ let App = React.createClass({
       })
       .then(() => {
         this.updateGroup(group);
-        console.log(this.state);
       })
       .catch((err) => {
         console.error('Error creating group', group.id, status, err.toString());
@@ -165,7 +159,6 @@ let App = React.createClass({
     let groupId = this.state.current.group.id;
     if (groupId) {
       let folderId = this.state.current.folder.id;
-      let folders = this.state.folders['groupId_' + groupId];
       $.post('/api/folder/create', 
         { 
           name: folderName, 
@@ -173,12 +166,12 @@ let App = React.createClass({
           parentId: folderId
         })
         .done((folder) => {
-          console.log(folder);
-          console.log(this.state.folders);
-          // folders.push(folder);
           this.state.current.folder = folder;
           this.setState({ current: this.state.current }); 
           this.getFolders();
+            // .then(() => {
+            //   this.updateFolder(folder);
+            // });
         })
         .fail((err) => {
           console.error('Error creating folder', status, err.toString());
@@ -213,7 +206,6 @@ let App = React.createClass({
     let linkId = this.state.current.link.id;
     let groupId = this.state.current.group.id;
     if (linkId) {
-      console.log(this.state.current.user);
       let userId = this.state.current.user.user_id_google;
       this.state.comments['groupId_' + groupId] = this.state.comments['groupId_' + groupId] || {};
       this.state.comments['groupId_' + groupId]['linkId_' + linkId] = this.state.comments['groupId_' + groupId]['linkId_' + linkId] || [];
@@ -237,7 +229,6 @@ let App = React.createClass({
   },
 
   updateGroup (selectedGroup) {
-    console.log('update group');
     // Set isRendered flag to true and make group visible
     selectedGroup.isRendered = true;
     // Hide all groups except fpr selected group
@@ -246,7 +237,6 @@ let App = React.createClass({
     });
     selectedGroup.display = 'block';
     this.state.current.group = selectedGroup;
-    console.log('folders', this.state.folders);
     let folder = this.state.folders['groupId_' + selectedGroup.id].filter((folder) => {
       return folder.isRoot;
     })[0];
@@ -256,7 +246,7 @@ let App = React.createClass({
   },
 
   updateFolder (selectedFolder) {
-    console.log('update folder');
+
     // Set isRendered flag to true and make folder visible
     selectedFolder.isRendered = true;
     // Hide all folders except for selected folder
@@ -269,7 +259,6 @@ let App = React.createClass({
     // Display folders in hierarchy of selected folder
     while (folder.ParentId !== null) {
       path = folder.name + '/' + path;
-      console.log(path);
       folder.display = 'block';
       folder = this.state.folders['groupId_' + folder.GroupId].filter((folderInstance) => {
         return folderInstance.id === folder.ParentId;
@@ -284,9 +273,7 @@ let App = React.createClass({
   },
 
   updateLink (link) {
-    console.log('update link');
     this.state.current.link = link;
-
     this.setState({ current: this.state.current });
   },
 
