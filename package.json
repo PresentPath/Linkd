@@ -5,7 +5,9 @@
   "main": "server.js",
   "scripts": {
     "test": "mocha --delay -R spec ./server/config/serverSpec.js",
-    "start": "nodemon ./server/serverSetup.js"
+    "start": "npm run serve | npm run dev",
+    "serve": "nodemon ./server/serverSetup.js",
+    "dev": "webpack --watch"
   },
   "repository": {
     "type": "git",
