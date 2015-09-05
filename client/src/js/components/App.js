@@ -61,7 +61,6 @@ let App = React.createClass({
       return Promise.resolve($.get('/api/folder/group/' + group.id))
         .then((folders) => {
           folders.forEach((folder) => {
-            folder.isRendered = false;
             folder.display = 'none';
           });
           this.state.folders['groupId_' + group.id] = folders;
@@ -242,12 +241,16 @@ let App = React.createClass({
     this.setState({ current: this.state.current });
   },
 
-  updateFolder (selectedFolder) {
+  updateFolder (targetFolder) {
 
-    // Set isRendered flag to true and make folder visible
-    selectedFolder.isRendered = true;
+    let folders = this.state.folders['groupId_' + targetFolder.GroupId];
+
+    let selectedFolder = folders.filter((folder) => {
+      return folder.id === targetFolder.id;
+    })[0];
+
     // Hide all folders except for selected folder
-    this.state.folders['groupId_' + selectedFolder.GroupId].forEach((folder) => {
+    folders.forEach((folder) => {
       folder.display = 'none';
     });
     let folder = selectedFolder;
@@ -256,8 +259,10 @@ let App = React.createClass({
     // Display folders in hierarchy of selected folder
     while (folder.ParentId !== null) {
       path = folder.name + '/' + path;
+      // Set isRendered flag to true and make folder visible
+      folder.isRendered = true;
       folder.display = 'block';
-      folder = this.state.folders['groupId_' + folder.GroupId].filter((folderInstance) => {
+      folder = folders.filter((folderInstance) => {
         return folderInstance.id == folder.ParentId;
       })[0];
     }
