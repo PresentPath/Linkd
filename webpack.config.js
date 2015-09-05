@@ -29,19 +29,10 @@ module.exports = {
       // Compile CSS from SCSS
       {
         test: /\.scss$/,
-        loaders: ['style!css!sass', ExtractTextPlugin.extract(
-          // Activate source maps via loader query
-          'css?sourceMap!' +
-          'sass?sourceMap'
-        )]
+        loader: 'style!css!sass'
       }
     ]
   },
-
-  plugins: [
-    // Extract inline ccss into separate 'styles.css'
-    new ExtractTextPlugin('styles.css')
-  ],
 
   devtool: "#source-map"
 };
