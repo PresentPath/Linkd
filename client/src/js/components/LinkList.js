@@ -14,7 +14,7 @@ let LinkList = React.createClass({
     });
 
     let linkNodes = links.map((link) => {
-      return (<div>{link.name} - Last modified: {link.updatedAt} </div>);
+      return <div key={link.id} onClick={this.props.updateLink.bind(null, link)}>{link.name} - Last modified: {link.updatedAt} </div>;
     });
 
     return (
