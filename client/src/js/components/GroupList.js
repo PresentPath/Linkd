@@ -2,6 +2,8 @@
 
 import React from 'react';
 import Group from './Group';
+import '../../stylesheets/components/groupList.scss';
+
 
 let GroupList = React.createClass({
   

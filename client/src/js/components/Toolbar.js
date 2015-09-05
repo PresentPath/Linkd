@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react';
+import '../../stylesheets/components/toolbar.scss';
 
 let Toolbar = React.createClass({
 
