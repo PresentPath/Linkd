@@ -4,6 +4,8 @@
 // Handle interacting with the Comment data in the database.
 
 var Comment = require('../config/db_models.js').Comment;
+var User = require('../config/db_models.js').User;
+
 
 module.exports.createComment = function(req, res) {
 
@@ -27,7 +29,7 @@ module.exports.getCommentsForGroup = function(req, res) {
 
   Comment.findAll( { where: {
     GroupId: req.params.groupId
-  } })
+  }, include: [User] })
   .then(function(comments) {
     console.log('Successfully retrieved comments from database');
     // Send comments object back to client as JSON
