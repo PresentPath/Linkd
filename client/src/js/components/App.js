@@ -192,9 +192,8 @@ let App = React.createClass({
           folderId: folderId
         })
         .done((link) => {
-          links.push(link);
-          this.state.current.link = link;
-          this.setState({ links: this.state.links, current: this.state.current }); 
+          this.updateLink(link);
+          this.getLinks();
         })
         .fail((err) => {
           console.error('Error creating link', status, err.toString());
