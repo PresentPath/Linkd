@@ -2,6 +2,8 @@
 
 import React from 'react';
 import FolderList from './FolderList';
+import LinkList from './LinkList';
+
 
 let Group = React.createClass({
 
@@ -30,6 +32,10 @@ let Group = React.createClass({
           folders={this.props.folders['groupId_' + group.id]}
           links={this.props.links}
           updateFolder={this.props.updateFolder}
+          updateLink={this.props.updateLink} />
+        <LinkList
+          folderId={rootFolder.id}
+          links={this.props.links} 
           updateLink={this.props.updateLink} />
       </div>
     ) : undefined; 
