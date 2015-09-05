@@ -1,3 +1,22 @@
 h1 {
-  color: green;
+  float: left;
+  width: 50%;
+  margin: 0;
+}
+
+.tagline {
+  float: left;
+  width: 50%;
+  clear: both;
+  margin: 0.5em 0;
+}
+
+.logout {
+  float: right;
+  width: 50%;
+  text-align: right;
+}
+
+.greeting {
+  margin: 0 0.5em;
 }
