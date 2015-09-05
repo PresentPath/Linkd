@@ -43,15 +43,13 @@ let App = React.createClass({
   getGroups () {
     return Promise.resolve($.get('/api/group/user/1'))
     .tap((groups) => {
-      // TODO: For testing only!!!
       groups.forEach((group) => {
         // Group contents only loaded once clicked for the first time
         group.isRendered = false;
         // Style attribute used to display only group with focus
         group.display = 'none';
       });
-      this.state.current.group = groups[0];      
-      this.setState({ groups, current: this.state.current });
+      this.setState({ groups });
       console.log(this.state);
     })
     .catch((err) => {
@@ -60,21 +58,23 @@ let App = React.createClass({
   },
 
   getFolders () {
-    this.state.groups.forEach((group) => {
-      $.get('/api/folder/group/' + group.id)
-        .done((folders) => {
+    return Promise.map(this.state.groups, (group) => {
+      return Promise.resolve($.get('/api/folder/group/' + group.id))
+        .then((folders) => {
           folders.forEach((folder) => {
             folder.isRendered = false;
             folder.display = 'none';
           });
-          // TODO: For testing only!!!
-          this.state.current.folder = folders[0];      
           this.state.folders['groupId_' + group.id] = folders;
-          this.setState({ folders: this.state.folders, current: this.state.current });
-        })
-        .fail((err) => {
-          console.error('Error getting folders for group', group.id, status, err.toString());
+          this.setState({ folders: this.state.folders });
+          console.log('getFolders', this.state.folders);
         });
+    })
+    .then(() => {
+      console.log('get folders complete');
+    })
+    .catch((err) => {
+      console.error('Error getting folders', status, err.toString());
     });
   },
 
@@ -85,7 +85,7 @@ let App = React.createClass({
           this.state.links['folderId_' + link.FolderId] = this.state.links['folderId_' + link.FolderId] || [];
           this.state.links['folderId_' + link.FolderId].push(link); 
         });
-        this.setState({ links: this.state.links, current: this.state.current });
+        this.setState({ links: this.state.links });
       })
       .fail((err) => {
         console.error('Error getting links list', status, err.toString());
@@ -100,7 +100,6 @@ let App = React.createClass({
           let commentListByLink = this.state.comments['groupId_' + group.id];
           comments.forEach((comment) => {
             commentListByLink['linkId_' + comment.LinkId] = commentListByLink['linkId_' + comment.LinkId] || [];
-            // Can we assume comments will be in order? Sorted in terms of primary key and thus time added...
             commentListByLink['linkId_' + comment.LinkId].push(comment);
           });
           this.setState({ comments: this.state.comments });          
@@ -127,19 +126,20 @@ let App = React.createClass({
   },
 
   addGroup (groupName) {
-    $.post('/api/group/create', { name: groupName, userId: this.state.current.user.user_id_google })
-      .done((response) => {
-        var group = response[0];
-        var folder = response[1];
-        this.state.groups.push(group);
-        this.state.folders['groupId_' + group.id] = [folder];
-        this.state.current.group = group;
-        this.state.current.folder = folder;
-        this.state.current.path = folder.name + '/';
-        this.setState({ groups: this.state.groups, folder: this.state.folders, current: this.state.current });  
+    let group;
+    return Promise.resolve($.post('/api/group/create', { name: groupName, userId: this.state.current.user.user_id_google }))
+      .then((response) => {
+        group = response[0];
+        return this.getGroups();
+      })
+      .then(() => {
+        return this.getFolders();
+      })
+      .then(() => {
+        this.updateGroup(group);
         console.log(this.state);
       })
-      .fail((err) => {
+      .catch((err) => {
         console.error('Error creating group', group.id, status, err.toString());
       });
   },
@@ -173,9 +173,12 @@ let App = React.createClass({
           parentId: folderId
         })
         .done((folder) => {
-          folders.push(folder);
+          console.log(folder);
+          console.log(this.state.folders);
+          // folders.push(folder);
           this.state.current.folder = folder;
-          this.setState({ folders: this.state.folders, current: this.state.current }); 
+          this.setState({ current: this.state.current }); 
+          this.getFolders();
         })
         .fail((err) => {
           console.error('Error creating folder', status, err.toString());
@@ -243,10 +246,11 @@ let App = React.createClass({
     });
     selectedGroup.display = 'block';
     this.state.current.group = selectedGroup;
-    this.state.current.folder = this.state.folders['groupId_' + selectedGroup.id].filter((folder) => {
+    console.log('folders', this.state.folders);
+    let folder = this.state.folders['groupId_' + selectedGroup.id].filter((folder) => {
       return folder.isRoot;
     })[0];
-    this.state.current.path = this.state.current.folder.name + '/';
+    this.updateFolder(folder);
     // Trigger re-render
     this.setState({ current: this.state.current });
   },
