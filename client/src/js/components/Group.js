@@ -42,7 +42,7 @@ let Group = React.createClass({
 
     return (
       <div className="group">
-        <h4 onClick={this.props.updateGroup.bind(null, group)}> {group.name} </h4>
+        <div className="groupName" onClick={this.props.updateGroup.bind(null, group)}> {group.name} </div>
         {contents}
       </div>
     );

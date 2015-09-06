@@ -25,7 +25,6 @@ let GroupList = React.createClass({
     return (
       <div className="groupList">
         {groupNodes}
-        <hr />
       </div>
     );
   }

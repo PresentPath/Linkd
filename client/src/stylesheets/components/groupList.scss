@@ -1,4 +1,27 @@
 .groupList {
   float: left;
   width: 50%;
+  margin-top: 1em;
 }
+
+.folderContents {
+  margin-left: 1em;
+}
+
+.groupName {
+  font-weight: bold;
+  font-size: 1.1em;
+}
+
+.userList {
+  font-style: italic;
+}
+
+.folderName {
+  font-weight: bold;
+}
+
+.folder {
+  margin: .4em 0;
+}
+
