@@ -1,4 +1,33 @@
 .linkDetail {
   float: left;
-  width: 50%;
+  width: 48%;
+  margin-top: 1em;
+  border: 1px solid blue;
+  padding: 0.4em;
+}
+
+.linkName {
+  font-size: 1.3em;
+  font-weight: bold;
+}
+
+.linkURL {
+  margin: .5em 0;
+}
+
+.commentList {
+  height: 30vh;
+  overflow-y: scroll;
+}
+
+.comment {
+  margin: 1.2em 0;
+}
+
+.commentAuthor {
+  font-weight: bold;
+}
+
+.commentTimestamp {
+  font-style: italic;
 }

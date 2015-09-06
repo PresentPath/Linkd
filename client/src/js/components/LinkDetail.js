@@ -17,7 +17,6 @@ let LinkDetail = React.createClass({
         <div className="linkName"> {link.name} </div>
         <div className="linkURL"> <a href={link.url}> {link.url} </a> </div>
         <CommentList comments={this.props.comments} />
-        <hr />
         <CommentForm addComment={this.props.addComment} />
       </div>
     );
