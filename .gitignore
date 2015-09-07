@@ -1,6 +1,9 @@
 .DS_Store
 
-dist
+client/dist/*.js
+client/dist/*.map
+client/dist/*.html
+!client/dist/assets/
 
 node_modules
 

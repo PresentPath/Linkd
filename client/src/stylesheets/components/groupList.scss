@@ -6,7 +6,7 @@
 }
 
 .folderContents {
-  margin-left: 1em;
+  margin-left: 1.5em;
 }
 
 .groupName {
@@ -19,10 +19,11 @@
 }
 
 .folderName {
+  display: inline-block;
+  margin-left: 0.3em;
   font-weight: bold;
 }
 
 .folder {
   margin: .4em 0;
 }
-

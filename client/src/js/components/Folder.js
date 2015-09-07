@@ -14,6 +14,8 @@ let Folder = React.createClass({
       display: folder.display
     };
 
+    let iconSource = style.display === 'none' ? 'assets/icons/glyphicons-441-folder-closed.png' : 'assets/icons/glyphicons-145-folder-open.png';
+
     let contents = folder.isRendered ? (
       <div className="folderContents" style={style}> 
         <FolderList 
@@ -31,6 +33,7 @@ let Folder = React.createClass({
 
     return (
       <div className="folder">
+        <img className="folderIcon" src={iconSource} />
         <div className="folderName" onClick={this.props.updateFolder.bind(null, folder)}> {folder.name} </div>
         {contents}
       </div>
