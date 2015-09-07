@@ -9,6 +9,8 @@ import Toolbar from './Toolbar';
 import GroupList from './GroupList';
 import LinkDetail from './LinkDetail';
 
+import '../../stylesheets/components/app.scss';
+
 
 let App = React.createClass({
   

@@ -2,7 +2,9 @@
   float: left;
   width: 50%;
   margin-top: 1em;
+  padding-left: 0.5em;
   font-family: 'Lato', sans-serif;
+  background-color: #FFFFFF;
 }
 
 .folderContents {
@@ -22,6 +24,11 @@
   display: inline-block;
   margin-left: 0.3em;
   font-weight: bold;
+}
+
+.groupName:hover, .folderName:hover, .link:hover {
+  color: #7AB317;
+  cursor: pointer;
 }
 
 .folder {
