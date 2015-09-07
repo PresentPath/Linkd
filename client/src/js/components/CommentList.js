@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react';
+import moment from 'moment';
 
 let CommentList = React.createClass({
   
@@ -11,7 +12,7 @@ let CommentList = React.createClass({
         <div key={comment.id} className="comment">
           <div>
             <span className="commentAuthor"> {comment.User.name_google} </span> 
-            <span className="commentTimestamp"> {comment.updatedAt} </span>
+            <span className="commentTimestamp"> {moment(comment.updatedAt).fromNow()} </span>
           </div>
           <div className="commentText"> {comment.text} </div>
         </div>
