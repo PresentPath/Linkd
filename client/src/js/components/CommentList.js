@@ -4,6 +4,19 @@ import React from 'react';
 import moment from 'moment';
 
 let CommentList = React.createClass({
+
+  scrollToBottom () {
+    let node = this.getDOMNode();
+    node.scrollTop = node.scrollHeight;
+  },
+
+  componentDidMount () {
+    this.scrollToBottom();
+  },
+
+  componentDidUpdate () {
+    this.scrollToBottom();
+  },
   
   render () {
 
