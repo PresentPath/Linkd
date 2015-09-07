@@ -7,6 +7,8 @@ import '../../stylesheets/components/linkDetail.scss';
 
 
 let LinkDetail = React.createClass({
+
+
   
   render () {
 
@@ -15,7 +17,7 @@ let LinkDetail = React.createClass({
     return (
       <div className="linkDetail">
         <div className="linkName"> {link.name} </div>
-        <div className="linkURL"> <a href={link.url}> {link.url} </a> </div>
+        <div className="linkURL"> <a href={link.url} target="_blank"> {link.url} </a> </div>
         <CommentList comments={this.props.comments} />
         <CommentForm addComment={this.props.addComment} />
       </div>
