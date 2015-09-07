@@ -59,14 +59,14 @@ let Toolbar = React.createClass({
         </form>
 
         <form className="newUser" onSubmit={this.handleUserSubmit}>
-          <div className="groupTitle"> Group: {this.props.currentGroup}</div>
+          <div className="groupTitle"> <span className="toolbarLabel">Group:</span> {this.props.currentGroup}</div>
           <input type="text" placeholder="New User" ref="userEmail" />
           <input type="submit" value="Add" />
         </form>
 
         <div className="folderForms">
 
-          <div className="folderPath"> Path: {this.props.currentPath} </div>
+          <div className="folderPath"> <span className="toolbarLabel">Path:</span> {this.props.currentPath} </div>
 
           <form className="newFolder" onSubmit={this.handleFolderSubmit}>
             <input type="text" placeholder="New Folder" ref="folderName" />

@@ -32,7 +32,9 @@
 
 input[type="submit"] {
   display: block;
-  margin: 0 auto;
+  margin: 0.5em auto;
+  font-family: 'Lato', sans-serif;
+  font-weight: 700;
 }
 
 input[type="text"] {
@@ -43,4 +45,15 @@ input[type="text"] {
 .newLink > input[type="text"] {
   width: 47%;
   margin: 0 auto;
+}
+
+.groupTitle, .folderPath {
+  margin-bottom: 0.5em;
+  font-family: 'Lato', sans-serif;
+}
+
+.toolbarTitle, .toolbarLabel, {
+  margin-bottom: 0.5em;
+  font-family: 'Lato', sans-serif;
+  font-weight: 700;
 }
