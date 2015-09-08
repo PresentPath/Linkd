@@ -91,10 +91,12 @@ let App = React.createClass({
   getLinks () {
     return Promise.resolve($.get('/api/link/user/' + this.state.current.user.user_id_google))
       .then((links) => {
+        this.state.links = {};
         links.forEach((link) => {
+          let folder = 'folderId_' + link.FolderId;
           // Store the links by the folder that they belong to
-          this.state.links['folderId_' + link.FolderId] = this.state.links['folderId_' + link.FolderId] || [];
-          this.state.links['folderId_' + link.FolderId].push(link);
+          this.state.links[folder] = this.state.links[folder] || [];
+          this.state.links[folder].push(link);
           // Initialize the comments for the link to an empty array
           // to be populated when we get the comments data
           this.state.comments['groupId_' + this.getGroupForLink(link)]['linkId_' + link.id] = [];
@@ -205,7 +207,6 @@ let App = React.createClass({
     this.state.comments['groupId_' + this.state.current.group.id] = this.state.comments['groupId_' + this.state.current.group.id] || {};
     if (folderId) {
       this.state.links['folderId_' + folderId] = this.state.links['folderId_' + folderId] || [];
-      let links = this.state.links['folderId_' + folderId];
       $.post('/api/link/create', 
         { 
           name: linkName, 
