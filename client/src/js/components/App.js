@@ -11,7 +11,6 @@ import LinkDetail from './LinkDetail';
 
 import '../../stylesheets/components/app.scss';
 
-
 let App = React.createClass({
   
   getInitialState () {
@@ -34,8 +33,8 @@ let App = React.createClass({
     return Promise.resolve($.get('/api/user/info'))
     .tap((user) => {
       // TODO: Add logic to check if in production
-      // this.state.current.user = user;
-      // this.setState({ current: this.state.current });
+      this.state.current.user = user;
+      this.setState({ current: this.state.current });
     })
     .catch((err) => {
       console.error('Error getting user info', status, err.toString());
@@ -43,7 +42,7 @@ let App = React.createClass({
   },
   
   getGroups () {
-    return Promise.resolve($.get('/api/group/user/1'))
+    return Promise.resolve($.get('/api/group/user/' + this.state.current.user.user_id_google))
     .tap((groups) => {
       groups.forEach((group) => {
         // Group contents only loaded once clicked for the first time
@@ -75,7 +74,7 @@ let App = React.createClass({
   },
 
   getLinks () {
-    $.get('/api/link/user/1')
+    $.get('/api/link/user/' + this.state.current.user.user_id_google)
       .done((links) => {
         links.forEach((link) => {
           this.state.links['folderId_' + link.FolderId] = this.state.links['folderId_' + link.FolderId] || [];
