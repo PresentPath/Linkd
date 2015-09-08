@@ -8,8 +8,6 @@ import '../../stylesheets/components/linkDetail.scss';
 
 let LinkDetail = React.createClass({
 
-
-  
   render () {
 
     let link = this.props.currentLink;

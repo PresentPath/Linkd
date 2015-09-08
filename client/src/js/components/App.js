@@ -16,7 +16,7 @@ let App = React.createClass({
   getInitialState () {
     return {
       current: {
-        user: { user_id_google: '1', name_google: 'testUser1' }, 
+        user: { user_id_google: '1', name_google: 'testUser1' },
         group: {},
         folder: {},
         path: '/',
@@ -74,15 +74,15 @@ let App = React.createClass({
   },
 
   getLinks () {
-    $.get('/api/link/user/' + this.state.current.user.user_id_google)
-      .done((links) => {
+    return Promise.resolve($.get('/api/link/user/' + this.state.current.user.user_id_google))
+      .then((links) => {
         links.forEach((link) => {
           this.state.links['folderId_' + link.FolderId] = this.state.links['folderId_' + link.FolderId] || [];
           this.state.links['folderId_' + link.FolderId].push(link); 
         });
         this.setState({ links: this.state.links });
       })
-      .fail((err) => {
+      .catch((err) => {
         console.error('Error getting links list', status, err.toString());
       });
   },
@@ -97,7 +97,7 @@ let App = React.createClass({
             commentListByLink['linkId_' + comment.LinkId] = commentListByLink['linkId_' + comment.LinkId] || [];
             commentListByLink['linkId_' + comment.LinkId].push(comment);
           });
-          this.setState({ comments: this.state.comments });          
+          this.setState({ comments: this.state.comments });       
         })
         .fail((err) => {
           console.error('Error getting comments for group', group.id, status, err.toString());
@@ -113,11 +113,11 @@ let App = React.createClass({
       })
       .then(() => {
         this.getFolders();
+        // get link for user
+        this.getLinks();
         this.getComments();
       });
 
-      // get link for user
-      this.getLinks();
   },
 
   addGroup (groupName) {
@@ -180,6 +180,7 @@ let App = React.createClass({
   addLink (linkInfo) {
     let { linkName, linkURL } = linkInfo;
     let folderId = this.state.current.folder.id;
+    this.state.comments['groupId_' + this.state.current.group.id] = this.state.comments['groupId_' + this.state.current.group.id] || {};
     if (folderId) {
       this.state.links['folderId_' + folderId] = this.state.links['folderId_' + folderId] || [];
       let links = this.state.links['folderId_' + folderId];
@@ -190,6 +191,7 @@ let App = React.createClass({
           folderId: folderId
         })
         .done((link) => {
+          this.state.comments['groupId_' + this.state.current.group.id]['linkId_' + link.id] = [];
           this.updateLink(link);
           this.getLinks();
         })
@@ -205,7 +207,7 @@ let App = React.createClass({
     if (linkId) {
       let userId = this.state.current.user.user_id_google;
       this.state.comments['groupId_' + groupId] = this.state.comments['groupId_' + groupId] || {};
-      this.state.comments['groupId_' + groupId]['linkId_' + linkId] = this.state.comments['groupId_' + groupId]['linkId_' + linkId] || [];
+      this.state.comments['groupId_' + groupId]['linkId_' + linkId] = this.state.comments['groupId_' + groupId]['linkId_' + linkId];
       let comments = this.state.comments['groupId_' + groupId]['linkId_' + linkId];
       $.post('/api/comment/create', 
         { 
@@ -286,12 +288,23 @@ let App = React.createClass({
 
     let groupId = this.state.current.group.id;
     let linkId = this.state.current.link.id;
+    let comments;
 
-    let linkDetail = linkId ? (
+    // If a group and link have been selected at the time of rendering
+    if (groupId && linkId) {
+      // if comments exist for the link then use them, otherwise use an empty array for the comments
+      comments = this.state.comments['groupId_' + groupId]['linkId_' + linkId] ? this.state.comments['groupId_' + groupId]['linkId_' + linkId] : [];
+    } else {
+      // if a group and link have not been selected at the time of rendering
+      // then use an empty array for the comments
+      comments = [];
+    }
+
+    let linkDetail = groupId && linkId ? (
       <LinkDetail
         LinkDetail
         currentLink={this.state.current.link}
-        comments={this.state.comments['groupId_' + groupId]['linkId_' + linkId] || []}
+        comments={comments}
         addComment={this.addComment} />
     ) : undefined;
 
