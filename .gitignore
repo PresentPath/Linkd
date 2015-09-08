@@ -2,7 +2,6 @@
 
 client/dist/*.js
 client/dist/*.map
-client/dist/*.html
 
 node_modules
 
