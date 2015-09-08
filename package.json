@@ -7,7 +7,9 @@
     "test": "mocha --delay -R spec ./server/config/serverSpec.js",
     "start": "node ./server/serverSetup.js",
     "postinstall": "webpack --config ./webpack.config.js --progress --colors",
-    "dev": "webpack --watch"
+    "dev": "npm run start-dev | npm run webpack-dev",
+    "start-dev": "nodemon ./server/serverSetup.js",
+    "webpack-dev": "webpack --watch"
   },
   "repository": {
     "type": "git",
