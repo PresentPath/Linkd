@@ -79,7 +79,9 @@ db.sync()
       run(); // does not return a promise. cannot run before setUpDemoData because of the possibility of lock conflicts
     } else {
       // Create demo data
-      require('./testData.js').setUpDemoData();
+      if (process.env.NODE_ENV !== 'production') {
+        require('./testData.js').setUpDemoData();
+      }
     }
 
   });
