@@ -62,7 +62,10 @@ module.exports.getUsersList = function(req, res, next) {
 module.exports.getUserInfo = function(req, res, next) {
 
   User.find({ where: { user_id_google: req.session.passport.user } })
-    .then(helpers.handleSuccess(res, 'Retrieved user info from database'))
+    .then(function(user) {
+      user.dataValues.productionEnvironment = process.env.NODE_ENV === 'production';
+      helpers.handleSuccess(res, 'Retrieved user info from database', user);
+    })
     .error(helpers.handleError(res, 'Error retrieving user info:'));
 
 };

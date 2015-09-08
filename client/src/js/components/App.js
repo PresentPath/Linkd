@@ -32,9 +32,16 @@ let App = React.createClass({
   getUser () {
     return Promise.resolve($.get('/api/user/info'))
     .tap((user) => {
-      // TODO: Add logic to check if in production
-      this.state.current.user = user;
-      this.setState({ current: this.state.current });
+      console.log('user:', user);
+      console.log('user.productionEnvironment', user.productionEnvironment);
+      // If in a production environment then set the user
+      // to the authenticated user
+      // Otherwise use the mock user for development
+      if (user.productionEnvironment) {
+        console.log('Production');
+        this.state.current.user = user;
+        this.setState({ current: this.state.current });
+      }
     })
     .catch((err) => {
       console.error('Error getting user info', status, err.toString());

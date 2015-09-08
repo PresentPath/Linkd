@@ -18,7 +18,6 @@ module.exports.getGroupsList = function(req, res, next) {
   })
   .then(helpers.handleSuccess(res, 'Successfully retrieved groups list for user'))
   .error(helpers.handleError(res, 'Error retrieving groups list from database:'));
-
 };
 
 // Create a new Group instance in the database based on data sent in the request

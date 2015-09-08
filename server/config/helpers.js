@@ -26,7 +26,6 @@ module.exports.handleError = R.curry(function(res, message, err) {
 });
 
 module.exports.handleSuccess = R.curry(function(res, message, result) {
-  // console.log(message);
   res.send(result);
 });
 
