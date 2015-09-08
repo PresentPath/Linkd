@@ -155,7 +155,10 @@ let App = React.createClass({
         return this.getFolders();
       })
       .then(() => {
-        this.updateGroup(group);
+        let groupReference = this.state.groups.filter((currentGroup) => {
+          return currentGroup.id === group.id;
+        })[0];
+        this.updateGroup(groupReference);
       })
       .catch((err) => {
         console.error('Error creating group', group.id, status, err.toString());
@@ -253,7 +256,7 @@ let App = React.createClass({
   updateGroup (selectedGroup) {
     // Set isRendered flag to true and make group visible
     selectedGroup.isRendered = true;
-    // Hide all groups except fpr selected group
+    // Hide all groups except for selected group
     this.state.groups.forEach((group) => {
       group.display = 'none';
     });
@@ -264,7 +267,7 @@ let App = React.createClass({
     })[0];
     this.updateFolder(folder);
     // Trigger re-render
-    this.setState({ current: this.state.current });
+    this.setState({ current: this.state.current, groups: this.state.groups });
   },
 
   updateFolder (targetFolder) {
