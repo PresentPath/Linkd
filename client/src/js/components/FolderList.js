@@ -3,17 +3,6 @@
 import React from 'react';
 import Folder from './Folder';
 
-/*
-FolderList
-- props:
-  - updateFolder
-  - updateLink
-  - folders
-  - links
-
- */
-
-
 let FolderList = React.createClass({
   
   render () {
