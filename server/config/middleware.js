@@ -46,20 +46,22 @@ module.exports = function(app, express) {
   var commentRouter = express.Router();
 
   // // FOR PRODUCTION
-  // // Connect request paths to appropriate routers
-  // app.use('/api/user', userRouter);
-  // app.use('/api/group',isLoggedIn, groupRouter);
-  // app.use('/api/folder',isLoggedIn, folderRouter);
-  // app.use('/api/link',isLoggedIn, linkRouter);
-  // app.use('/api/comment',isLoggedIn, commentRouter);
-
-  // FOR DEV ONLY - Unprotected endpoints 
-  // Connect request paths to appropriate routers
-  app.use('/api/user', userRouter);
-  app.use('/api/group', groupRouter);
-  app.use('/api/folder', folderRouter);
-  app.use('/api/link', linkRouter);
-  app.use('/api/comment', commentRouter);
+  if (process.env.NODE_ENV === 'production') {
+    // Connect request paths to appropriate routers
+    app.use('/api/user', userRouter);
+    app.use('/api/group',isLoggedIn, groupRouter);
+    app.use('/api/folder',isLoggedIn, folderRouter);
+    app.use('/api/link',isLoggedIn, linkRouter);
+    app.use('/api/comment',isLoggedIn, commentRouter);
+  } else {
+    // FOR DEV ONLY - Unprotected endpoints 
+    // Connect request paths to appropriate routers
+    app.use('/api/user', userRouter);
+    app.use('/api/group', groupRouter);
+    app.use('/api/folder', folderRouter);
+    app.use('/api/link', linkRouter);
+    app.use('/api/comment', commentRouter);
+  }
 
   // Load routes and pass in app and fully configured passport
   require('../User/userRouter.js')(userRouter, passport); 
