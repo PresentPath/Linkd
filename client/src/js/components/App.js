@@ -49,8 +49,11 @@ let App = React.createClass({
         group.isRendered = false;
         // Style attribute used to display only group with focus
         group.display = 'none';
+        // Initialize the comments for the group to an empty object
+        // to be populated when we get the comments data
+        this.state.comments['groupId_' + group.id] = {};
       });
-      this.setState({ groups });
+      this.setState({ groups, comments: this.state.comments });
     })
     .catch((err) => {
       console.error('Error getting groups list', status, err.toString());
@@ -73,14 +76,30 @@ let App = React.createClass({
     });
   },
 
+  getGroupForLink (link) {
+    let groupId;
+    this.state.groups.some((group) => {
+      return this.state.folders['groupId_' + group.id].some((folder) => {
+        if (folder.id === link.FolderId) {
+          return groupId = group.id;
+        }
+      });
+    });
+    return groupId;
+  },
+
   getLinks () {
     return Promise.resolve($.get('/api/link/user/' + this.state.current.user.user_id_google))
       .then((links) => {
         links.forEach((link) => {
+          // Store the links by the folder that they belong to
           this.state.links['folderId_' + link.FolderId] = this.state.links['folderId_' + link.FolderId] || [];
-          this.state.links['folderId_' + link.FolderId].push(link); 
+          this.state.links['folderId_' + link.FolderId].push(link);
+          // Initialize the comments for the link to an empty array
+          // to be populated when we get the comments data
+          this.state.comments['groupId_' + this.getGroupForLink(link)]['linkId_' + link.id] = [];
         });
-        this.setState({ links: this.state.links });
+        this.setState({ links: this.state.links, comments: this.state.comments });
       })
       .catch((err) => {
         console.error('Error getting links list', status, err.toString());
@@ -91,10 +110,8 @@ let App = React.createClass({
     this.state.groups.forEach((group) => {
       $.get('/api/comment/group/' + group.id)
         .done((comments) => {
-          this.state.comments['groupId_' + group.id] = {};
           let commentListByLink = this.state.comments['groupId_' + group.id];
           comments.forEach((comment) => {
-            commentListByLink['linkId_' + comment.LinkId] = commentListByLink['linkId_' + comment.LinkId] || [];
             commentListByLink['linkId_' + comment.LinkId].push(comment);
           });
           this.setState({ comments: this.state.comments });       
@@ -106,18 +123,23 @@ let App = React.createClass({
   },
 
   componentDidMount () {
-    // Get groups then get folders and comments for group
+    // Retrieve initial data
     this.getUser()
       .then(() => {
         return this.getGroups();
       })
       .then(() => {
-        this.getFolders();
-        // get link for user
-        this.getLinks();
+        return this.getFolders();
+      })
+      .then(() => {
+        return this.getLinks();
+      })
+      .then(() => {
         this.getComments();
+      })
+      .catch((err) => {
+        console.error('Error in initializing data', status, err.toString());
       });
-
   },
 
   addGroup (groupName) {
