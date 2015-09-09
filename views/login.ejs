@@ -6,14 +6,76 @@
   </head>
   <body>
 
-    <div class="container">
+    <style type="text/css"> 
+      body {
+        margin: 0;
+        background-image: url('/assets/debut_light.png');
+      }
 
-      <div class="jumbotron text-center">
-        <p>Login or Register with:</p>
+      .header {
+        overflow: auto;
+        background-color: #424242;
+        border-bottom: solid 1px #BCBCBC;
+        padding: 0.5em;
+      }
 
-        <a href="/api/user/auth/google" class="btn btn-danger"><span class="fa fa-google-plus"></span> Google </a>
-      </div>
+      h1 {
+        float: left;
+        width: 50%;
+        margin: 0;
+        font-family: 'Lato', sans-serif;
+        font-weight: 900;
+        color: #E98977;
+      }
 
+      .tagline {
+        float: left;
+        width: 50%;
+        clear: both;
+        margin-top: 0;
+        margin-bottom: 0.5em;
+        font-family: 'Source Sans Pro', sans-serif;
+        font-weight: 600;
+        color: #E9E9E9;
+      }
+
+      .logout {
+        float: right;
+        width: 50%;
+        text-align: right;
+        font-family: 'Lato', sans-serif;
+        font-weight: 700;
+      }
+
+      .logoutButton, .logoutButton:visited {
+        color: #D1D1D1;
+      }
+
+      .greeting {
+        margin: 0 0.5em;
+        font-family: 'Source Sans Pro', sans-serif;
+        color: #E9E9E9;
+      }
+
+      .login {
+        text-align: center;
+        border: solid 3px #BCBCBC;
+        width: 30%;
+        margin: 5em auto;
+        padding: 5em 0;
+        font-family: 'Lato', sans-serif;
+        font-weight: bold;
+        background-color: #E9E9E9;
+      }
+    </style>
+
+    <div class="header">
+      <h1> &lt; &gt; Linkd </h1>
+      <h4 class="tagline">Share bookmarks with your friends! </h4>
+    </div>
+    <div class="login">
+      <p>Login or Register with:</p>
+      <a href="/api/user/auth/google" class="btn btn-danger"><span class="fa fa-google-plus"></span> Google </a>
     </div>  
 
   </body>
