@@ -1,17 +1,24 @@
+(store)
+[props]
 
 App 
-  Header
-  Toolbar
-  GroupList
-    Group  
-      FolderList
-        Folder
+  Header (getCurrentUser)
+  Toolbar (getCurrentGroup, getCurrentFolder, createNewGroup, addUserToGroup, addSubfolderToFolder, addLinkToFolder)
+  GroupList (getGroupsForUser)
+    Group [group] . (addUserToGroup, addLinkToFolder, addFolderToFolder)
+      FolderList (getSubFolders)
+        Folder [folder] . (addLinkToFolder, addFolderToFolder)
           FolderList
           LinkList
-  LinkDetail
-    CommentList
-      Comment
-    CommentForm
+      LinkList (getLinksForFolder)
+  LinkDetail (getCurrentLink)
+    CommentList (getCommentsForLink)
+      Comment [comment]
+    CommentForm (addCommentForLink)
+
+^ POST-FLUX IMPLEMENTATION
+##############################################################
+PRE-FLUX IMPLEMENTATION
 
 // fetch all data up front - setState when received
 // if user updates anything (toolbar or new comment in LinkDetail), call post function, get updated data back and update state
