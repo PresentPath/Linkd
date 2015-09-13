@@ -6,7 +6,11 @@ var assign = require('object-assign');
 var ActionTypes = UserConstants.ActionTypes;
 var CHANGE_EVENT = 'change';
 
-var _user = {};
+// TODO: REMOVE FOR PRODUCTION
+var _user = { 
+  user_id_google: '1', 
+  name_google: 'testUser1' 
+};
 
 var UserStore = assign({}, EventEmitter.prototype, {
   
