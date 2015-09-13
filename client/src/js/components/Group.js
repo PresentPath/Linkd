@@ -7,6 +7,10 @@ import LinkList from './LinkList';
 
 let Group = React.createClass({
 
+  updateCurrentGroup () {
+    console.log(this.props.group);
+  },
+
   render () {
     let group = this.props.group;  
 
@@ -17,12 +21,6 @@ let Group = React.createClass({
     let userList = group.Users.reduce((list, user) => {
       return list + user.name_google + ', ';
     }, '').slice(0, -2);
-
-    this.props.folders['groupId_' + group.id] = this.props.folders['groupId_' + group.id] || [];
-
-    let rootFolder = this.props.folders['groupId_' + group.id].filter((folder) => {
-      return folder.isRoot;
-    })[0];
 
     let contents = group.isRendered ? (
       <div className="groupContents" style={style}> 
@@ -42,12 +40,13 @@ let Group = React.createClass({
 
     return (
       <div className="group">
-        <div className="groupName" onClick={this.props.updateGroup.bind(null, group)}> {group.name} </div>
+        <div className="groupName" onClick={this.updateCurrentGroup}> {group.name} </div>
         {contents}
       </div>
     );
 
   }
+
 });
 
 export default Group;
