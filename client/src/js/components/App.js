@@ -2,21 +2,39 @@
 
 import $ from 'jquery';
 import Promise from 'bluebird';
-
 import React from 'react';
+
 import Header from './Header';
 import Toolbar from './Toolbar';
 import GroupList from './GroupList';
 import LinkDetail from './LinkDetail';
 
+import UserStore from '../stores/UserStore';
+
 import '../../stylesheets/components/app.scss';
+
+// function getStateFromStores() {
+//   return {
+//     current: {
+//       user: {},
+//       group: {},
+//       folder: {},
+//       path: '/',
+//       link: {} 
+//     },
+//     groups: [],  
+//     folders: {},
+//     links: {},
+//     comments: {} 
+//   };
+// };
 
 let App = React.createClass({
   
   getInitialState () {
     return {
       current: {
-        user: { user_id_google: '1', name_google: 'testUser1' },
+        user: UserStore.getUser(),
         group: {},
         folder: {},
         path: '/',
@@ -29,21 +47,21 @@ let App = React.createClass({
     };
   },
 
-  getUser () {
-    return Promise.resolve($.get('/api/user/info'))
-    .tap((user) => {
-      // If in a production environment then set the user
-      // to the authenticated user
-      // Otherwise use the mock user for development
-      if (user.productionEnvironment) {
-        this.state.current.user = user;
-        this.setState({ current: this.state.current });
-      }
-    })
-    .catch((err) => {
-      console.error('Error getting user info', status, err.toString());
-    });
-  },
+  // getUser () {
+  //   return Promise.resolve($.get('/api/user/info'))
+  //   .tap((user) => {
+  //     // If in a production environment then set the user
+  //     // to the authenticated user
+  //     // Otherwise use the mock user for development
+  //     if (user.productionEnvironment) {
+  //       this.state.current.user = user;
+  //       this.setState({ current: this.state.current });
+  //     }
+  //   })
+  //   .catch((err) => {
+  //     console.error('Error getting user info', status, err.toString());
+  //   });
+  // },
   
   getGroups () {
     return Promise.resolve($.get('/api/group/user/' + this.state.current.user.user_id_google))
@@ -130,10 +148,15 @@ let App = React.createClass({
 
   componentDidMount () {
     // Retrieve initial data
-    this.getUser()
-      .then(() => {
-        return this.getGroups();
-      })
+    // this.getUser()
+      // .then(() => {
+      //   return 
+      // })
+    
+    UserStore.addChangeListener(this._onChange);
+
+    setTimeout(() => {
+      this.getGroups()
       .then(() => {
         return this.getFolders();
       })
@@ -146,6 +169,11 @@ let App = React.createClass({
       .catch((err) => {
         console.error('Error in initializing data', status, err.toString());
       });
+    }, 1000);
+  },
+
+  componentWillUnmount() {
+    UserStore.removeChangeListener(this._onChange);
   },
 
   addGroup (groupName) {
@@ -363,8 +391,14 @@ let App = React.createClass({
 
       </div>
     );
+  },
+
+  _onChange () {
+    this.state.current.user = UserStore.getUser();
+    this.setState({ current: this.state.current });
   }
+
 });
 
-React.render(<App/>, document.getElementById('main'));
+export default App;
 
