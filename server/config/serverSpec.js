@@ -39,7 +39,7 @@ describe('basic server connection test', function() {
 });
 
 // Test database controllers
-describe('database controller function tests', function() {
+describe('database controller tests', function() {
 
   userSpec()
   .then(function() {
@@ -57,29 +57,5 @@ describe('database controller function tests', function() {
   .catch(function(err) {
     console.error('Error testing database controllers:', err);
   });
-
-
-
-  // Group Controller
-  // describe('Group Controller tests', function() {
-  //   console.log('GROUP CONTROLLER TESTS');
-    // Create 2 groups
-    // it('should create groups', function(done) {
-    //   app.
-    // });
-
-    // Add users to groups
-    // Get users in group
-    // List groups
-    // Delete group
-    // Rename group
-
-  // });
-
-  // Folder Controller
-    // Create 2 new folders
-    // Rename folder
-    // Create 2 sub folders in a folder
-    // Delete folder (and all subfolders inside)
 
 });
