@@ -41,7 +41,7 @@ let LinkDetail = React.createClass({
       <div className="linkDetail">
         <div className="linkName"> {link.name} </div>
         <div className="linkURL"> <a href={url} target="_blank"> {url} </a> </div>
-        <CommentList linkId={link.id} />
+        <CommentList />
         <CommentForm />
       </div>
     );

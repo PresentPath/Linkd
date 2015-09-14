@@ -4,8 +4,11 @@ import React from 'react';
 import moment from 'moment';
 
 import CommentStore from '../stores/CommentStore';
+import LinkStore from '../stores/LinkStore';
 
-function getStateFromStores(linkId) {
+function getStateFromStores() {
+  console.log('get comments');
+  var linkId = LinkStore.getSelectedLink().id;
   return {
     comments: CommentStore.getCommentsForLink(linkId) || []
   };
@@ -26,16 +29,19 @@ function getCommentListItem(comment) {
 let CommentList = React.createClass({
 
   getInitialState () {
-    return getStateFromStores(this.props.linkId);
+    console.log('get comment state');
+    return getStateFromStores();
   },
 
   componentDidMount () {
     CommentStore.addChangeListener(this._onChange);
+    LinkStore.addChangeListener(this._onChange);
     this._scrollToBottom();
   },
 
   componentWillUnmount () {
     CommentStore.removeChangeListener(this._onChange);
+    LinkStore.removeChangeListener(this._onChange);
   },
 
   componentDidUpdate () {
