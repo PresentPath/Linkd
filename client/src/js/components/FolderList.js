@@ -8,7 +8,8 @@ import FolderForm from './FolderForm';
 
 function getStateFromStores(parentFolderInfo) {
   return {
-    folders: FolderStore.getSubfolders(parentFolderInfo)
+    folders: FolderStore.getSubfolders(parentFolderInfo),
+    selectedFolderId: FolderStore.getSelectedFolderId()
   };
 };
 
@@ -46,10 +47,16 @@ let FolderList = React.createClass({
         return getFolderListItem(folders[folderId]);
       });
 
+    let folderForm;
+
+    if (this.state.selectedFolderId === parentFolderId) {
+      folderForm = <FolderForm groupId={groupId} parentId={parentFolderId} />
+    }
+
     return (
       <div className="folderList">
         {folderListItems}
-        <FolderForm groupId={groupId} parentId={parentFolderId} />
+        {folderForm}
       </div>
     );
   },

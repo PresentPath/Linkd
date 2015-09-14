@@ -3,13 +3,15 @@
 import React from 'react';
 
 import LinkStore from '../stores/LinkStore';
+import FolderStore from '../stores/FolderStore';
 import LinkActions from '../actions/LinkActions';
 
 import LinkForm from './LinkForm';
 
 function getStateFromStores(parentFolderId) {
   return {
-    links: LinkStore.getLinksForFolder(parentFolderId) || []
+    links: LinkStore.getLinksForFolder(parentFolderId) || [],
+    selectedFolderId: FolderStore.getSelectedFolderId() 
   };
 };
 
@@ -31,20 +33,30 @@ let LinkList = React.createClass({
 
   componentDidMount () {
     LinkStore.addChangeListener(this._onChange);
+    FolderStore.addChangeListener(this._onChange);
   },
 
   componentWillUnmount () {
     LinkStore.removeChangeListener(this._onChange);
+    FolderStore.removeChangeListener(this._onChange);
   },
 
   render () {
 
     let linkListItems = this.state.links.map(getLinkListItem);
 
+    let parentFolderId = this.props.parentFolderId;
+
+    let linkForm;
+
+    if (this.state.selectedFolderId === parentFolderId) {
+      linkForm = <LinkForm parentId={this.props.parentFolderId} />
+    }
+
     return (
       <div className="linkList">
         {linkListItems}
-        <LinkForm parentId={this.props.parentFolderId} />
+        {linkForm}
       </div>
     );
   },

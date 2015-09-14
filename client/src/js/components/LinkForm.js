@@ -29,7 +29,6 @@ let LinkForm = React.createClass({
         <form className="newLink" onSubmit={this.handleLinkSubmit}>
           <input type="text" placeholder="new link name" ref="linkName" />
           <input type="text" placeholder="new link url" ref="linkURL" />
-          <input type="submit" value="Add" />
         </form>
       </div>
     );

@@ -27,11 +27,14 @@ let MemberForm = React.createClass({
   },
 
   render () {
+    let style = {
+      display: 'inline'
+    };
+
     return (
-      <div className="memberForm">
-        <form className="newMember" onSubmit={this.handleMemberSubmit}>
+      <div className="memberForm" style={style}>
+        <form className="newMember" onSubmit={this.handleMemberSubmit} style={style}>
           <input type="text" placeholder="new member" ref="userEmail" />
-          <input type="submit" value="Add" />
         </form>
       </div>
     );

@@ -48,6 +48,10 @@ var FolderStore = assign({}, EventEmitter.prototype, {
 
   getRootFolderId (groupId) {
     return _folders[groupId].rootFolderId;
+  },
+
+  getSelectedFolderId () {
+    return _selectedFolderId;
   }
 
 });
