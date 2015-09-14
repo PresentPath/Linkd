@@ -8,7 +8,7 @@ var FolderActions = require('../actions/FolderActions');
 var ActionTypes = LinkConstants.ActionTypes;
 var CHANGE_EVENT = 'change';
 
-var _selectedLinkId;
+var _selectedLink;
 
 var _links = {};
 // Format: {
@@ -31,6 +31,10 @@ var LinkStore = assign({}, EventEmitter.prototype, {
 
   getLinksForFolder (folderId) {
     return _links[folderId];
+  },
+
+  getSelectedLink () {
+    return _selectedLink;
   }
 
 });
@@ -49,8 +53,7 @@ LinkStore.dispatchToken = Dispatcher.register((action) => {
       break;
 
     case ActionTypes.UPDATE_SELECTED_LINK:
-      var linkId = action.linkId;
-      _selectedLinkId = linkId;
+      _selectedLink = action.link;
       LinkStore.emitChange();
       break;
 

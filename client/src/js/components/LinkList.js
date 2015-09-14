@@ -4,7 +4,6 @@ import React from 'react';
 
 import LinkStore from '../stores/LinkStore';
 import LinkActions from '../actions/LinkActions';
-import CommentActions from '../actions/CommentActions';
 
 function getStateFromStores(parentFolderId) {
   return {
@@ -12,9 +11,8 @@ function getStateFromStores(parentFolderId) {
   };
 };
 
-function updateSelectedLink (linkId) {
-  LinkActions.updateSelectedLink(linkId);
-  CommentActions.updateSelectedComment(linkId);
+function updateSelectedLink (link) {
+  LinkActions.updateSelectedLink(link);
 };
 
 function getLinkListItem(link) {

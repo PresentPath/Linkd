@@ -18,6 +18,7 @@ let App = React.createClass({
       <div className="app">
         <Header />
         <GroupList />
+        <LinkDetail />
       </div>
     );
   }

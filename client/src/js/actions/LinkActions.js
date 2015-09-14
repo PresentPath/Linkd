@@ -12,10 +12,10 @@ module.exports = {
     })
   },
 
-  updateSelectedLink (linkId) {
+  updateSelectedLink (link) {
     Dispatcher.dispatch({
       type: ActionTypes.UPDATE_SELECTED_LINK,
-      linkId: linkId
+      link: link
     });
   }
 

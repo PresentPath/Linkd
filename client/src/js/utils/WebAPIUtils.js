@@ -12,6 +12,7 @@ var UserActions = require('../actions/UserActions');
 var GroupActions = require('../actions/GroupActions');
 var FolderActions = require('../actions/FolderActions');
 var LinkActions = require('../actions/LinkActions');
+var CommentActions = require('../actions/CommentActions');
 
 module.exports = {
 
@@ -31,20 +32,21 @@ module.exports = {
           };
         }
         UserActions.receiveUser(rawUser);
-        this.getGroups(rawUser.user_id_google);
-        this.getLinks(rawUser.user_id_google);
+        this.getGroupsForUser(rawUser.user_id_google);
+        this.getLinksForUser(rawUser.user_id_google);
       })
       .fail((err) => {
         console.error('Error getting user info', status, err.toString());
       });
   },
 
-  getGroups(userId) {
+  getGroupsForUser(userId) {
     $.get('/api/group/user/' + userId)
       .done((rawGroups) => {
         GroupActions.receiveGroups(rawGroups);
         rawGroups.forEach((group) => {
-          this.getFolders(group.id);
+          this.getFoldersForGroup(group.id);
+          this.getCommentsForGroup(group.id);
         });
       })
       .fail((err) => {
@@ -52,7 +54,7 @@ module.exports = {
       });
   },
 
-  getFolders(groupId) {
+  getFoldersForGroup(groupId) {
     $.get('/api/folder/group/' + groupId)
       .done((rawFolders) => {
         rawFolders.groupId = groupId;
@@ -63,13 +65,24 @@ module.exports = {
       });
   },
 
-  getLinks(userId) {
+  getLinksForUser(userId) {
     $.get('/api/link/user/' + userId)
       .done((rawLinks) => {
         LinkActions.receiveLinks(rawLinks);
       })
       .fail((err) => {
         console.error('Error getting links list', status, err.toString());
+      });
+  },
+
+  getCommentsForGroup(groupId) {
+    $.get('/api/comment/group/' + groupId)
+      .done((rawComments) => {
+        rawComments.groupId = groupId;
+        CommentActions.receiveCommentsForGroup(rawComments);
+      })
+      .fail((err) => {
+        console.error('Error getting comments for group', groupId, status, err.toString());
       });
   }
 
