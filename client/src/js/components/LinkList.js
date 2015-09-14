@@ -5,6 +5,8 @@ import React from 'react';
 import LinkStore from '../stores/LinkStore';
 import LinkActions from '../actions/LinkActions';
 
+import LinkForm from './LinkForm';
+
 function getStateFromStores(parentFolderId) {
   return {
     links: LinkStore.getLinksForFolder(parentFolderId) || []
@@ -42,6 +44,7 @@ let LinkList = React.createClass({
     return (
       <div className="linkList">
         {linkListItems}
+        <LinkForm parentId={this.props.parentFolderId} />
       </div>
     );
   },

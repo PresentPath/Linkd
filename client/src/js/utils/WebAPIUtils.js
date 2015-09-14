@@ -132,3 +132,14 @@ module.exports.createFolder = function(folder) {
       console.error('Error creating folder', status, err.toString());
     });
 };
+
+module.exports.createLink = function(link) {
+  $.post('/api/link/create', link)
+    .done((link) => {
+      LinkActions.receiveCreatedLink(link);
+      LinkActions.updateSelectedLink(link);
+    })
+    .fail((err) => {
+      console.error('Error creating link', status, err.toString());
+    });
+};

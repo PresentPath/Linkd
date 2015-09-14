@@ -19,7 +19,6 @@ let CommentForm = React.createClass({
     comment.groupId = GroupStore.getSelectedGroupId();
     
     CommentActions.createCommentForLink(comment);
-    console.log('add comment', comment);
   },
   
   handleCommentSubmit (e) {

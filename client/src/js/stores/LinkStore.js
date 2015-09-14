@@ -57,6 +57,13 @@ LinkStore.dispatchToken = Dispatcher.register((action) => {
       LinkStore.emitChange();
       break;
 
+    case ActionTypes.RECEIVE_CREATED_LINK:
+      var link = action.rawLink;
+      var folderId = link.FolderId;
+      _links[folderId] = _links[folderId] || [];
+      _links[folderId].push(link);
+      break;
+
     default:      
       // do nothing
   }
