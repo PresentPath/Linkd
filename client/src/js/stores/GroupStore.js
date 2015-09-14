@@ -59,7 +59,6 @@ GroupStore.dispatchToken = Dispatcher.register((action) => {
         _groups[group.id] = group;
       });
       GroupStore.emitChange();
-      console.log(rawGroups);
       break;
 
     case ActionTypes.UPDATE_SELECTED_GROUP:
