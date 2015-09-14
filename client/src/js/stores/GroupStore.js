@@ -4,6 +4,7 @@ var EventEmitter = require('events').EventEmitter;
 var assign = require('object-assign');
 
 var UserStore = require('./UserStore');
+var FolderStore = require('./FolderStore');
 
 var FolderActions = require('../actions/FolderActions');
 
@@ -13,6 +14,10 @@ var CHANGE_EVENT = 'change';
 var _selectedGroupId;
 
 var _groups = {};
+// format:
+// {
+//   groupId: groupObject
+// }
 
 var GroupStore = assign({}, EventEmitter.prototype, {
   
@@ -69,15 +74,9 @@ GroupStore.dispatchToken = Dispatcher.register((action) => {
 
     case ActionTypes.RECEIVE_RAW_CREATED_GROUP:
       var groupId = action.rawGroup.id;
-      _selectedGroupId = groupId;
       _groups[groupId] = action.rawGroup;
-      _groups[groupId].isRendered = true;
-      for (var key_groupId in _groups) {
-        _groups[key_groupId].display = 'none';
-      }
-      _groups[groupId].display = 'block';
-      GroupStore.emitChange();
       break;
+
 
     default:      
       // do nothing

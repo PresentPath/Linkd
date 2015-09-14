@@ -106,23 +106,11 @@ FolderStore.dispatchToken = Dispatcher.register((action) => {
 
     case ActionTypes.RECEIVE_RAW_CREATED_FOLDER:
       var folder = action.rawFolder;
-      _selectedGroupId = folder.GroupId;
-      _selectedFolderId = folder.id;
-      _folders[_selectedGroupId] = _folders[_selectedGroupId] || {};
-      var groupFolders = _folders[_selectedGroupId];
-      groupFolders[_selectedFolderId] = folder;
-
-      // Display folders in hierarchy of selected folder
-      while (folder.ParentId !== null) {
-        _path = folder.name + '/' + _path;
-        // Set isRendered flag to true and make folder visible
-        folder.isRendered = true;
-        folder.display = 'block';
-        folder = groupFolders[folder.ParentId]; 
-      }
-
-      if (folder.isRoot) groupFolders.rootFolderId = _selectedFolderId;
-      FolderStore.emitChange();
+      var groupId = folder.GroupId;
+      _folders[groupId] = _folders[groupId] || {};
+      var groupFolders = _folders[groupId];
+      groupFolders[folder.id] = folder;
+      if (folder.isRoot) groupFolders.rootFolderId = folder.id;
       break;
 
     default:      

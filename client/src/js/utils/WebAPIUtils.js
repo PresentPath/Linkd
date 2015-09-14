@@ -99,8 +99,12 @@ module.exports = {
   createGroup(group) {
     $.post('/api/group/create', group)
       .done((response) => {
-        GroupActions.receiveCreatedGroup(response[0]);
-        FolderActions.receiveCreatedFolder(response[1]);
+        var rawGroup = response[0];
+        var rawFolder = response[1];
+        GroupActions.receiveCreatedGroup(rawGroup);
+        FolderActions.receiveCreatedFolder(rawFolder);
+        GroupActions.updateSelectedGroup(rawGroup.id);
+        FolderActions.updateSelectedFolderToRoot(rawGroup.id);
       })
       .fail((err) => {
         console.error('Error creating group', group.id, status, err.toString());
