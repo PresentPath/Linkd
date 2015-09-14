@@ -6,8 +6,10 @@ import moment from 'moment';
 import CommentStore from '../stores/CommentStore';
 import LinkStore from '../stores/LinkStore';
 
+import '../../stylesheets/components/linkDetail.scss';
+
+
 function getStateFromStores() {
-  console.log('get comments');
   var linkId = LinkStore.getSelectedLink().id;
   return {
     comments: CommentStore.getCommentsForLink(linkId) || []
@@ -29,7 +31,6 @@ function getCommentListItem(comment) {
 let CommentList = React.createClass({
 
   getInitialState () {
-    console.log('get comment state');
     return getStateFromStores();
   },
 
