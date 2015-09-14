@@ -30,6 +30,10 @@ var GroupStore = assign({}, EventEmitter.prototype, {
 
   getGroups () {
     return _groups;
+  },
+
+  getSelectedGroupId () {
+    return _selectedGroupId;
   }
 
 });

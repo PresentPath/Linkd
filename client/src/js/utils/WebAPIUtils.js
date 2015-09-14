@@ -79,10 +79,21 @@ module.exports = {
     $.get('/api/comment/group/' + groupId)
       .done((rawComments) => {
         rawComments.groupId = groupId;
+        console.log(CommentActions);
         CommentActions.receiveCommentsForGroup(rawComments);
       })
       .fail((err) => {
         console.error('Error getting comments for group', groupId, status, err.toString());
+      });
+  },
+
+  createComment(comment) {
+    $.post('/api/comment/create', comment)
+      .done((rawComment) => {
+        CommentActions.receiveCreatedComment(rawComment);
+      })
+      .fail((err) => {
+        console.error('Error creating comment', status, err.toString());
       });
   }
 

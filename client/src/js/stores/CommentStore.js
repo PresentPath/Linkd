@@ -46,6 +46,14 @@ CommentStore.dispatchToken = Dispatcher.register((action) => {
       CommentStore.emitChange();
       break;
 
+    case ActionTypes.RECEIVE_RAW_CREATED_MESSAGE:
+      var rawComment = action.rawComment;
+      var linkId = rawComment.LinkId;
+      _comments[linkId] = _comments[linkId] || [];
+      _comments[linkId].push(rawComment);
+      CommentStore.emitChange();
+      break;
+
     default:      
       // do nothing
   }
