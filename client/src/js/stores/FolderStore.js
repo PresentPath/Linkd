@@ -47,6 +47,8 @@ var FolderStore = assign({}, EventEmitter.prototype, {
   },
 
   getRootFolderId (groupId) {
+    console.log('groupId', groupId)
+    console.log('groupFolders', _folders)
     return _folders[groupId].rootFolderId;
   }
 
@@ -93,10 +95,33 @@ FolderStore.dispatchToken = Dispatcher.register((action) => {
 
     case ActionTypes.UPDATE_SELECTED_FOLDER_TO_ROOT:
       _selectedGroupId = action.groupId;
-      _selectedFolderId = _folders[_selectedGroupId].rootFolderId;
-      var rootFolder = _folders[_selectedGroupId][_selectedFolderId];
+      var groupFolders = _folders[_selectedGroupId];
+      _selectedFolderId = groupFolders.rootFolderId;
+      var rootFolder = groupFolders[_selectedFolderId];
+      _path = rootFolder.name + '/';
       rootFolder.isRendered = true;
       rootFolder.display = 'block';
+      FolderStore.emitChange();
+      break;
+
+    case ActionTypes.RECEIVE_RAW_CREATED_FOLDER:
+      var folder = action.rawFolder;
+      _selectedGroupId = folder.GroupId;
+      _selectedFolderId = folder.id;
+      _folders[_selectedGroupId] = _folders[_selectedGroupId] || {};
+      var groupFolders = _folders[_selectedGroupId];
+      groupFolders[_selectedFolderId] = folder;
+
+      // Display folders in hierarchy of selected folder
+      while (folder.ParentId !== null) {
+        _path = folder.name + '/' + _path;
+        // Set isRendered flag to true and make folder visible
+        folder.isRendered = true;
+        folder.display = 'block';
+        folder = groupFolders[folder.ParentId]; 
+      }
+
+      if (folder.isRoot) groupFolders.rootFolderId = _selectedFolderId;
       FolderStore.emitChange();
       break;
 

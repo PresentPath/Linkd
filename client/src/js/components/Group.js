@@ -20,6 +20,7 @@ let Group = React.createClass({
 
   render () {
     let group = this.props.group;  
+    console.log(group.name);
 
     let style = {
       display: group.display

@@ -94,6 +94,17 @@ module.exports = {
       .fail((err) => {
         console.error('Error creating comment', status, err.toString());
       });
+  },
+
+  createGroup(group) {
+    $.post('/api/group/create', group)
+      .done((response) => {
+        GroupActions.receiveCreatedGroup(response[0]);
+        FolderActions.receiveCreatedFolder(response[1]);
+      })
+      .fail((err) => {
+        console.error('Error creating group', group.id, status, err.toString());
+      });
   }
 
 };

@@ -67,6 +67,18 @@ GroupStore.dispatchToken = Dispatcher.register((action) => {
       GroupStore.emitChange();
       break;
 
+    case ActionTypes.RECEIVE_RAW_CREATED_GROUP:
+      var groupId = action.rawGroup.id;
+      _selectedGroupId = groupId;
+      _groups[groupId] = action.rawGroup;
+      _groups[groupId].isRendered = true;
+      for (var key_groupId in _groups) {
+        _groups[key_groupId].display = 'none';
+      }
+      _groups[groupId].display = 'block';
+      GroupStore.emitChange();
+      break;
+
     default:      
       // do nothing
   }

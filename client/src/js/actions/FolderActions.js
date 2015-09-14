@@ -24,6 +24,13 @@ module.exports = {
       type: ActionTypes.UPDATE_SELECTED_FOLDER_TO_ROOT,
       groupId: groupId
     });
+  },
+
+  receiveCreatedFolder (createdFolder) {
+    Dispatcher.dispatch({
+      type: ActionTypes.RECEIVE_RAW_CREATED_FOLDER,
+      rawFolder: createdFolder
+    });
   }
 
 };
