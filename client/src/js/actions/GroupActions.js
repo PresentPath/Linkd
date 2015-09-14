@@ -10,6 +10,13 @@ module.exports = {
       type: ActionTypes.RECEIVE_RAW_GROUPS,
       rawGroups: rawGroups
     })
+  },
+
+  updateSelectedGroup (groupId) {
+    Dispatcher.dispatch({
+      type: ActionTypes.UPDATE_SELECTED_GROUP,
+      groupId: groupId
+    });
   }
 
 };

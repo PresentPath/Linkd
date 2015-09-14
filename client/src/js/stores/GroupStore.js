@@ -5,8 +5,12 @@ var assign = require('object-assign');
 
 var UserStore = require('./UserStore');
 
+var FolderActions = require('../actions/FolderActions');
+
 var ActionTypes = GroupConstants.ActionTypes;
 var CHANGE_EVENT = 'change';
+
+var _selectedGroupId;
 
 var _groups = {};
 
@@ -45,6 +49,17 @@ GroupStore.dispatchToken = Dispatcher.register((action) => {
         // Add to groups object
         _groups[group.id] = group;
       });
+      GroupStore.emitChange();
+      break;
+
+    case ActionTypes.UPDATE_SELECTED_GROUP:
+      var groupId = action.groupId;
+      _selectedGroupId = groupId;
+      _groups[groupId].isRendered = true;
+      for (var key_groupId in _groups) {
+        _groups[key_groupId].display = 'none';
+      }
+      _groups[groupId].display = 'block';
       GroupStore.emitChange();
       break;
 

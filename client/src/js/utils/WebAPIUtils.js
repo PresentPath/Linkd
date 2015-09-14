@@ -10,6 +10,7 @@ import Promise from 'bluebird';
 
 var UserActions = require('../actions/UserActions');
 var GroupActions = require('../actions/GroupActions');
+var FolderActions = require('../actions/FolderActions');
 
 module.exports = {
 
@@ -40,9 +41,23 @@ module.exports = {
     $.get('/api/group/user/' + userId)
       .done((rawGroups) => {
         GroupActions.receiveGroups(rawGroups);
+        rawGroups.forEach((group) => {
+          this.getFolders(group.id);
+        });
       })
       .fail((err) => {
         console.error('Error getting groups list', status, err.toString());
+      });
+  },
+
+  getFolders(groupId) {
+    $.get('/api/folder/group/' + groupId)
+      .done((rawFolders) => {
+        rawFolders.groupId = groupId;
+        FolderActions.receiveFoldersForGroup(rawFolders);
+      })
+      .fail((err) => {
+        console.error('Error getting folders', status, err.toString());
       });
   }
 

@@ -1,14 +1,18 @@
 'use strict';
 
-import React from 'react';
+import GroupActions from '../actions/GroupActions';
+import FolderActions from '../actions/FolderActions';
+
 import FolderList from './FolderList';
-import LinkList from './LinkList';
+
+import React from 'react';
 
 
 let Group = React.createClass({
 
-  updateCurrentGroup () {
-    console.log(this.props.group);
+  updateSelectedGroup () {
+    GroupActions.updateSelectedGroup(this.props.group.id);
+    FolderActions.updateSelectedFolderToRoot(this.props.group.id);
   },
 
   render () {
@@ -25,22 +29,14 @@ let Group = React.createClass({
     let contents = group.isRendered ? (
       <div className="groupContents" style={style}> 
         <span className="userList"> {userList} </span> 
-        <FolderList 
-          parentFolderId={rootFolder.id}
-          folders={this.props.folders['groupId_' + group.id]}
-          links={this.props.links}
-          updateFolder={this.props.updateFolder}
-          updateLink={this.props.updateLink} />
-        <LinkList
-          folderId={rootFolder.id}
-          links={this.props.links} 
-          updateLink={this.props.updateLink} />
+        <FolderList groupId={group.id} />
+
       </div>
     ) : undefined; 
 
     return (
       <div className="group">
-        <div className="groupName" onClick={this.updateCurrentGroup}> {group.name} </div>
+        <div className="groupName" onClick={this.updateSelectedGroup}> {group.name} </div>
         {contents}
       </div>
     );

@@ -14,14 +14,14 @@ function getStateFromStores() {
 };
 
 function getGroupListItem(group) {
-  return (
-    <p> {group.id} </p>
-  );
   // return (
-  //   <Group 
-  //     key={group.id}
-  //     group={group} />
+  //   <p> {group.id} </p>
   // );
+  return (
+    <Group 
+      key={group.id}
+      group={group} />
+  );
 };
 
 let GroupList = React.createClass({

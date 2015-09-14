@@ -61,7 +61,9 @@ module.exports.getUsersList = function(req, res, next) {
 // Retrieve info for logged in user
 module.exports.getUserInfo = function(req, res, next) {
 
-  User.find({ where: { user_id_google: req.session.passport.user } })
+  var userId = req.session.passport.user || '1';
+
+  User.find({ where: { user_id_google: userId } })
     .then(function(user) {
       user.dataValues.productionEnvironment = process.env.NODE_ENV === 'production';
       helpers.handleSuccess(res, 'Retrieved user info from database', user);
