@@ -4,6 +4,7 @@ import React from 'react';
 import Folder from './Folder';
 
 import FolderStore from '../stores/FolderStore';
+import FolderForm from './FolderForm';
 
 function getStateFromStores(parentFolderInfo) {
   return {
@@ -12,9 +13,6 @@ function getStateFromStores(parentFolderInfo) {
 };
 
 function getFolderListItem(folder) {
-  // return (
-  //   <p> {folder.id} </p>
-  // );
   return (
     <Folder 
       key={folder.id}
@@ -40,8 +38,9 @@ let FolderList = React.createClass({
   },
 
   render () {
-
     let folders = this.state.folders;
+    let groupId = this.props.groupId;
+    let parentFolderId = this.props.parentFolderId;
 
     let folderListItems = Object.keys(folders).map((folderId) => {
         return getFolderListItem(folders[folderId]);
@@ -50,6 +49,7 @@ let FolderList = React.createClass({
     return (
       <div className="folderList">
         {folderListItems}
+        <FolderForm groupId={groupId} parentId={parentFolderId} />
       </div>
     );
   },

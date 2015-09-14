@@ -1,6 +1,8 @@
 var Dispatcher = require('../dispatcher/Dispatcher');
 var FolderConstants = require('../constants/FolderConstants');
 
+var WebAPIUtils = require('../utils/WebAPIUtils');
+
 var ActionTypes = FolderConstants.ActionTypes;
 
 module.exports = {
@@ -31,6 +33,14 @@ module.exports = {
       type: ActionTypes.RECEIVE_RAW_CREATED_FOLDER,
       rawFolder: createdFolder
     });
+  },
+
+  createFolder (folder) {
+    Dispatcher.dispatch({
+      type: ActionTypes.CREATE_FOLDER,
+      folder: folder
+    });
+    WebAPIUtils.createFolder(folder);
   }
 
 };

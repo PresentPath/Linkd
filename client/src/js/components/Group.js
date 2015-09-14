@@ -36,7 +36,7 @@ let Group = React.createClass({
       <div className="groupContents" style={style}> 
         <span className="userList"> {userList} </span> 
         <MemberForm groupId={groupId} />
-        <FolderList groupId={groupId} />
+        <FolderList groupId={groupId} parentFolderId={FolderStore.getRootFolderId(groupId)} />
         <LinkList parentFolderId={FolderStore.getRootFolderId(groupId)} />
       </div>
     ) : undefined; 
