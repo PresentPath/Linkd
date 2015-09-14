@@ -5,27 +5,30 @@ import Folder from './Folder';
 
 import FolderStore from '../stores/FolderStore';
 
-function getStateFromStores(groupId) {
+function getStateFromStores(parentFolderInfo) {
   return {
-    folders: FolderStore.getFoldersForGroup(groupId)
+    folders: FolderStore.getSubfolders(parentFolderInfo)
   };
 };
 
 function getFolderListItem(folder) {
-  return (
-    <p> {folder.id} </p>
-  );
   // return (
-  //   <Folder 
-  //     key={folder.id}
-  //     folder={folder} />
+  //   <p> {folder.id} </p>
   // );
+  return (
+    <Folder 
+      key={folder.id}
+      folder={folder} />
+  );
 };
 
 let FolderList = React.createClass({
 
   getInitialState () {
-    return getStateFromStores(this.props.groupId);
+    return getStateFromStores({
+      groupId: this.props.groupId,
+      parentFolderId: this.props.parentFolderId
+    });
   },
 
   componentDidMount () {
@@ -52,7 +55,10 @@ let FolderList = React.createClass({
   },
 
   _onChange () {
-    this.setState(getStateFromStores());
+    this.setState(getStateFromStores({
+      groupId: this.props.groupId,
+      parentFolderId: this.props.parentFolderId
+    }));
   }
 
 });
