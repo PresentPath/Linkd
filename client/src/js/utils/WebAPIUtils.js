@@ -109,6 +109,17 @@ module.exports = {
       .fail((err) => {
         console.error('Error creating group', group.id, status, err.toString());
       });
+  },
+
+  addUserToGroup(user) {
+    $.post('/api/group/addUser', user)
+      .done((groupMembers) => {
+        groupMembers.groupId = user.groupId;
+        GroupActions.receiveGroupMembers(groupMembers);
+      })
+      .fail((err) => {
+        console.error('Error creating adding user to group', user.email, status, err.toString());
+      });
   }
 
 };

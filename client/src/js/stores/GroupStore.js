@@ -59,6 +59,7 @@ GroupStore.dispatchToken = Dispatcher.register((action) => {
         _groups[group.id] = group;
       });
       GroupStore.emitChange();
+      console.log(rawGroups);
       break;
 
     case ActionTypes.UPDATE_SELECTED_GROUP:
@@ -77,6 +78,12 @@ GroupStore.dispatchToken = Dispatcher.register((action) => {
       _groups[groupId] = action.rawGroup;
       break;
 
+    case ActionTypes.RECEIVE_GROUP_MEMBERS:
+      var groupMembers = action.groupMembers;
+      var groupId = groupMembers.groupId;
+      _groups[groupId].Users = groupMembers;
+      GroupStore.emitChange();
+      break;
 
     default:      
       // do nothing

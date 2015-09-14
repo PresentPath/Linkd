@@ -29,10 +29,25 @@ module.exports.createGroup = function (group) {
   WebAPIUtils.createGroup(group);
 };
 
+module.exports.addMember = function (user) {
+  Dispatcher.dispatch({
+    type: ActionTypes.ADD_USER_TO_GROUP,
+    user: user
+  });
+  WebAPIUtils.addUserToGroup(user);
+};
+
 module.exports.receiveCreatedGroup = function (createdGroup) {
   Dispatcher.dispatch({
     type: ActionTypes.RECEIVE_RAW_CREATED_GROUP,
     rawGroup: createdGroup
+  });
+};
+
+module.exports.receiveGroupMembers = function (groupMembers) {
+  Dispatcher.dispatch({
+    type: ActionTypes.RECEIVE_GROUP_MEMBERS,
+    groupMembers: groupMembers
   });
 };
 

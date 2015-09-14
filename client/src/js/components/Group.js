@@ -7,6 +7,7 @@ import FolderStore from '../stores/FolderStore';
 
 import FolderList from './FolderList';
 import LinkList from './LinkList';
+import MemberForm from './MemberForm';
 
 import React from 'react';
 
@@ -21,6 +22,8 @@ let Group = React.createClass({
   render () {
     let group = this.props.group;  
 
+    let groupId = group.id;
+
     let style = {
       display: group.display
     };
@@ -32,8 +35,9 @@ let Group = React.createClass({
     let contents = group.isRendered ? (
       <div className="groupContents" style={style}> 
         <span className="userList"> {userList} </span> 
-        <FolderList groupId={group.id} />
-        <LinkList parentFolderId={FolderStore.getRootFolderId(group.id)} />
+        <MemberForm groupId={groupId} />
+        <FolderList groupId={groupId} />
+        <LinkList parentFolderId={FolderStore.getRootFolderId(groupId)} />
       </div>
     ) : undefined; 
 
