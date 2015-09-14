@@ -79,7 +79,6 @@ module.exports = {
     $.get('/api/comment/group/' + groupId)
       .done((rawComments) => {
         rawComments.groupId = groupId;
-        console.log(CommentActions);
         CommentActions.receiveCommentsForGroup(rawComments);
       })
       .fail((err) => {
