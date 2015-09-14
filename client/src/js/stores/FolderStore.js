@@ -47,8 +47,6 @@ var FolderStore = assign({}, EventEmitter.prototype, {
   },
 
   getRootFolderId (groupId) {
-    console.log('groupId', groupId)
-    console.log('groupFolders', _folders)
     return _folders[groupId].rootFolderId;
   }
 
