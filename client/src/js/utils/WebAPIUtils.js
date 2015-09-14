@@ -11,6 +11,7 @@ import Promise from 'bluebird';
 var UserActions = require('../actions/UserActions');
 var GroupActions = require('../actions/GroupActions');
 var FolderActions = require('../actions/FolderActions');
+var LinkActions = require('../actions/LinkActions');
 
 module.exports = {
 
@@ -31,6 +32,7 @@ module.exports = {
         }
         UserActions.receiveUser(rawUser);
         this.getGroups(rawUser.user_id_google);
+        this.getLinks(rawUser.user_id_google);
       })
       .fail((err) => {
         console.error('Error getting user info', status, err.toString());
@@ -58,6 +60,16 @@ module.exports = {
       })
       .fail((err) => {
         console.error('Error getting folders', status, err.toString());
+      });
+  },
+
+  getLinks(userId) {
+    $.get('/api/link/user/' + userId)
+      .done((rawLinks) => {
+        LinkActions.receiveLinks(rawLinks);
+      })
+      .fail((err) => {
+        console.error('Error getting links list', status, err.toString());
       });
   }
 

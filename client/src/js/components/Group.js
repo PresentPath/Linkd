@@ -3,7 +3,10 @@
 import GroupActions from '../actions/GroupActions';
 import FolderActions from '../actions/FolderActions';
 
+import FolderStore from '../stores/FolderStore';
+
 import FolderList from './FolderList';
+import LinkList from './LinkList';
 
 import React from 'react';
 
@@ -30,7 +33,7 @@ let Group = React.createClass({
       <div className="groupContents" style={style}> 
         <span className="userList"> {userList} </span> 
         <FolderList groupId={group.id} />
-
+        <LinkList parentFolderId={FolderStore.getRootFolderId(group.id)} />
       </div>
     ) : undefined; 
 

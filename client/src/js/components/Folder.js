@@ -28,6 +28,8 @@ let Folder = React.createClass({
         <FolderList 
           parentFolderId={folder.id} 
           groupId={folder.GroupId} />
+        <LinkList
+          parentFolderId={folder.id} />
  
       </div>
     ) : undefined;

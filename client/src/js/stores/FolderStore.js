@@ -44,6 +44,10 @@ var FolderStore = assign({}, EventEmitter.prototype, {
       }
     }
     return subfolders;
+  },
+
+  getRootFolderId (groupId) {
+    return _folders[groupId].rootFolderId;
   }
 
 });
@@ -73,14 +77,11 @@ FolderStore.dispatchToken = Dispatcher.register((action) => {
       _selectedFolderId = folderId;
       var groupFolders = _folders[_selectedGroupId];
       for (var folderId in groupFolders) {
-        console.log('folder',groupFolders[folderId]);
         if (groupFolders[folderId].constructor === Object) groupFolders[folderId].display = 'none';
       }
       // Display folders in hierarchy of selected folder
       var folder = groupFolders[_selectedFolderId];
       while (folder.ParentId !== null) {
-        console.log('folder',folder.name);
-        console.log('path',_path);
         _path = folder.name + '/' + _path;
         // Set isRendered flag to true and make folder visible
         folder.isRendered = true;
@@ -93,7 +94,6 @@ FolderStore.dispatchToken = Dispatcher.register((action) => {
     case ActionTypes.UPDATE_SELECTED_FOLDER_TO_ROOT:
       _selectedGroupId = action.groupId;
       _selectedFolderId = _folders[_selectedGroupId].rootFolderId;
-      console.log(_folders[_selectedGroupId])
       var rootFolder = _folders[_selectedGroupId][_selectedFolderId];
       rootFolder.isRendered = true;
       rootFolder.display = 'block';
