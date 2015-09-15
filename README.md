@@ -6,25 +6,23 @@ Share and discuss bookmarks!
 [![Circle CI](https://circleci.com/gh/PresentPath/Linkd.svg?style=svg)](https://circleci.com/gh/PresentPath/Linkd)
 
 
-# Challenges
+## Challenges
 
-## Asynchronicity with Mocha Testing
-**Problem:** 
-
+### Asynchronicity with Mocha Testing
+#### Problem:
 Asynchronous running of test spec files - During database testing, test spec files for the different models were being run asynchronously resulting in jumbled results output to the console. Also, the tests were being run before the database schema was fully loaded, resulting in a "Table doesn't exist" error. 
 
-### Jumbled test output:
+##### Jumbled test output:
 ![mochaTestOutput](https://cloud.githubusercontent.com/assets/7910250/9267514/37235e50-4205-11e5-9758-a0e54d37457c.png)
 
 We have two separate problems here:
 1) Spec files being run asynchronously. 
 2) Tests running before database is set up.
 
-**Solution:**
-
+#### Solution:
 1) This may not be the most elegant solution, but it's one that makes sense to me and allows me to have some fun with Promises. Surprisingly, Google searching didn't yield much, so just went with this implementation:
 
-###Exported spec files
+##### Exported spec files
 Invoked callback in last test to resolve promise.
 ```javascript
 
@@ -55,7 +53,7 @@ module.exports = function(CALLBACK) {
 
 ```
 
-###Master spec file
+##### Master spec file
 Created promise chain to run tests synchronously.
 ```javascript
 
@@ -88,14 +86,15 @@ describe('database controller tests', function() {
 ```
 
 
-## React+Flux Rendering
+### React+Flux Rendering
 
-**Problem:** 
+#### Problem:
+
 When creating a new group and corresponding root folder and rendering the new group we need to pass the `rootFolderId` to the `LinkDetail` component. When retrieving `_folders[groupId].rootFolderId` using `FolderStore.getRootFolderId(groupId)`, the `_folders` object in the store doesn't yet have the new group (\_folders[groupId] = undefined). Thus we get an error "Cannot  property 'rootFolderId' of undefined".
 
 The issue is that `Group` is re-rendering too soon. 
 
-**Solution:**
+#### Solution:
 
 Be the interpreter... Walked through the entire chain of operations starting with creating a new group and took note of what change events were triggered and when. Here's where the problem lied:
 
