@@ -49,7 +49,7 @@ Check it out: [linkd.herokuapp.com](https://linkd.herokuapp.com)
 - Heroku - hosting platform
 - Bluebird - promise library
 
-## Interesting Aspect - Flux Refactor
+## Interesting Aspect
 ### To Flux or Not To Flux...
 We took this project as an opportunity to learn React.js. The first implementation of the front end did not use Flux for two reasons: 
 
