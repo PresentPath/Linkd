@@ -3,9 +3,53 @@
 # < > Linkd
 _Share and discuss bookmarks with friends!_
 
-[linkd.herokuapp.com](https://linkd.herokuapp.com)
+Check it out: [linkd.herokuapp.com](https://linkd.herokuapp.com)
+
+**Usage**
+
+1. Log in using your google account
+2. Create groups to share bookmarks with
+3. Create folders to organize your links
+4. Discuss links with friends!
+
+**Table of Contents**
+
+- [Screenshot](#screenshots)
+- [Technologies](#technologies)
+- [Interesting Aspect](#interesting-aspect)
+- [Challenges](#challenges)
+  - [Asynchronicity with Mocha Testing](#asynchronicity-with-mocha-testing) 
+  - [React+Flux Rendering](#reactflux-rendering)
 
 
+## Screenshot
+![screenshot](./client/dist/assets/screenshot.png)
+
+
+## Technologies
+**Server-side**
+
+- Node.js - server-side JS runtime
+- Express.js - server framework for Node.js 
+- Mocha, Chai, Supertest - testing framework & libraries
+- MySQL - relational database
+- Sequelize - promise-based ORM
+- Passport (Google strategy) - authentication middleware
+
+**Client-side**
+
+- React.js w/ JSX - view library
+- Flux - application architecture
+- Sass - CSS preprocessor
+
+**Other**
+
+- Webpack - module bundler
+- CirclCI - continuous integration
+- Heroku - hosting platform
+- Bluebird - promise library
+
+## Interesting Aspect
 
 ## Challenges
 
