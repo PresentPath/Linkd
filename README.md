@@ -1,9 +1,10 @@
-# Linkd
-Share and discuss bookmarks!
+[![Circle CI](https://circleci.com/gh/PresentPath/Linkd.svg?style=svg)](https://circleci.com/gh/PresentPath/Linkd)
+
+# < > Linkd
+_Share and discuss bookmarks with friends!_
 
 [linkd.herokuapp.com](https://linkd.herokuapp.com)
 
-[![Circle CI](https://circleci.com/gh/PresentPath/Linkd.svg?style=svg)](https://circleci.com/gh/PresentPath/Linkd)
 
 
 ## Challenges
