@@ -1,7 +1,7 @@
 # Linkd
 Share and discuss bookmarks!
 
-[Mockup](https://linkd.mybalsamiq.com/mockups/3486949.png?key=0a9e3983347c60c76ed228db07e3c591114b25dc)
+[linkd.herokuapp.com](https://linkd.herokuapp.com)
 
 [![Circle CI](https://circleci.com/gh/PresentPath/Linkd.svg?style=svg)](https://circleci.com/gh/PresentPath/Linkd)
 
