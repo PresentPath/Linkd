@@ -20,8 +20,13 @@ function updateSelectedLink (link) {
 };
 
 function getLinkListItem(link) {
+  let iconSource = 'assets/icons/link.png';
+
   return (
-    <div key={link.id} className="link" onClick={updateSelectedLink.bind(null, link)}>{link.name} </div>
+    <div key={link.id} className="link" onClick={updateSelectedLink.bind(null, link)}>
+      <img className="folderIcon" src={iconSource} />
+      {link.name}
+    </div>
   );
 };
 
