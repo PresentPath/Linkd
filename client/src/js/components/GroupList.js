@@ -3,6 +3,8 @@
 import React from 'react';
 import Group from './Group';
 
+import GroupForm from './GroupForm';
+
 import GroupStore from '../stores/GroupStore';
 
 import '../../stylesheets/components/groupList.scss';
@@ -14,9 +16,6 @@ function getStateFromStores() {
 };
 
 function getGroupListItem(group) {
-  // return (
-  //   <p> {group.id} </p>
-  // );
   return (
     <Group 
       key={group.id}
@@ -48,6 +47,7 @@ let GroupList = React.createClass({
 
     return (
       <div className="groupList">
+        <GroupForm />
         {groupListItems}
       </div>
     );

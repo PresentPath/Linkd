@@ -24,11 +24,16 @@ let LinkForm = React.createClass({
   },
 
   render () {
+    let style = {
+      display: 'none'
+    };
+
     return (
       <div className="linkForm">
         <form className="newLink" onSubmit={this.handleLinkSubmit}>
-          <input type="text" placeholder="new link name" ref="linkName" />
-          <input type="text" placeholder="new link url" ref="linkURL" />
+          <input type="text" placeholder="add link name" ref="linkName" />
+          <input type="text" placeholder="add link url" ref="linkURL" />
+          <input type="submit" style={style} />
         </form>
       </div>
     );

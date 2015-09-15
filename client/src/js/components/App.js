@@ -4,7 +4,6 @@ import React from 'react';
 
 import Header from './Header';
 import Toolbar from './Toolbar';
-import GroupForm from './GroupForm';
 import GroupList from './GroupList';
 import LinkDetail from './LinkDetail';
 
@@ -18,7 +17,6 @@ let App = React.createClass({
     return (
       <div className="app">
         <Header />
-        <GroupForm />
         <GroupList />
         <LinkDetail />
       </div>

@@ -36,7 +36,6 @@ let CommentForm = React.createClass({
       <div className="commentForm">
         <form className="newComment" onSubmit={this.handleCommentSubmit}>
           <input type="text" placeholder="New Comment" ref="comment" />
-          <input type="submit" value="Add" />
         </form>
       </div>
     );

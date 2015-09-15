@@ -1,3 +1,18 @@
 body {
   margin: 0;
 }
+
+.memberForm, .folderForm, .linkForm, .groupForm {
+  input {
+    border: none;
+    width: 10em;
+  }
+}
+
+.groupForm {
+  margin-bottom: .5em;
+}
+
+.commentForm input {
+  width: 100%;
+}

@@ -55,8 +55,8 @@ let FolderList = React.createClass({
 
     return (
       <div className="folderList">
-        {folderListItems}
         {folderForm}
+        {folderListItems}
       </div>
     );
   },

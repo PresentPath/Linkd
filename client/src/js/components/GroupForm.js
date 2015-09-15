@@ -30,8 +30,7 @@ let GroupForm = React.createClass({
     return (
       <div className="groupForm">
         <form className="newGroup" onSubmit={this.handleGroupSubmit}>
-          <input type="text" placeholder="New Group" ref="groupName" />
-          <input type="submit" value="Add" />
+          <input type="text" placeholder="add group" ref="groupName" />
         </form>
       </div>
     );

@@ -30,7 +30,7 @@ let FolderForm = React.createClass({
     return (
       <div className="folderForm">
         <form className="newFolder" onSubmit={this.handleFolderSubmit}>
-          <input type="text" placeholder="new folder" ref="folderName" />
+          <input type="text" placeholder="add folder" ref="folderName" />
         </form>
       </div>
     );

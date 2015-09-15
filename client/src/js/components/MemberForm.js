@@ -34,7 +34,7 @@ let MemberForm = React.createClass({
     return (
       <div className="memberForm" style={style}>
         <form className="newMember" onSubmit={this.handleMemberSubmit} style={style}>
-          <input type="text" placeholder="new member" ref="userEmail" />
+          <input type="text" placeholder="add member" ref="userEmail" />
         </form>
       </div>
     );
