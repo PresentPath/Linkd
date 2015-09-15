@@ -4,7 +4,7 @@ module.exports = {
   // Compile source modules into single output file
   context: __dirname + '/client/src',
   entry: {
-    javascript: './js/components/App.js',
+    javascript: './js/app.js',
     html: './index.html'
   },
   output: {

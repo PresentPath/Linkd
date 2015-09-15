@@ -1,17 +1,10 @@
 'use strict';
 
-import FolderActions from '../actions/FolderActions';
-
 import React from 'react';
-
 import FolderList from './FolderList';
 import LinkList from './LinkList';
 
 let Folder = React.createClass({
-
-  updateSelectedFolder () {
-    FolderActions.updateSelectedFolder(this.props.folder.id);
-  },
 
   render () {
 
@@ -26,18 +19,22 @@ let Folder = React.createClass({
     let contents = folder.isRendered ? (
       <div className="folderContents" style={style}> 
         <FolderList 
-          parentFolderId={folder.id} 
-          groupId={folder.GroupId} />
+          parentFolderId={this.props.folder.id}
+          folders={this.props.folders}
+          links={this.props.links}
+          updateFolder={this.props.updateFolder}
+          updateLink={this.props.updateLink} />
         <LinkList
-          parentFolderId={folder.id} />
- 
+          folderId={folder.id}
+          links={this.props.links} 
+          updateLink={this.props.updateLink} />
       </div>
     ) : undefined;
 
     return (
       <div className="folder">
         <img className="folderIcon" src={iconSource} />
-        <div className="folderName" onClick={this.updateSelectedFolder}> {folder.name} </div>
+        <div className="folderName" onClick={this.props.updateFolder.bind(null, folder)}> {folder.name} </div>
         {contents}
       </div>
     );

@@ -2,13 +2,30 @@
 
 import React from 'react';
 
+import CommentActions from '../actions/CommentActions';
+
+import LinkStore from '../stores/LinkStore';
+import GroupStore from '../stores/GroupStore';
+import UserStore from '../stores/UserStore';
+
+
 let CommentForm = React.createClass({
+
+  createCommentForLink(text) {
+    let comment = {};
+    comment.text = text;
+    comment.linkId = LinkStore.getSelectedLink().id;
+    comment.userId = UserStore.getUser().user_id_google;
+    comment.groupId = GroupStore.getSelectedGroupId();
+    
+    CommentActions.createCommentForLink(comment);
+  },
   
   handleCommentSubmit (e) {
     e.preventDefault();
     let comment = React.findDOMNode(this.refs.comment).value.trim();
     if (comment) {
-      this.props.addComment(comment);
+      this.createCommentForLink(comment);
       React.findDOMNode(this.refs.comment).value = '';
     }
     return;
@@ -18,8 +35,7 @@ let CommentForm = React.createClass({
     return (
       <div className="commentForm">
         <form className="newComment" onSubmit={this.handleCommentSubmit}>
-          <input type="text" placeholder="New Comment" ref="comment" />
-          <input type="submit" value="Add" />
+          <input type="text" placeholder="add comment" ref="comment" />
         </form>
       </div>
     );

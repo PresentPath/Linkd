@@ -110,6 +110,9 @@ function setUpDemoData () {
   .then(function(deleted) {
     return User.create(testUsers[0]);
   })
+  .tap(function(user) {
+    User.bulkCreate(testUsers.slice(1));
+  })
   .then(function(user) {
     userId = user.dataValues.user_id_google;
     testGroups[0].OwnerUserIdGoogle = userId;

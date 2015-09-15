@@ -17,6 +17,12 @@ module.exports.createComment = function(req, res) {
   })
   .then(function(comment) {
     console.log('Successfully created comment in database');
+    // Get comment object with User object
+    return Comment.find( { where: {
+      id: comment.id
+    }, include: [User] } );
+  })
+  .then(function(comment) {
     // Send comment object back to client as JSON
     res.json(comment);
   })

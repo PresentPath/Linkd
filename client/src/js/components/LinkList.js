@@ -2,27 +2,69 @@
 
 import React from 'react';
 
+import LinkStore from '../stores/LinkStore';
+import FolderStore from '../stores/FolderStore';
+import LinkActions from '../actions/LinkActions';
+
+import LinkForm from './LinkForm';
+
+function getStateFromStores(parentFolderId) {
+  return {
+    links: LinkStore.getLinksForFolder(parentFolderId) || [],
+    selectedFolderId: FolderStore.getSelectedFolderId() 
+  };
+};
+
+function updateSelectedLink (link) {
+  LinkActions.updateSelectedLink(link);
+};
+
+function getLinkListItem(link) {
+  return (
+    <div key={link.id} className="link" onClick={updateSelectedLink.bind(null, link)}>{link.name} </div>
+  );
+};
+
 let LinkList = React.createClass({
-  
+
+  getInitialState () {
+    return getStateFromStores(this.props.parentFolderId);
+  },
+
+  componentDidMount () {
+    LinkStore.addChangeListener(this._onChange);
+    FolderStore.addChangeListener(this._onChange);
+  },
+
+  componentWillUnmount () {
+    LinkStore.removeChangeListener(this._onChange);
+    FolderStore.removeChangeListener(this._onChange);
+  },
+
   render () {
-    let folderId = this.props.folderId;
 
-    this.props.links['folderId_' + folderId] = this.props.links['folderId_' + folderId] || [];
+    let linkListItems = this.state.links.map(getLinkListItem);
 
-    let links = this.props.links['folderId_' + folderId].filter((link) => {
-      return link.FolderId === folderId;
-    });
+    let parentFolderId = this.props.parentFolderId;
 
-    let linkNodes = links.map((link) => {
-      return <div key={link.id} className="link" onClick={this.props.updateLink.bind(null, link)}>{link.name} </div>;
-    });
+    let linkForm;
+
+    if (this.state.selectedFolderId === parentFolderId) {
+      linkForm = <LinkForm parentId={this.props.parentFolderId} />
+    }
 
     return (
       <div className="linkList">
-        {linkNodes}
+        {linkListItems}
+        {linkForm}
       </div>
     );
+  },
+
+  _onChange () {
+    this.setState(getStateFromStores(this.props.parentFolderId));
   }
+
 });
 
 export default LinkList;

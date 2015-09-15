@@ -33,6 +33,7 @@ module.exports.createFolder = function(req, res, next) {
   .then(function(folder) {
     console.log('Successfully created folder in database');
     // Send folder object back to client as JSON
+    folder[0].ParentId = parseInt(folder[0].ParentId);
     res.json(folder[0]);
   })
   .error(function(err) {

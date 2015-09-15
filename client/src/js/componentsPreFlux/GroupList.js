@@ -3,8 +3,6 @@
 import React from 'react';
 import Group from './Group';
 
-import GroupForm from './GroupForm';
-
 import GroupStore from '../stores/GroupStore';
 
 import '../../stylesheets/components/groupList.scss';
@@ -19,7 +17,12 @@ function getGroupListItem(group) {
   return (
     <Group 
       key={group.id}
-      group={group} />
+      group={group}
+      folders={this.props.folders}
+      links={this.props.links} 
+      updateGroup={this.props.updateGroup}
+      updateFolder={this.props.updateFolder}
+      updateLink={this.props.updateLink} />
   );
 };
 
@@ -42,12 +45,11 @@ let GroupList = React.createClass({
     let groups = this.state.groups;
 
     let groupListItems = Object.keys(groups).map((groupId) => {
-        return getGroupListItem(groups[groupId]);
+        getGroupListItem(groups[groupId]);
       });
 
     return (
       <div className="groupList">
-        <GroupForm />
         {groupListItems}
       </div>
     );
