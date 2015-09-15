@@ -134,14 +134,23 @@ describe('database controller tests', function() {
 ### React+Flux Rendering
 
 #### Problem:
+Issue rendering a Group component after adding a new group. Error message indicated that the `folders` object for the added group was `undefined` at the time of rendering.
 
-When creating a new group and corresponding root folder and rendering the new group we need to pass the `rootFolderId` to the `LinkDetail` component. When retrieving `_folders[groupId].rootFolderId` using `FolderStore.getRootFolderId(groupId)`, the `_folders` object in the store doesn't yet have the new group (\_folders[groupId] = undefined). Thus we get an error "Cannot  property 'rootFolderId' of undefined".
+I wouldn't actually consider this issue too big of a challenge, thanks in large part to the fact that I had refactored the entire frontend to use the Flux application architecture. 
 
-The issue is that `Group` is re-rendering too soon. 
+In fact, the real challenge took place prior to the refactor. Initially, all of the state was held at the top level component of the app and there were tons of fun "Uncaught TypeError: Cannot read property X of undefined" or "Uncaught TypeError: undefined is not a function". The bug hunting process was a pain and the errors were mainly because the components would render before data was fully fetched from the server.
+
+This particular bug was squashed in no time compared to previous bugs of a similar nature. Here's the approach I took and why it was so easy... 
 
 #### Solution:
 
-Be the interpreter... Walked through the entire chain of operations starting with creating a new group and took note of what change events were triggered and when. Here's where the problem lied:
+Be the interpreter... walked through the entire chain of operations:
+
+GroupForm React View --> GroupAction Creator --> WebAPIUtils --> GroupAction Creator --> GroupStore --> Group React View
+
+... realized very quickly that the GroupAction creator for receiving a newly created group was prematurely triggering a 'change' event.
+
+Here's where the problem lied:  
 
 ```javascript
 function createGroup (group) {
@@ -149,10 +158,10 @@ function createGroup (group) {
     .done((response) => {
       var rawGroup = response[0];
       var rawFolder = response[1];
-      GroupActions.receiveCreatedGroup(rawGroup); // Triggered change event
-      GroupActions.updateSelectedGroup(rawGroup.id); // Triggered change event
-      FolderActions.receiveCreatedFolder(rawFolder); // Creates _folders[groupId] object and sets rootFolderId property
-      FolderActions.updateSelectedFolderToRoot(rawGroup.id); // Sets display property and _path so that views can be rendered appropriately
+      GroupActions.receiveCreatedGroup(rawGroup); // Triggered unwanted change event
+      GroupActions.updateSelectedGroup(rawGroup.id); // Triggered premature change event before root folder for group was added to store
+      FolderActions.receiveCreatedFolder(rawFolder); // Signal to FolderStore to add root folder for new group
+      FolderActions.updateSelectedFolderToRoot(rawGroup.id); // Sets display property so that views can be rendered appropriately
     })
     .fail((err) => {
       console.error('Error creating group', group.id, status, err.toString());
@@ -160,15 +169,17 @@ function createGroup (group) {
 }
 ```
 
-Found the following two issues:
+Fixed the following two issues and things worked as expected:
 
-1) Removed the change event emission in receiveCreatedGroup.
+1) Removed the change event emission in GroupActions.receiveCreatedGroup
 
-2) Switched these two actions:
+2) Switched the order of these two actions:
 
+```javascript
 GroupActions.receiveCreatedGroup(rawGroup);
---> FolderActions.receiveCreatedFolder(rawFolder);
+--> FolderActions.receiveCreatedFolder(rawFolder); // 
 --> GroupActions.updateSelectedGroup(rawGroup.id);
 FolderActions.updateSelectedFolderToRoot(rawGroup.id);
+```
 
-updateSelectedGroup was emitting a change event, triggering a re-render, before receiveCreatedFolder added the group and root folder to the _folders object.
+GroupActions.updateSelectedGroup was emitting a change event, prematurely triggering a re-render before FolderActions.receiveCreatedFolder triggered the addition of the root folder to FolderStore.
