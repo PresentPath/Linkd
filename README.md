@@ -16,7 +16,7 @@ Check it out: [linkd.herokuapp.com](https://linkd.herokuapp.com)
 
 - [Screenshot](#screenshots)
 - [Technologies](#technologies)
-- [Interesting Aspect](#interesting-aspect)
+- [Interesting Aspect - Flux Refactor](#interesting-aspect)
 - [Challenges](#challenges)
   - [Asynchronicity with Mocha Testing](#asynchronicity-with-mocha-testing) 
   - [React+Flux Rendering](#reactflux-rendering)
@@ -45,11 +45,42 @@ Check it out: [linkd.herokuapp.com](https://linkd.herokuapp.com)
 **Other**
 
 - Webpack - module bundler
-- CirclCI - continuous integration
+- CircleCI - continuous integration
 - Heroku - hosting platform
 - Bluebird - promise library
 
-## Interesting Aspect
+## Interesting Aspect - Flux Refactor
+### To Flux or Not To Flux...
+We took this project as an opportunity to learn React.js. The first implementation of the front end did not use Flux for two reasons: 
+
+1. so that we could focus first on learning React.js
+2. we weren't convinced Flux was necessary
+3. lack of prescription allows room for interesting thought experiments and opportunities for gaining valuable context/insight 
+	- how should we manage state to fit our needs?
+	- what architecture makes sense to us? 
+
+Since we had several sibling components that needed to have access to shared state, we decided to put all of our state on our topmost App component and have the state trickle down to child components using props. 
+
+After getting a working version of our app, and plenty rounds of bug hunting/squashing, we were proud to have architected and built our first real React.js app. 
+
+Yet things felt messy and there was this sort of visceral feeling of 'blegh' at how the state was being managed. It was time to bring in Flux. 
+
+Did some research on Flux, now having more of a contextual understanding, and holy shit! The architecture is so clean and beautiful! 
+
+- Clear separation of concerns between various constituents of your app:
+	- views (strictly for rendering and handling user input, no logic)
+	- dispatcher (manages data flow from input sources to stores)
+	- action creators (declarative wrapper for the dispatcher)
+	- stores (hold application state and logic)
+	- web API utilities (handle server requests) 
+- Single-directional data flow in such a way that is fairly straightforward and easy to reason about. Much better than the uni-directional flow we initially had from top to bottom of our React component tree.
+
+![flux-diagram](./client/dist/assets/flux-diagram.png)
+
+- The dispatcher alone is a pretty sweet software construct, simple yet powerful - [see implementation](https://github.com/facebook/flux/blob/master/dist/Flux.js)
+
+Even without the use of a Flux library, the refactor was pretty quick, straightforward, painless, and fun! Bugs that crept up along the way were easy to find and fix because the path was clear in terms of where to look.
+
 
 ## Challenges
 
@@ -146,13 +177,14 @@ This particular bug was squashed in no time compared to previous bugs of a simil
 
 Be the interpreter... walked through the entire chain of operations:
 
-GroupForm React View --> GroupAction Creator --> WebAPIUtils --> GroupAction Creator --> GroupStore --> Group React View
+GroupForm React View --> GroupAction Creator (createGroup) --> WebAPIUtils --> GroupAction Creator (receiveCreatedGroup & updateSelectedGroup) --> GroupStore --> Group React View
 
 ... realized very quickly that the GroupAction creator for receiving a newly created group was prematurely triggering a 'change' event.
 
 Here's where the problem lied:  
 
 ```javascript
+// WebAPIUtils.js
 function createGroup (group) {
   $.post('/api/group/create', group)
     .done((response) => {
