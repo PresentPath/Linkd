@@ -75,8 +75,7 @@ db.sync()
 
     if (typeof run !== 'undefined') {
       console.log('Calling run to start tests');
-      console.log(typeof run);
-      run(); // does not return a promise. cannot run before setUpDemoData because of the possibility of lock conflicts
+      run(); 
     } else {
       // Create demo data
       if (process.env.NODE_ENV !== 'production') {
