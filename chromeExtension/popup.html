@@ -2,15 +2,15 @@
 <html>
   <head>
     <title>GTmetrix Analyzer</title>
+    <script src="jquery.js"></script>
     <script src="popup.js"></script>
   </head>
   <body>
     <h1>Add Link</h1>
-    <form id="addLink" action="https://linkd.herokuapp.com/api/link/plugin/create" method="post"> 
-      <input type="text" name="folder" placeholder="folder">
-      <input type="text" name="name" placeholder="link name">
-      <input type="text" name="url" placeholder="link url">
-      <input type="submit" value="Add Link">
+    <form id="addLink"> 
+      <input type="text" id="folder" placeholder="folder3">
+      <input type="text" id="name" placeholder="link name">
+      <input type="submit" id="submit" value="Add Link">
     </form>
   </body>
 </html>
