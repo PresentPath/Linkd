@@ -18,6 +18,7 @@ var morgan = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
+var cors = require('cors');
 
 var isLoggedIn = require('./helpers.js').isLoggedIn;
 
@@ -26,6 +27,7 @@ module.exports = function(app, express) {
   app.use(morgan('dev'));  // Log requests to console
   app.use(cookieParser());  // Read cookies (needed for auth)
   app.use(bodyParser());  // Get info from post requests
+  app.use(cors()); // enable all cors requests
 
   app.set('view engine', 'ejs');  // Set up ejs for templating
 
