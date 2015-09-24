@@ -17,7 +17,7 @@ $(function() {
         url: tabs[0].url
       };
 
-      $.post('http://127.0.0.1:8000/api/link/plugin/create', data)
+      $.post('https://linkd.herokuapp.com/api/link/plugin/create', data)
       .done(function(result) {
         console.log(result);
       });
