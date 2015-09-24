@@ -23,7 +23,7 @@ Check it out: [linkd.herokuapp.com](https://linkd.herokuapp.com)
 
 
 ## Screenshot
-![screenshot](./client/dist/assets/screenshot.png)
+![screenshot](./client/dist/assets/main_view.png)
 
 
 ## Technologies
