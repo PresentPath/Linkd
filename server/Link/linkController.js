@@ -165,3 +165,45 @@ module.exports.renameLink = function(req, res, next) {
     res.status(500).send(err.message);
   });
 };
+
+module.exports.createLinkFromPlugin = function(req, res, next) {
+  console.log('######');
+
+  // // Set default expiration date to be 7 days from now
+  // var date = new Date();
+  // date.setDate(date.getDate() + 7);
+
+  // var newLink;
+
+  // Link.findOrCreate( { where: {
+  //   name: req.body.name,
+  //   url: req.body.url,
+  //   expiration_date: req.body.date || date,
+  //   FolderId: req.body.folderId
+  // } })
+  // .then(function(link) {
+  //   console.log('Successfully created link in database');
+  //   // Store link in newLink variable - used to associate users w/ link
+  //   newLink = link[0];
+  //   // Send link object back to client as JSON
+  //   res.json(newLink);
+  //   return Folder.find({
+  //     where: { id: req.body.folderId },
+  //     include: {
+  //       model: Group,
+  //       include: [ User ]
+  //     }
+  //   });
+  // })
+  // .then(function(folder) {
+  //   return newLink.addUsers(folder.Group.Users, { viewed: false });
+  // })
+  // .then(function(users) {
+  //   console.log('Added', users[0].length, 'user-link associations');
+  // })
+  // .error(function(err) {
+  //   console.error('Error in creating new link in database:', err.message);
+  //   res.status(500).send(err.message);
+  // });
+
+};

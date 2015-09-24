@@ -13,6 +13,10 @@ module.exports = function(app) {
   app.route('/create')
     .post(linkController.createLink);
 
+  // Create new link from chrome plugin
+  app.route('/plugin/create')
+    .post(linkController.createLinkFromPlugin);
+
   // Send list of links for user
   app.route('/user/:userId')
     .get(linkController.getLinksForUser);
