@@ -1,18 +1,22 @@
-document.addEventListener('DOMContentLoaded', function() {
-  var addLinkForm = document.getElementById('addLink');
-  addLinkForm.addEventListener('submit', function() {
+$(function() {
+  $('#addLink').submit(function(event) {
+    event.preventDefault();
+    console.log('sdfdsf');
 
-    chrome.tabs.getSelected(null, function(tab) {
+    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
 
-      form.action = 'http://gtmetrix.com/analyze.html?bm';
-      form.method = 'post';
-      var input = document.createElement('input');
-      input.type = 'hidden';
-      input.name = 'url';
-      input.value = tab.url;
-      form.appendChild(input);
-      document.body.appendChild(form);
-      form.submit();
+      var data = {
+        folder: $('#folder').val(),
+        name: $('#name').val(),
+        url: tabs[0].url
+      };
+
+      $.post('http://127.0.0.1:8000/api/link/plugin/create', data)
+      .done(function(result) {
+        console.log(result);
+      });
+
     });
-  }, false);
-}, false);
+
+  });
+});
