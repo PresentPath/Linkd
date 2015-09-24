@@ -53,7 +53,7 @@ module.exports = function(app, express) {
     app.use('/api/user', userRouter);
     app.use('/api/group',isLoggedIn, groupRouter);
     app.use('/api/folder',isLoggedIn, folderRouter);
-    app.use('/api/link',isLoggedIn, linkRouter);
+    app.use('/api/link', linkRouter);
     app.use('/api/comment',isLoggedIn, commentRouter);
   } else {
     // FOR DEV ONLY - Unprotected endpoints 
