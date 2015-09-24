@@ -1,0 +1,27 @@
+body {
+  height: 100px;
+  width: 150px;
+  text-align: center;
+  margin: 0;
+  border-color: #424242;
+  font-family: 'Lato', sans-serif;
+}
+input {
+  margin: .3em auto;
+}
+.popup {
+  overflow: auto;
+  background-color: #424242;
+  border-bottom: solid 1px #BCBCBC;
+  padding: 0.5em;
+}
+h4 {
+  font-weight: 900;
+  color: #E98977;
+  margin: .5em;
+}
+
+::-webkit-input-placeholder { text-align: center; }
+::-moz-placeholder { text-align: center; } /* firefox 19+ */
+:-ms-input-placeholder { text-align: center; } /* ie */
+input:-moz-placeholder { text-align: center; }
