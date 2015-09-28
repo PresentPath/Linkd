@@ -75,7 +75,7 @@ db.sync()
 
     if (typeof run !== 'undefined') {
       console.log('Calling run to start tests');
-      run();
+      run(); 
     } else {
       // Create demo data
       if (process.env.NODE_ENV !== 'production') {
