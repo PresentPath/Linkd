@@ -18,8 +18,9 @@ Check it out: [linkd.herokuapp.com](https://linkd.herokuapp.com)
 - [Technologies](#technologies)
 - [Interesting Aspect - Flux Refactor](#interesting-aspect)
 - [Challenges](#challenges)
-  - [Asynchronicity with Mocha Testing](#asynchronicity-with-mocha-testing)
   - [React+Flux Rendering](#reactflux-rendering)
+  - [Asynchronicity with Mocha Testing](#asynchronicity-with-mocha-testing)
+
 
 
 ## Screenshot
