@@ -14,9 +14,10 @@ var FolderActions = require('../actions/FolderActions');
 var LinkActions = require('../actions/LinkActions');
 var CommentActions = require('../actions/CommentActions');
 
+var localhost = 'http://localhost:8000';
 
 module.exports.getUser = function() {
-  $.get('/api/user/info')
+  $.get(localhost + '/api/user/info')
     .done((rawUser) => {
       // If in a production environment then set the user
       // to the authenticated user
@@ -25,9 +26,9 @@ module.exports.getUser = function() {
       if (rawUser.productionEnvironment) {
         rawUser = rawUser;
       } else {
-        rawUser = { 
-          user_id_google: '1', 
-          name_google: 'testUser1' 
+        rawUser = {
+          user_id_google: '1',
+          name_google: 'testUser1'
         };
       }
       UserActions.receiveUser(rawUser);
@@ -40,7 +41,7 @@ module.exports.getUser = function() {
 };
 
 module.exports.getGroupsForUser = function(userId) {
-  $.get('/api/group/user/' + userId)
+  $.get(localhost + '/api/group/user/' + userId)
     .done((rawGroups) => {
       GroupActions.receiveGroups(rawGroups);
       rawGroups.forEach((group) => {
@@ -54,7 +55,7 @@ module.exports.getGroupsForUser = function(userId) {
 };
 
 module.exports.getFoldersForGroup = function(groupId) {
-  $.get('/api/folder/group/' + groupId)
+  $.get(localhost + '/api/folder/group/' + groupId)
     .done((rawFolders) => {
       rawFolders.groupId = groupId;
       FolderActions.receiveFoldersForGroup(rawFolders);
@@ -65,7 +66,7 @@ module.exports.getFoldersForGroup = function(groupId) {
 };
 
 module.exports.getLinksForUser = function(userId) {
-  $.get('/api/link/user/' + userId)
+  $.get(localhost + '/api/link/user/' + userId)
     .done((rawLinks) => {
       LinkActions.receiveLinks(rawLinks);
     })
@@ -75,7 +76,7 @@ module.exports.getLinksForUser = function(userId) {
 };
 
 module.exports.getCommentsForGroup = function(groupId) {
-  $.get('/api/comment/group/' + groupId)
+  $.get(localhost + '/api/comment/group/' + groupId)
     .done((rawComments) => {
       rawComments.groupId = groupId;
       CommentActions.receiveCommentsForGroup(rawComments);
@@ -86,7 +87,7 @@ module.exports.getCommentsForGroup = function(groupId) {
 };
 
 module.exports.createComment = function(comment) {
-  $.post('/api/comment/create', comment)
+  $.post(localhost + '/api/comment/create', comment)
     .done((rawComment) => {
       CommentActions.receiveCreatedComment(rawComment);
     })
@@ -96,7 +97,7 @@ module.exports.createComment = function(comment) {
 };
 
 module.exports.createGroup = function(group) {
-  $.post('/api/group/create', group)
+  $.post(localhost + '/api/group/create', group)
     .done((response) => {
       var rawGroup = response[0];
       var rawFolder = response[1];
@@ -111,7 +112,7 @@ module.exports.createGroup = function(group) {
 };
 
 module.exports.addUserToGroup = function(user) {
-  $.post('/api/group/addUser', user)
+  $.post(localhost + '/api/group/addUser', user)
     .done((groupMembers) => {
       groupMembers.groupId = user.groupId;
       GroupActions.receiveGroupMembers(groupMembers);
@@ -122,7 +123,7 @@ module.exports.addUserToGroup = function(user) {
 };
 
 module.exports.createFolder = function(folder) {
-  $.post('/api/folder/create', folder)
+  $.post(localhost + '/api/folder/create', folder)
     .done((rawFolder) => {
       console.log('folder fromd atabase',rawFolder);
       FolderActions.receiveCreatedFolder(rawFolder);
@@ -134,7 +135,7 @@ module.exports.createFolder = function(folder) {
 };
 
 module.exports.createLink = function(link) {
-  $.post('/api/link/create', link)
+  $.post(localhost + '/api/link/create', link)
     .done((link) => {
       LinkActions.receiveCreatedLink(link);
       LinkActions.updateSelectedLink(link);

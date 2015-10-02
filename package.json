@@ -2,7 +2,7 @@
   "name": "linkd",
   "version": "1.0.0",
   "description": "Share and discuss your bookmarks!",
-  "main": "server.js",
+  "main": "main.js",
   "scripts": {
     "test": "mocha --delay -R spec ./server/config/serverSpec.js",
     "start": "node ./server/serverSetup.js",
