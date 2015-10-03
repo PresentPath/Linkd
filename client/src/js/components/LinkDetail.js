@@ -35,7 +35,7 @@ let LinkDetail = React.createClass({
 
     if (!link) return (<div> </div>);
 
-    let url = link.url.search(/^http:\/\//) !== 0 ? 'http://' + link.url : link.url;
+    let url = link.url.search(/^https?:\/\//) !== 0 ? 'http://' + link.url : link.url;
 
     return (
       <div className="linkDetail">
