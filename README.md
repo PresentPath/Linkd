@@ -90,19 +90,11 @@ Even without the use of a Flux library, the refactor was pretty quick, straightf
 #### Problem:
 Issue rendering a Group component after adding a new group. Error message indicated that the `folders` object for the added group was `undefined` at the time of rendering.
 
-<<<<<<< HEAD
 I wouldn't actually consider this issue too big of a challenge, thanks in large part to the fact that I had refactored the entire frontend to use the Flux application architecture.
 
 In fact, the real challenge took place prior to the refactor. Initially, since we had several sibling components that needed to have access to shared state, we decided to put all of our state and logic on our topmost App component and have the state trickle down to child components using props. There were tons of fun "Uncaught TypeError: Cannot read property X of undefined" or "Uncaught TypeError: undefined is not a function". The bug hunting process was a pain and the errors were mainly because the components would render before data was fully fetched from the server.
 
 This particular bug was squashed in no time compared to previous bugs of a similar nature. Here's the approach I took and why it was so easy...
-=======
-I wouldn't actually consider this issue too big of a challenge, thanks in large part to the fact that I had refactored the entire frontend to use the Flux application architecture.
-
-In fact, the real challenge took place prior to the refactor. Initially, since we had several sibling components that needed to have access to shared state, we decided to put all of our state and logic on our topmost App component and have the state trickle down to child components using props. There were tons of fun "Uncaught TypeError: Cannot read property X of undefined" or "Uncaught TypeError: undefined is not a function". The bug hunting process was a pain and the errors were mainly because the components would render before data was fully fetched from the server.
-
-This particular bug was squashed in no time compared to previous bugs of a similar nature. Here's the approach I took and why it was so easy...
->>>>>>> 30859e8e434f731538814de0373043929be35e0e
 
 #### Solution:
 
