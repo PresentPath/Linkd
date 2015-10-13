@@ -52,11 +52,10 @@ Check it out: [linkd.herokuapp.com](https://linkd.herokuapp.com)
 
 ## Interesting Aspect
 ### To Flux or Not To Flux...
-We took this project as an opportunity to learn React.js. The first implementation of the front end did not use Flux for two reasons:
+The first implementation of the front end did not use Flux for two reasons:
 
-1. so that we could focus first on learning React.js
-2. we weren't convinced Flux was necessary
-3. lack of prescription allows room for interesting thought experiments and opportunities for gaining valuable context/insight
+1. we weren't convinced Flux was necessary
+2. lack of prescription allows room for interesting thought experiments and opportunities for gaining valuable context/insight
 	- how should we manage state to fit our needs?
 	- what architecture makes sense to us?
 
