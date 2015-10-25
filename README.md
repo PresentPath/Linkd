@@ -14,7 +14,7 @@ Check it out: [linkd.herokuapp.com](https://linkd.herokuapp.com)
 
 **Table of Contents**
 
-- [Screenshot](#screenshots)
+- [GIF](#gif)
 - [Technologies](#technologies)
 - [Interesting Aspect - Flux Refactor](#interesting-aspect)
 - [Challenges](#challenges)
@@ -23,8 +23,8 @@ Check it out: [linkd.herokuapp.com](https://linkd.herokuapp.com)
 
 
 
-## Screenshot
-![screenshot](./client/dist/assets/main_view.png)
+## GIF
+![screenshot](https://cloud.githubusercontent.com/assets/7910250/10273830/3edddfb2-6aeb-11e5-8c36-c8bd239482dd.gif)
 
 
 ## Technologies
